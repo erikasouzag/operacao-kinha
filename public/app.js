@@ -37,3 +37,4 @@ document.querySelectorAll('[data-filter]').forEach(b=>b.addEventListener('click'
 $('reviewList').addEventListener('click',e=>{const t=e.target.closest('[data-review-toggle]'),d=e.target.closest('[data-review-delete]');if(t){const r=data.reviews.find(x=>x.id===t.dataset.reviewToggle);if(r)r.done=!r.done;save();renderAll()}if(d){data.reviews=data.reviews.filter(x=>x.id!==d.dataset.reviewDelete);save();renderAll()}});
 $('rDate').value=today();
 renderAll();
+// Teste de atualização automática via GitHub
