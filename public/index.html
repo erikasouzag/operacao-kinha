@@ -63,8 +63,123 @@
   </section>
   <footer><strong>OPERAÇÃO KINHA</strong><span>DISCIPLINA • FOCO • CONQUISTA</span></footer>
 </main>
+
+<section class="auth-screen" id="authScreen">
+  <div class="auth-card">
+    <p class="eyebrow">OPERAÇÃO KINHA / ACESSO RESTRITO</p>
+
+    <div id="authLoginView">
+      <h2>Entrar na central</h2>
+      <p class="auth-description">
+        Acesse sua central de estudos e acompanhe sua evolução.
+      </p>
+
+      <form class="auth-form" id="loginForm">
+        <div class="auth-field">
+          <label for="loginEmail">E-mail</label>
+          <input id="loginEmail" type="email"
+            autocomplete="email" required>
+        </div>
+
+        <div class="auth-field">
+          <label for="loginPassword">Senha</label>
+          <input id="loginPassword" type="password"
+            autocomplete="current-password" required>
+        </div>
+
+        <button class="btn light auth-submit" type="submit">
+          ENTRAR
+        </button>
+      </form>
+
+      <div class="auth-links">
+        <button class="auth-link" type="button"
+          data-auth-view="signup">Criar conta</button>
+        <button class="auth-link" type="button"
+          data-auth-view="recovery">Esqueci minha senha</button>
+      </div>
+    </div>
+
+    <div id="authSignupView" hidden>
+      <h2>Criar conta</h2>
+      <p class="auth-description">
+        Crie seu acesso para acompanhar sua jornada de estudos.
+      </p>
+
+      <form class="auth-form" id="signupForm">
+        <div class="auth-field">
+          <label for="signupEmail">E-mail</label>
+          <input id="signupEmail" type="email"
+            autocomplete="email" required>
+        </div>
+
+        <div class="auth-field">
+          <label for="signupPassword">Criar senha</label>
+          <input id="signupPassword" type="password"
+            autocomplete="new-password" minlength="8" required>
+        </div>
+
+        <button class="btn light auth-submit" type="submit">
+          CRIAR MINHA CONTA
+        </button>
+      </form>
+
+      <div class="auth-links">
+        <button class="auth-link" type="button"
+          data-auth-view="login">Voltar para entrar</button>
+      </div>
+    </div>
+
+    <div id="authRecoveryView" hidden>
+      <h2>Recuperar acesso</h2>
+      <p class="auth-description">
+        Informe seu e-mail para receber as instruções de recuperação.
+      </p>
+
+      <form class="auth-form" id="recoveryForm">
+        <div class="auth-field">
+          <label for="recoveryEmail">E-mail cadastrado</label>
+          <input id="recoveryEmail" type="email"
+            autocomplete="email" required>
+        </div>
+
+        <button class="btn light auth-submit" type="submit">
+          ENVIAR LINK DE RECUPERAÇÃO
+        </button>
+      </form>
+
+      <div class="auth-links">
+        <button class="auth-link" type="button"
+          data-auth-view="login">Voltar para entrar</button>
+      </div>
+    </div>
+
+    <div id="authUpdateView" hidden>
+      <h2>Nova senha</h2>
+      <p class="auth-description">
+        Escolha uma nova senha para acessar sua conta.
+      </p>
+
+      <form class="auth-form" id="updatePasswordForm">
+        <div class="auth-field">
+          <label for="newPassword">Nova senha</label>
+          <input id="newPassword" type="password"
+            autocomplete="new-password" minlength="8" required>
+        </div>
+
+        <button class="btn light auth-submit" type="submit">
+          SALVAR NOVA SENHA
+        </button>
+      </form>
+    </div>
+
+    <div class="auth-message" id="authMessage"
+      role="status" aria-live="polite"></div>
+  </div>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase.js"></script>
+<script src="auth.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
