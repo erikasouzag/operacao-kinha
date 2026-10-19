@@ -8,11 +8,38 @@
 </head>
 <body>
 <div class="bg"></div><div class="veil"></div>
+
 <header class="topbar">
-  <a class="brand" href="#" aria-label="Operação Kinha início"><span class="crest"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 3 41 9v13c0 11-7 18-17 23C14 40 7 33 7 22V9z"/><path d="M17 15v18m0-9 14-9M22 24l10 9"/></svg></span><span><strong>OPERAÇÃO KINHA</strong><small>DISCIPLINA • FOCO • CONQUISTA</small></span></a>
-  <div class="top-right"><span class="status-dot"></span> CENTRAL DE ESTUDOS</div>
+  <a class="brand" href="#" aria-label="Operação Kinha início">
+    <span class="crest">
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M24 3 41 9v13c0 11-7 18-17 23C14 40 7 33 7 22V9z"/>
+        <path d="M17 15v18m0-9 14-9M22 24l10 9"/>
+      </svg>
+    </span>
+    <span>
+      <strong>OPERAÇÃO KINHA</strong>
+      <small>DISCIPLINA • FOCO • CONQUISTA</small>
+    </span>
+  </a>
+
+  
+  <div class="top-right">
+    <span class="status-dot"></span>
+    CENTRAL DE ESTUDOS
+
+    <button class="theme-toggle" id="themeToggle" type="button"
+      aria-label="Ativar modo claro" title="Alternar tema">
+      <span id="themeIcon" aria-hidden="true">☀</span>
+      <span id="themeLabel">Modo claro</span>
+    </button>
+
+    <button class="header-action" id="homeBtn" type="button">Início</button>
+    <button class="header-action logout-btn" id="logoutBtn" type="button">Sair da conta</button>
+  </div>
+
 </header>
-<main class="wrap">
+<main class="wrap home-view" id="mainContent">
   <section class="hero"><p class="eyebrow">SUA MISSÃO COMEÇA AGORA</p><h1>SUA MISSÃO.<br><span>SEU ESFORÇO.</span><br>SUA APROVAÇÃO.</h1><p class="hero-copy">Organize seus estudos, acompanhe sua evolução e mantenha o foco um dia de cada vez.</p></section>
   <nav class="tabs" aria-label="Seções do site">
     <button class="tab active" data-tab="timer">◷ Cronômetro</button><button class="tab" data-tab="dashboard">◔ Painel</button><button class="tab" data-tab="questions">☷ Questões</button><button class="tab" data-tab="review">↻ Revisões</button>
@@ -21,10 +48,76 @@
     <div class="main-grid">
       <article class="panel timer-panel">
         <div class="panel-head"><span>CRONÔMETRO DE ESTUDO</span><span class="pill"><i></i><b id="timerState">PRONTO</b></span></div>
-        <div id="timerDisplay" class="timer">00:00:00</div><p class="center muted tiny spaced">TEMPO DE CONCENTRAÇÃO</p>
+
+<div class="timer-display-wrap">
+  <div id="timerDisplay" class="timer">00:00:00</div>
+  <button
+    type="button"
+    id="expandTimerBtn"
+    class="expand-timer-btn"
+    aria-label="Expandir cronômetro"
+    title="Expandir cronômetro"
+  >
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M8 3H3v5M16 3h5v5M3 16v5h5M21 16v5h-5"
+        fill="none" stroke="currentColor" stroke-width="1.8"
+        stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+</div>
+<p class="center muted tiny spaced">TEMPO DE CONCENTRAÇÃO</p>
+        
+<div class="timer-modes">
+  <button type="button" class="timer-mode active" data-timer-mode="free">Livre</button>
+  <button type="button" class="timer-mode" data-timer-mode="pomodoro">Pomodoro</button>
+  <button type="button" class="timer-mode" data-timer-mode="custom">Personalizado</button>
+</div>
+
+<div id="pomodoroSettings" class="pomodoro-settings" hidden>
+  <div class="form-row">
+    <label for="focusMinutes">TEMPO DE FOCO (MINUTOS)</label>
+    <input id="focusMinutes" type="number" min="1" max="180" value="25">
+  </div>
+  <div class="form-row">
+    <label for="breakMinutes">TEMPO DE PAUSA (MINUTOS)</label>
+    <input id="breakMinutes" type="number" min="1" max="60" value="5">
+  </div>
+  <p id="pomodoroStatus" class="hint">25 minutos de foco e 5 minutos de pausa.</p>
+</div>
+
         <div class="controls"><button id="startBtn" class="btn light">▶ INICIAR ESTUDO</button><button id="pauseBtn" class="btn outline" disabled>Ⅱ PAUSAR</button><button id="finishBtn" class="btn outline" disabled>■ FINALIZAR</button></div>
-        <div class="form-row"><label for="subject">MATÉRIA ESTUDADA</label><select id="subject"><option>Direito Constitucional</option><option>Direito Penal</option><option>Direito Administrativo</option><option>Português</option><option>Raciocínio Lógico</option><option>Informática</option><option>Legislação</option><option>Redação</option><option>Questões / Revisão</option><option>Outra matéria</option></select></div>
-        <div class="form-row"><label for="goal">META DIÁRIA</label><select id="goal"><option value="2">2 horas</option><option value="3" selected>3 horas</option><option value="4">4 horas</option><option value="5">5 horas</option><option value="6">6 horas</option><option value="8">8 horas</option></select></div>
+
+<div class="form-row">
+  <label for="subject">MATÉRIA ESTUDADA</label>
+  <select id="subject">
+    <option>Direito Constitucional</option>
+    <option>Direito Penal</option>
+    <option>Direito Administrativo</option>
+    <option>Português</option>
+    <option>Raciocínio Lógico</option>
+    <option>Informática</option>
+    <option>Legislação</option>
+    <option>Redação</option>
+    <option>Questões / Revisão</option>
+    <option>Outra matéria</option>
+  </select>
+
+  <div class="add-subject-row">
+    <input
+      id="newSubject"
+      type="text"
+      maxlength="60"
+      placeholder="Nome da nova matéria"
+      aria-label="Nome da nova matéria"
+    >
+    <button type="button" id="addSubjectBtn" class="btn outline">
+      + ADICIONAR
+    </button>
+  </div>
+
+  <p id="subjectMessage" class="hint" aria-live="polite"></p>
+</div>
+        <div class="form-row"><label for="goal">META DIÁRIA</label><select id="goal"><option value="30">30 minutos</option><option value="1">1 hora</option><option value="2">2 horas</option><option value="3" selected>3 horas</option><option value="4">4 horas</option><option value="5">5 horas</option><option value="6">6 horas</option><option value="8">8 horas</option></select></div>
         <p id="timerHint" class="hint">Escolha a matéria e inicie sua sessão.</p>
       </article>
       <aside class="panel mission-panel"><p class="eyebrow">RESUMO DA MISSÃO</p><h2>Seu progresso</h2>
@@ -40,7 +133,45 @@
   </section>
   <section id="page-dashboard" class="page">
     <div class="section-head"><div><p class="eyebrow">DADOS DA SUA JORNADA</p><h2>Painel de desempenho</h2></div><label class="period-select">PERÍODO <select id="dashPeriod"><option value="day">Hoje</option><option value="week" selected>Últimos 7 dias</option><option value="all">Todo o período</option></select></label></div>
-    <div class="metric-grid"><article class="panel metric"><span>TEMPO ESTUDADO</span><strong id="dashTime">00:00:00</strong><small>tempo acumulado</small></article><article class="panel metric"><span>SESSÕES</span><strong id="dashSessions">0</strong><small>sessões finalizadas</small></article><article class="panel metric"><span>QUESTÕES</span><strong id="dashQuestions">0</strong><small>respondidas no período</small></article><article class="panel metric"><span>APROVEITAMENTO</span><strong id="dashAccuracy">—</strong><small>de acertos</small></article></div>
+    
+    <article class="panel form-panel" id="manualSessionPanel">
+      <p class="eyebrow">REGISTRO MANUAL</p>
+      <h2>Registrar estudo realizado</h2>
+      <p class="muted">Estudou sem usar o cronômetro? Registre aqui.</p>
+      <form id="manualSessionForm">
+        <div class="form-row">
+          <label for="manualSubject">MATÉRIA</label>
+          <select id="manualSubject" required>
+            <option value="Direito Constitucional">Direito Constitucional</option>
+            <option value="Direito Penal">Direito Penal</option>
+            <option value="Direito Administrativo">Direito Administrativo</option>
+            <option value="Português">Português</option>
+            <option value="Raciocínio Lógico">Raciocínio Lógico</option>
+            <option value="Informática">Informática</option>
+            <option value="Legislação">Legislação</option>
+            <option value="Redação">Redação</option>
+            <option value="Outra matéria">Outra matéria</option>
+          </select>
+        </div>
+        <div class="input-grid">
+          <div class="form-row">
+            <label for="manualDate">DATA DO ESTUDO</label>
+            <input id="manualDate" type="date" required>
+          </div>
+          <div class="form-row">
+            <label for="manualMinutes">TEMPO ESTUDADO (MINUTOS)</label>
+            <input id="manualMinutes" type="number" min="1" max="1440" placeholder="Ex.: 90" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="manualNotes">OBSERVAÇÃO (OPCIONAL)</label>
+          <input id="manualNotes" type="text" maxlength="180" placeholder="Ex.: revisão de questões de Constitucional">
+        </div>
+        <button class="btn light" type="submit">+ SALVAR ESTUDO</button>
+        <p id="manualSessionMessage" class="muted" role="status"></p>
+      </form>
+    </article>
+<div class="metric-grid"><article class="panel metric"><span>TEMPO ESTUDADO</span><strong id="dashTime">00:00:00</strong><small>tempo acumulado</small></article><article class="panel metric"><span>SESSÕES</span><strong id="dashSessions">0</strong><small>sessões finalizadas</small></article><article class="panel metric"><span>QUESTÕES</span><strong id="dashQuestions">0</strong><small>respondidas no período</small></article><article class="panel metric"><span>APROVEITAMENTO</span><strong id="dashAccuracy">—</strong><small>de acertos</small></article></div>
     <div class="dash-grid"><article class="panel"><div class="section-head"><div><p class="eyebrow">DISTRIBUIÇÃO</p><h2>Tempo por matéria</h2></div></div><div class="chart-wrap"><div id="pieChart" class="pie"><div class="pie-hole"><strong id="pieTotal">0h</strong><span>ESTUDADAS</span></div></div><div id="pieLegend" class="legend"><p class="muted">Registre sessões para ver a distribuição.</p></div></div></article>
     <article class="panel"><div class="section-head"><div><p class="eyebrow">CONSISTÊNCIA</p><h2>Estudo por dia</h2></div></div><div id="barChart" class="bars"></div></article></div>
     <article class="panel history-panel"><div class="section-head"><div><p class="eyebrow">VISÃO GERAL</p><h2>Resumo do período</h2></div></div><div class="summary-list" id="subjectSummary"></div></article>
@@ -177,6 +308,42 @@
       role="status" aria-live="polite"></div>
   </div>
 </section>
+
+
+<div id="focusOverlay" class="focus-overlay" hidden>
+  <button
+    type="button"
+    id="closeFocusBtn"
+    class="focus-close-btn"
+    aria-label="Sair da tela expandida"
+    title="Sair da tela expandida"
+  >✕</button>
+
+  <div class="focus-brand">
+    <span class="focus-brand-dot"></span>
+    OPERAÇÃO KINHA
+  </div>
+
+  <p id="focusModeLabel" class="focus-mode-label">MODO FOCO · LIVRE</p>
+
+  <div id="focusTimerDisplay" class="focus-timer-display">
+    00:00:00
+  </div>
+
+  <p class="focus-motto">
+    SUA MISSÃO. SEU ESFORÇO. SUA APROVAÇÃO.
+  </p>
+
+  <div class="focus-controls">
+    <button type="button" id="focusStartBtn">▶ CONTINUAR</button>
+    <button type="button" id="focusPauseBtn">Ⅱ PAUSAR</button>
+    <button type="button" id="focusFinishBtn">■ FINALIZAR</button>
+  </div>
+
+  <p id="focusPhaseLabel" class="focus-phase-label">
+    CONCENTRE-SE NO SEU OBJETIVO
+  </p>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase.js"></script>
 <script src="auth.js"></script>

@@ -186,3 +186,27 @@ supabaseClient.auth.onAuthStateChange((event, session) => {
     showAuthView('login');
   }
 });
+
+/* ===== SAIR DA CONTA ===== */
+
+
+const logoutButton = document.getElementById('logoutBtn');
+
+if (logoutButton) {
+  logoutButton.addEventListener('click', async () => {
+    logoutButton.disabled = true;
+    logoutButton.textContent = 'SAINDO...';
+
+    try {
+      const { error } = await supabaseClient.auth.signOut();
+
+      if (error) throw error;
+    } catch (error) {
+      console.error('Erro ao sair da conta:', error);
+      alert('Não foi possível sair da conta. Tente novamente.');
+    } finally {
+      logoutButton.disabled = false;
+      logoutButton.textContent = 'Sair da conta';
+    }
+  });
+}
