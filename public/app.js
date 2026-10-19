@@ -38,3 +38,4 @@ $('reviewList').addEventListener('click',e=>{const t=e.target.closest('[data-rev
 $('rDate').value=today();
 renderAll();
 // Teste do deploy automático pelo GitHub
+// Teste automático 2
