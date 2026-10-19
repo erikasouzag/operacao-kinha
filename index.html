@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101010">
+<title>Operação Kinha | Central de Estudos</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg"></div><div class="veil"></div>
+<header class="topbar">
+  <a class="brand" href="#" aria-label="Operação Kinha início"><span class="crest"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 3 41 9v13c0 11-7 18-17 23C14 40 7 33 7 22V9z"/><path d="M17 15v18m0-9 14-9M22 24l10 9"/></svg></span><span><strong>OPERAÇÃO KINHA</strong><small>DISCIPLINA • FOCO • CONQUISTA</small></span></a>
+  <div class="top-right"><span class="status-dot"></span> CENTRAL DE ESTUDOS</div>
+</header>
+<main class="wrap">
+  <section class="hero"><p class="eyebrow">SUA MISSÃO COMEÇA AGORA</p><h1>SUA MISSÃO.<br><span>SEU ESFORÇO.</span><br>SUA APROVAÇÃO.</h1><p class="hero-copy">Organize seus estudos, acompanhe sua evolução e mantenha o foco um dia de cada vez.</p></section>
+  <nav class="tabs" aria-label="Seções do site">
+    <button class="tab active" data-tab="timer">◷ Cronômetro</button><button class="tab" data-tab="dashboard">◔ Painel</button><button class="tab" data-tab="questions">☷ Questões</button><button class="tab" data-tab="review">↻ Revisões</button>
+  </nav>
+  <section id="page-timer" class="page active">
+    <div class="main-grid">
+      <article class="panel timer-panel">
+        <div class="panel-head"><span>CRONÔMETRO DE ESTUDO</span><span class="pill"><i></i><b id="timerState">PRONTO</b></span></div>
+        <div id="timerDisplay" class="timer">00:00:00</div><p class="center muted tiny spaced">TEMPO DE CONCENTRAÇÃO</p>
+        <div class="controls"><button id="startBtn" class="btn light">▶ INICIAR ESTUDO</button><button id="pauseBtn" class="btn outline" disabled>Ⅱ PAUSAR</button><button id="finishBtn" class="btn outline" disabled>■ FINALIZAR</button></div>
+        <div class="form-row"><label for="subject">MATÉRIA ESTUDADA</label><select id="subject"><option>Direito Constitucional</option><option>Direito Penal</option><option>Direito Administrativo</option><option>Português</option><option>Raciocínio Lógico</option><option>Informática</option><option>Legislação</option><option>Redação</option><option>Questões / Revisão</option><option>Outra matéria</option></select></div>
+        <div class="form-row"><label for="goal">META DIÁRIA</label><select id="goal"><option value="2">2 horas</option><option value="3" selected>3 horas</option><option value="4">4 horas</option><option value="5">5 horas</option><option value="6">6 horas</option><option value="8">8 horas</option></select></div>
+        <p id="timerHint" class="hint">Escolha a matéria e inicie sua sessão.</p>
+      </article>
+      <aside class="panel mission-panel"><p class="eyebrow">RESUMO DA MISSÃO</p><h2>Seu progresso</h2>
+        <div class="mini-stat"><span>Estudado hoje</span><strong id="todayTotal">00:00:00</strong></div>
+        <div class="mini-stat"><span>Sessões concluídas hoje</span><strong id="todaySessions">0</strong></div>
+        <div class="mini-stat"><span>Questões respondidas hoje</span><strong id="todayQuestions">0</strong></div>
+        <div class="mini-stat"><span>Revisões pendentes</span><strong id="pendingReviews">0</strong></div>
+        <div class="goal-label"><span>Meta diária</span><strong id="goalText">0%</strong></div><div class="progress"><span id="goalBar"></span></div>
+        <button class="btn outline full" data-goto="dashboard">VER PAINEL COMPLETO ↗</button>
+      </aside>
+    </div>
+    <article class="panel history-panel"><div class="section-head"><div><p class="eyebrow">REGISTRO DE ATIVIDADE</p><h2>Últimas sessões</h2></div><span class="muted tiny">SALVAS NESTE NAVEGADOR</span></div><div id="recentSessions" class="empty">Suas sessões finalizadas aparecerão aqui.</div></article>
+  </section>
+  <section id="page-dashboard" class="page">
+    <div class="section-head"><div><p class="eyebrow">DADOS DA SUA JORNADA</p><h2>Painel de desempenho</h2></div><label class="period-select">PERÍODO <select id="dashPeriod"><option value="day">Hoje</option><option value="week" selected>Últimos 7 dias</option><option value="all">Todo o período</option></select></label></div>
+    <div class="metric-grid"><article class="panel metric"><span>TEMPO ESTUDADO</span><strong id="dashTime">00:00:00</strong><small>tempo acumulado</small></article><article class="panel metric"><span>SESSÕES</span><strong id="dashSessions">0</strong><small>sessões finalizadas</small></article><article class="panel metric"><span>QUESTÕES</span><strong id="dashQuestions">0</strong><small>respondidas no período</small></article><article class="panel metric"><span>APROVEITAMENTO</span><strong id="dashAccuracy">—</strong><small>de acertos</small></article></div>
+    <div class="dash-grid"><article class="panel"><div class="section-head"><div><p class="eyebrow">DISTRIBUIÇÃO</p><h2>Tempo por matéria</h2></div></div><div class="chart-wrap"><div id="pieChart" class="pie"><div class="pie-hole"><strong id="pieTotal">0h</strong><span>ESTUDADAS</span></div></div><div id="pieLegend" class="legend"><p class="muted">Registre sessões para ver a distribuição.</p></div></div></article>
+    <article class="panel"><div class="section-head"><div><p class="eyebrow">CONSISTÊNCIA</p><h2>Estudo por dia</h2></div></div><div id="barChart" class="bars"></div></article></div>
+    <article class="panel history-panel"><div class="section-head"><div><p class="eyebrow">VISÃO GERAL</p><h2>Resumo do período</h2></div></div><div class="summary-list" id="subjectSummary"></div></article>
+  </section>
+  <section id="page-questions" class="page">
+    <article class="panel form-panel"><p class="eyebrow">PRÁTICA INTELIGENTE</p><h2>Registrar questões</h2><p class="muted">Anote seu desempenho para acompanhar a evolução e identificar os assuntos que precisam de reforço.</p>
+      <form id="questionForm"><div class="form-row"><label for="qSubject">MATÉRIA</label><select id="qSubject"><option>Direito Constitucional</option><option>Direito Penal</option><option>Direito Administrativo</option><option>Português</option><option>Raciocínio Lógico</option><option>Informática</option><option>Legislação</option><option>Outra matéria</option></select></div>
+      <div class="input-grid"><div class="form-row"><label for="qTotal">QUESTÕES RESPONDIDAS</label><input id="qTotal" type="number" min="1" max="10000" value="10" required></div><div class="form-row"><label for="qCorrect">ACERTOS</label><input id="qCorrect" type="number" min="0" max="10000" value="7" required></div></div>
+      <div class="form-row"><label for="qNotes">OBSERVAÇÃO (OPCIONAL)</label><input id="qNotes" maxlength="180" placeholder="Ex.: revisar controle de constitucionalidade"></div><button class="btn light" type="submit">+ SALVAR RESULTADO</button></form>
+    </article>
+    <article class="panel history-panel"><div class="section-head"><div><p class="eyebrow">HISTÓRICO</p><h2>Resultados registrados</h2></div></div><div id="questionHistory" class="empty">Seus registros de questões aparecerão aqui.</div></article>
+  </section>
+  <section id="page-review" class="page">
+    <article class="panel form-panel"><p class="eyebrow">FIXAÇÃO DO CONTEÚDO</p><h2>Planejar uma revisão</h2><p class="muted">Cadastre um assunto e uma data para voltar a ele. Marque como concluído quando revisar.</p>
+      <form id="reviewForm"><div class="form-row"><label for="rSubject">MATÉRIA</label><select id="rSubject"><option>Direito Constitucional</option><option>Direito Penal</option><option>Direito Administrativo</option><option>Português</option><option>Raciocínio Lógico</option><option>Informática</option><option>Legislação</option><option>Redação</option><option>Outra matéria</option></select></div>
+      <div class="form-row"><label for="rTopic">ASSUNTO PARA REVISAR</label><input id="rTopic" maxlength="120" placeholder="Ex.: princípios fundamentais" required></div>
+      <div class="input-grid"><div class="form-row"><label for="rDate">DATA DA REVISÃO</label><input id="rDate" type="date" required></div><div class="form-row"><label for="rType">TIPO DE REVISÃO</label><select id="rType"><option>24 horas</option><option>7 dias</option><option>30 dias</option><option>Revisão livre</option></select></div></div><button class="btn light" type="submit">+ ADICIONAR REVISÃO</button></form>
+    </article>
+    <article class="panel history-panel"><div class="section-head"><div><p class="eyebrow">PLANO DE REVISÃO</p><h2>Suas revisões</h2></div><div class="review-filters"><button class="filter active" data-filter="pending">Pendentes</button><button class="filter" data-filter="all">Todas</button></div></div><div id="reviewList" class="empty">Suas revisões planejadas aparecerão aqui.</div></article>
+  </section>
+  <footer><strong>OPERAÇÃO KINHA</strong><span>DISCIPLINA • FOCO • CONQUISTA</span></footer>
+</main>
+<script src="app.js"></script>
+</body></html>
