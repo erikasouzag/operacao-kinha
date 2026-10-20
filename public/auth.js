@@ -1,7 +1,22 @@
 
 const authScreen = document.getElementById('authScreen');
 const authMessage = document.getElementById('authMessage');
+const toggleLoginPassword = document.getElementById('toggleLoginPassword');
+const loginPassword = document.getElementById('loginPassword');
 
+if (toggleLoginPassword && loginPassword) {
+  toggleLoginPassword.addEventListener('click', () => {
+    const showing = loginPassword.type === 'password';
+
+    loginPassword.type = showing ? 'text' : 'password';
+    toggleLoginPassword.textContent = showing ? 'Ocultar' : 'Mostrar';
+    toggleLoginPassword.setAttribute(
+      'aria-label',
+      showing ? 'Ocultar senha' : 'Mostrar senha'
+    );
+    toggleLoginPassword.setAttribute('aria-pressed', String(showing));
+  });
+}
 const authViews = {
   login: document.getElementById('authLoginView'),
   signup: document.getElementById('authSignupView'),

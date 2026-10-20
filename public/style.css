@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
 :root{--bg:#090909;--panel:rgba(15,15,15,.91);--white:#f6f6f6;--muted:#a4a4a4;--line:rgba(255,255,255,.14);--accent:#eee;--soft:#242424}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--white);font-family:Inter,Arial,sans-serif;min-height:100vh}.bg{position:fixed;inset:0;z-index:-3;background:linear-gradient(110deg,#070707 0%,#141414 55%,#080808 100%);background-image:linear-gradient(90deg,rgba(0,0,0,.92),rgba(0,0,0,.8)),url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=2000&q=80');background-size:cover;background-position:center;filter:grayscale(1)}.veil{position:fixed;inset:0;z-index:-2;background:linear-gradient(0deg,#080808 0%,transparent 70%)}.topbar{height:86px;padding:0 clamp(20px,6vw,90px);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);background:#0005}.brand{display:flex;align-items:center;gap:13px;color:white;text-decoration:none}.crest{width:48px;height:48px;border:1px solid #eee;display:grid;place-items:center}.crest svg{width:37px;height:37px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter}.brand strong{font-size:15px;letter-spacing:2px;display:block}.brand small{display:block;color:#aaa;font-size:8px;letter-spacing:2px;margin-top:5px}.top-right{font-size:10px;letter-spacing:1.5px;color:#ccc}.status-dot,.pill i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#eee;margin-right:8px}.wrap{max-width:1200px;margin:0 auto;padding:42px 24px 25px}.hero{margin:4px 0 28px}.eyebrow{font-size:10px;letter-spacing:2.6px;color:#bbb;font-weight:800;margin:0 0 12px}.hero h1{font-family:'Barlow Condensed',Impact,sans-serif;font-size:clamp(44px,5vw,66px);line-height:.95;letter-spacing:.5px;margin:0;font-weight:800}.hero h1 span{color:#a9a9a9}.hero-copy{font-size:13px;line-height:1.7;color:#bbb;max-width:510px;margin:17px 0 0}.tabs{display:flex;gap:7px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:20px}.tab,.filter{background:#141414;color:#aaa;border:1px solid #363636;padding:11px 15px;font:700 10px Inter,sans-serif;letter-spacing:.7px;cursor:pointer}.tab.active,.filter.active{background:#eee;color:#111;border-color:#eee}.page{display:none}.page.active{display:block}.main-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:18px}.panel{background:var(--panel);border:1px solid var(--line);padding:25px;backdrop-filter:blur(12px);box-shadow:0 15px 45px #0004}.panel-head,.section-head{display:flex;align-items:center;justify-content:space-between;gap:15px}.panel-head{font-size:10px;font-weight:800;letter-spacing:1.4px;color:#ddd}.pill{font-size:9px;color:#aaa}.pill i{width:6px;height:6px;margin-right:5px;background:#aaa}.timer{font:700 clamp(54px,7vw,76px) 'Barlow Condensed',monospace;letter-spacing:2px;text-align:center;margin:26px 0 0;font-variant-numeric:tabular-nums}.center{text-align:center}.muted{color:#999}.tiny{font-size:9px}.spaced{letter-spacing:2px;margin:0 0 25px}.controls{display:grid;grid-template-columns:1fr 1fr;gap:9px}.btn{padding:13px 12px;border:1px solid #eee;font-size:10px;font-weight:800;letter-spacing:.8px;cursor:pointer;transition:.18s}.btn.light{background:#eee;color:#111}.btn.light:hover{background:white}.btn.outline{background:transparent;color:#eee;border-color:#484848}.btn.outline:hover:not(:disabled){background:#ffffff12}.btn:disabled{opacity:.32;cursor:not-allowed}.controls #startBtn{grid-column:1/-1}.form-row{margin-top:18px}.form-row label,.period-select{display:block;font-size:9px;letter-spacing:1.5px;color:#aaa;font-weight:800;margin-bottom:8px}.form-row select,.form-row input,.period-select select{width:100%;padding:12px;background:#171717;color:#eee;border:1px solid #444;border-radius:0;font:12px Inter,sans-serif;outline:none}.form-row input:focus,.form-row select:focus{border-color:#aaa}.hint{font-size:10px;color:#999;margin:16px 0 0}.mission-panel h2,.section-head h2,.form-panel h2{font:600 29px 'Barlow Condensed',sans-serif;margin:0}.mission-panel>.eyebrow{margin-bottom:7px}.mini-stat{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 0;border-bottom:1px solid #ffffff17;font-size:11px;color:#aaa}.mini-stat strong{font:600 22px 'Barlow Condensed',sans-serif;color:#eee;text-align:right}.goal-label{display:flex;justify-content:space-between;margin:20px 0 9px;font-size:10px;color:#aaa}.goal-label strong{color:#eee}.progress{height:4px;background:#3a3a3a}.progress span{display:block;height:100%;width:0;background:#eee;transition:width .25s}.full{width:100%;margin-top:20px}.history-panel{margin-top:18px}.section-head{margin-bottom:18px}.section-head .eyebrow{margin-bottom:5px}.empty{font-size:12px;color:#888;padding:18px 0}.session-row,.record-row,.review-row{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:14px 0;border-top:1px solid #ffffff17;font-size:12px}.session-row strong,.record-row strong{color:#eee}.session-row small,.record-row small,.review-row small{display:block;color:#999;font-size:10px;margin-top:5px}.session-row .time{font:600 20px 'Barlow Condensed',sans-serif;white-space:nowrap}.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:15px}.metric{padding:20px}.metric span{display:block;color:#aaa;font-size:9px;letter-spacing:1.2px;font-weight:800}.metric strong{display:block;font:600 29px 'Barlow Condensed',sans-serif;margin:10px 0 4px}.metric small{font-size:10px;color:#888}.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.chart-wrap{display:flex;align-items:center;gap:24px;min-height:210px}.pie{width:170px;height:170px;flex:0 0 170px;border-radius:50%;background:conic-gradient(#444 0 100%);position:relative;display:grid;place-items:center}.pie-hole{width:105px;height:105px;background:#111;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center}.pie-hole strong{font:600 26px 'Barlow Condensed',sans-serif}.pie-hole span{font-size:8px;color:#999;letter-spacing:1px}.legend{display:grid;gap:10px;font-size:10px;color:#bbb;min-width:0}.legend-item{display:flex;align-items:center;gap:7px;justify-content:space-between}.legend-name{display:flex;align-items:center;gap:7px;min-width:0}.legend-name span:last-child{overflow-wrap:anywhere}.swatch{width:8px;height:8px;flex:0 0 8px}.legend-item strong{color:#eee;white-space:nowrap}.bars{height:210px;display:flex;align-items:flex-end;justify-content:space-around;gap:10px;padding:15px 2px 0;border-bottom:1px solid #555}.bar-col{height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:8px;flex:1;min-width:0}.bar{width:min(34px,80%);min-height:3px;background:linear-gradient(180deg,#eee,#777);border:1px solid #eee3}.bar-label{font-size:9px;color:#aaa}.bar-value{font-size:8px;color:#ddd;white-space:nowrap}.summary-list{display:grid;grid-template-columns:repeat(2,1fr);gap:0 25px}.summary-item{display:flex;justify-content:space-between;gap:10px;border-top:1px solid #ffffff17;padding:13px 0;font-size:11px;color:#aaa}.summary-item strong{color:#eee;white-space:nowrap}.period-select{margin:0;display:flex;align-items:center;gap:10px}.period-select select{width:auto;padding:9px}.form-panel{max-width:720px;margin-bottom:18px}.form-panel>p.muted{font-size:12px;line-height:1.7;max-width:560px}.form-panel form{max-width:560px}.input-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.form-panel form>.btn{margin-top:20px}.review-filters{display:flex;gap:6px}.filter{padding:8px 10px;font-size:9px}.review-row{align-items:flex-start}.review-main{flex:1;min-width:0}.review-main strong{display:block;font-size:12px}.review-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.small-btn{background:transparent;border:1px solid #555;color:#ddd;padding:7px 9px;font-size:9px;cursor:pointer}.small-btn.done{border-color:#ddd;background:#eee;color:#111}.overdue{color:#eee!important}.clear-link{color:#aaa;background:none;border:0;cursor:pointer;font-size:10px}footer{display:flex;justify-content:space-between;gap:15px;border-top:1px solid var(--line);margin-top:28px;padding:18px 0;color:#888;font-size:9px;letter-spacing:1.8px}footer strong{color:#ddd}
 @media(max-width:850px){.main-grid,.dash-grid{grid-template-columns:1fr}.metric-grid{grid-template-columns:1fr 1fr}.hero h1{font-size:56px}.topbar{padding:0 20px}.wrap{padding:30px 16px}.chart-wrap{justify-content:flex-start}.mission-panel{order:2}}
 @media(max-width:480px){.brand strong{font-size:12px;letter-spacing:1.2px}.brand small{font-size:7px;letter-spacing:1px}.crest{width:40px;height:40px}.top-right{font-size:8px}.hero h1{font-size:46px}.panel{padding:18px}.metric{padding:14px}.metric strong{font-size:24px}.chart-wrap{flex-direction:column;align-items:flex-start}.pie{align-self:center}.summary-list{grid-template-columns:1fr}.section-head{align-items:flex-start;flex-wrap:wrap}.period-select{width:100%;justify-content:space-between}.tabs{gap:5px}.tab{padding:10px 11px;font-size:9px}footer{flex-direction:column}.timer{font-size:58px}}
 
 
-/* ===== LOGIN CLEAN — OPERACAO KINHA ===== */
+/* ===== LOGIN CLEAN â€” OPERACAO KINHA ===== */
 
 .auth-screen[hidden] {
   display: none !important;
@@ -147,7 +147,7 @@
   }
 }
 
-/* ===== TEMAS E APARÊNCIA CLEAN ===== */
+/* ===== TEMAS E APARÃŠNCIA CLEAN ===== */
 
 .top-right {
   display: flex;
@@ -618,7 +618,7 @@ footer strong {
   color: var(--white);
 }
 
-/* O tema escuro mantém a mesma identidade visual */
+/* O tema escuro mantÃ©m a mesma identidade visual */
 
 html[data-theme="dark"] {
   color-scheme: dark;
@@ -716,7 +716,7 @@ html[data-theme="dark"] footer strong {
   }
 }
 
-/* ===== NAVEGAÇÃO SEM ESPAÇO DESNECESSÁRIO ===== */
+/* ===== NAVEGAÃ‡ÃƒO SEM ESPAÃ‡O DESNECESSÃRIO ===== */
 
 #mainContent .hero {
   transition: margin .2s ease, opacity .2s ease;
@@ -725,7 +725,9 @@ html[data-theme="dark"] footer strong {
 #mainContent.section-view .hero {
   display: none;
 }
-
+#mainContent.section-view #dailyMotivation {
+  display: none;
+}
 #mainContent.section-view {
   padding-top: 20px;
 }
@@ -734,7 +736,7 @@ html[data-theme="dark"] footer strong {
   margin-top: 0;
 }
 
-/* ===== AÇÕES DO CABEÇALHO ===== */
+/* ===== AÃ‡Ã•ES DO CABEÃ‡ALHO ===== */
 
 .top-right {
   display: flex;
@@ -778,7 +780,7 @@ html[data-theme="dark"] .logout-btn {
   }
 }
 
-/* ===== MODOS DO CRONÔMETRO ===== */
+/* ===== MODOS DO CRONÃ”METRO ===== */
 .timer-modes {
   display: flex;
   gap: 8px;
@@ -846,7 +848,7 @@ html[data-theme="dark"] .logout-btn {
   }
 }
 
-/* ===== BOTÃO DE EXPANDIR CRONÔMETRO ===== */
+/* ===== BOTÃƒO DE EXPANDIR CRONÃ”METRO ===== */
 .timer-display-wrap {
   position: relative;
   display: flex;
@@ -889,7 +891,7 @@ html[data-theme="dark"] .logout-btn {
   outline-offset: 3px;
 }
 
-/* ===== TELA EXPANDIDA DO CRONÔMETRO ===== */
+/* ===== TELA EXPANDIDA DO CRONÃ”METRO ===== */
 .focus-overlay {
   position: fixed;
   inset: 0;
@@ -1040,4 +1042,1193 @@ html[data-theme="dark"] .logout-btn {
     gap: 18px;
     padding: 20px 12px;
   }
+}
+
+/* ===== REFINAMENTO VISUAL DO LOGIN ===== */
+
+.auth-screen {
+  background: rgba(5, 5, 12, 0.48);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.auth-card {
+  max-width: 430px;
+  padding: 38px;
+  background: rgba(15, 16, 25, 0.94);
+  border: 1px solid rgba(167, 139, 250, 0.3);
+  border-radius: 18px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+}
+
+.auth-card .eyebrow {
+  color: #C4B5FD;
+  margin-bottom: 22px;
+  line-height: 1.7;
+}
+
+.auth-card h2 {
+  margin-bottom: 14px;
+  font-size: 36px;
+  line-height: 1.15;
+}
+
+.auth-description {
+  color: #C4C7D2;
+  margin-bottom: 28px;
+}
+
+.auth-field {
+  margin-top: 20px;
+}
+
+.auth-field label {
+  color: #E0E2EB;
+  font-size: 12px;
+  margin-bottom: 9px;
+}
+
+.auth-field input {
+  min-height: 48px;
+  background: #191B27;
+  color: #FFFFFF;
+  border: 1px solid #45475A;
+  border-radius: 9px;
+  font: 14px Inter, Arial, sans-serif;
+}
+
+.auth-field input:focus {
+  outline: 3px solid rgba(167, 139, 250, 0.3);
+  outline-offset: 2px;
+  border-color: #A78BFA;
+}
+
+.auth-submit,
+.btn.light.auth-submit {
+  min-height: 49px;
+  margin-top: 26px;
+  background: #A78BFA;
+  border: 1px solid #A78BFA;
+  border-radius: 9px;
+  color: #171226;
+  font-weight: 800;
+  letter-spacing: 1px;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.auth-submit:hover {
+  background: #C4B5FD;
+  transform: translateY(-1px);
+}
+
+.auth-links {
+  justify-content: center;
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.auth-link {
+  color: #C4B5FD;
+  font-size: 12px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.auth-link:hover {
+  color: #FFFFFF;
+}
+
+.password-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrap input {
+  padding-right: 82px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  padding: 7px;
+  border: 0;
+  background: transparent;
+  color: #C4B5FD;
+  font: 600 12px Inter, Arial, sans-serif;
+  cursor: pointer;
+}
+
+.password-toggle:focus-visible,
+.auth-link:focus-visible,
+.auth-submit:focus-visible {
+  outline: 3px solid #C4B5FD;
+  outline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 28px 22px;
+    border-radius: 15px;
+  }
+
+  .auth-card h2 {
+    font-size: 32px;
+  }
+
+  .auth-links {
+    gap: 15px;
+  }
+}
+.auth-screen {
+  background: #09090F;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* ===== FUNDO DE ESTUDOS â€” LOGIN OPERACAO KINHA ===== */
+
+.auth-screen {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(5, 5, 12, 0.88) 0%,
+      rgba(5, 5, 12, 0.76) 48%,
+      rgba(5, 5, 12, 0.58) 100%
+    ),
+    url("https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=2000&q=85")
+    center / cover no-repeat;
+
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* CartÃ£o de acesso */
+.auth-card {
+  background: rgba(12, 12, 22, 0.94);
+border: 1px solid rgba(59, 130, 246, 0.65);
+  box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.55),
+   0 0 35px rgba(59, 130, 246, 0.16);
+}
+
+/* Destaques em azul */
+.auth-card .eyebrow {
+  color: #60A5FA;
+}
+
+/* Campos de acesso */
+.auth-field input:focus {
+  border-color: #3B82F6;
+  outline: 3px solid rgba(59, 130, 246, 0.25);
+}
+
+/* BotÃ£o principal */
+.auth-submit,
+.btn.light.auth-submit {
+  background: #3B82F6;
+  border-color: #3B82F6;
+  color: #FFFFFF;
+}
+
+.auth-submit:hover {
+  background: #60A5FA;
+  border-color: #60A5FA;
+}
+
+/* BotÃ£o principal */
+.auth-submit,
+.btn.light.auth-submit {
+  background: #A78BFA;
+  border-color: #A78BFA;
+  color: #171226;
+}
+
+.auth-submit:hover {
+  background: #C4B5FD;
+  border-color: #C4B5FD;
+}
+
+/* ===== LINKS E BOTÃƒO MOSTRAR/OCULTAR EM AZUL ===== */
+
+.auth-links a,
+.auth-card a,
+.auth-screen a {
+  color: #60A5FA !important;
+}
+
+.auth-links a:hover,
+.auth-card a:hover,
+.auth-screen a:hover {
+  color: #93C5FD !important;
+}
+
+.password-toggle {
+  color: #60A5FA !important;
+  border-color: #3B82F6 !important;
+}
+
+.password-toggle:hover {
+  color: #FFFFFF !important;
+  background: #2563EB !important;
+  border-color: #2563EB !important;
+}
+
+/* CORRECAO DEFINITIVA DOS LINKS DE LOGIN */
+.auth-links .auth-link { color: #60A5FA !important; }
+.auth-links .auth-link:hover { color: #93C5FD !important; }
+
+/* ===== OPERACAO KINHA â€” FUNDO POLICIAL CINEMATOGRAFICO ===== */
+
+.auth-screen {
+  position: fixed;
+  inset: 0;
+  isolation: isolate;
+  background-color: #101318 !important;
+  background-image:
+  linear-gradient(
+    90deg,
+    rgba(5, 7, 11, 0.40) 0%,
+    rgba(5, 7, 11, 0.35) 50%,
+    rgba(5, 7, 11, 0.40) 100%
+  ),
+    url("fundo-policial.png") !important;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Cartao de acesso */
+.auth-card {
+  position: relative;
+  z-index: 1;
+  background: rgba(13, 16, 21, 0.96) !important;
+  border: 1px solid rgba(96, 165, 250, 0.32) !important;
+  border-radius: 18px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.65);
+}
+
+/* Campos */
+.auth-field input {
+  background: #1c2129 !important;
+  color: #f3f4f6 !important;
+  border: 1px solid #414957 !important;
+}
+
+.auth-field input:focus {
+  border-color: #3b82f6 !important;
+  outline: 3px solid rgba(59, 130, 246, 0.18);
+}
+
+/* Detalhes azuis */
+.auth-card .eyebrow {
+  color: #60a5fa !important;
+}
+
+.auth-links .auth-link {
+  color: #60a5fa !important;
+}
+
+.auth-links .auth-link:hover {
+  color: #bfdbfe !important;
+}
+
+.password-toggle {
+  color: #60a5fa !important;
+}
+
+/* Botao entrar */
+.auth-submit,
+.btn.light.auth-submit {
+  background: #3478d4 !important;
+  border-color: #3478d4 !important;
+  color: #fff !important;
+}
+
+.auth-submit:hover {
+  background: #2563b8 !important;
+}
+
+/* ===== MENSAGEM MOTIVACIONAL DIÃRIA ===== */
+
+.daily-motivation {
+  position: relative;
+  isolation: isolate;
+  min-height: 340px;
+  margin: 28px 0 30px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  background-color: #11151b;
+  background-image:
+    linear-gradient(
+      90deg,
+      rgba(8, 11, 16, 0.94) 0%,
+      rgba(8, 11, 16, 0.78) 52%,
+      rgba(8, 11, 16, 0.28) 100%
+    ),
+    url("fundo-policial.png");
+  background-size: cover;
+  background-position: center 42%;
+  border: 1px solid rgba(148, 163, 184, 0.20);
+  border-radius: 12px;
+}
+
+.daily-motivation-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(
+      0deg,
+      rgba(5, 8, 12, 0.42),
+      transparent 55%
+    );
+  pointer-events: none;
+}
+
+.daily-motivation-content {
+  width: 100%;
+  max-width: 780px;
+  padding: 34px 38px;
+}
+
+.daily-motivation-label,
+.daily-date {
+  margin: 0 0 14px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.daily-motivation-label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #93c5fd;
+}
+
+.daily-status-dot {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 7px;
+  border-radius: 50%;
+  background: #60a5fa;
+  box-shadow: 0 0 12px rgba(96, 165, 250, 0.45);
+}
+
+.daily-date {
+  color: #aab4c2;
+  letter-spacing: 1.5px;
+}
+
+.daily-motivation-content h1 {
+  max-width: 850px;
+  margin: 0;
+  color: #f8fafc;
+  font-size: clamp(36px, 3.8vw, 52px);
+  font-weight: 750;
+  line-height: 1.13;
+  letter-spacing: -1.2px;
+  text-transform: none;
+}
+
+.daily-motivation-text {
+  max-width: 600px;
+  margin: 16px 0 28px;
+  color: #c5ccd6;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.daily-motivation-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: #9ca9b9;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.daily-motivation-count {
+  color: #93c5fd;
+}
+
+@media (max-width: 650px) {
+  .daily-motivation {
+    min-height: 300px;
+    background-position: 62% center;
+  }
+
+  .daily-motivation-content {
+    padding: 25px 22px;
+  }
+
+  .daily-motivation-content h1 {
+    font-size: 29px;
+  }
+
+  .daily-motivation-text {
+    font-size: 14px;
+  }
+
+  .daily-motivation-footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+/* ===== IMAGEM DA MOTIVACAO DIARIA ===== */
+
+.daily-motivation {
+  background-image: linear-gradient(135deg, #111820, #202b38);
+}
+
+.daily-motivation-content {
+  box-sizing: border-box;
+  max-width: 100%;
+  padding-right: 205px;
+}
+
+.daily-motivation-image-wrap {
+  position: absolute;
+  top: 22px;
+  right: 24px;
+  width: 120px;
+  height: 120px;
+  overflow: hidden;
+  border: 1px solid rgba(147, 197, 253, 0.55);
+  border-radius: 10px;
+  background: #0b1017;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.daily-motivation-image-wrap img {
+  display: block;
+  width: 155%;
+  height: 155%;
+  object-fit: cover;
+}
+
+@media (max-width: 650px) {
+  .daily-motivation-content {
+    padding: 110px 20px 24px;
+  }
+
+  .daily-motivation-image-wrap {
+    position: absolute;
+  top: 22px;
+  right: 24px;
+  width: 155px;
+  height: 155px;
+  overflow: hidden;
+  border: 1px solid rgba(147, 197, 253, 0.55);
+  border-radius: 10px;
+  background: #0b1017;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  }
+}
+
+
+/* ===== HOME PREMIUM - OPERACAO KINHA ===== */
+
+.daily-motivation {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-height: 440px;
+  margin: 28px 0 30px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  box-sizing: border-box;
+  border: 1px solid rgba(70, 137, 255, .25);
+  border-radius: 18px;
+  background: linear-gradient(125deg, #080d15, #111d2c 72%, #0a1320);
+  box-shadow: 0 18px 55px rgba(0, 0, 0, .24);
+}
+
+.daily-motivation-overlay {
+  z-index: 0;
+  background: linear-gradient(115deg, rgba(5, 10, 18, .2), rgba(31, 75, 135, .12));
+  pointer-events: none;
+}
+
+.daily-motivation-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+  padding: 52px 310px 52px 48px;
+}
+
+.daily-motivation-label {
+  color: #6da5ff;
+  font-size: 12px;
+  letter-spacing: 2.5px;
+  margin-bottom: 20px;
+}
+
+.daily-date {
+  color: #a5b8d2;
+  font-size: 11px;
+  letter-spacing: 2px;
+  margin-bottom: 18px;
+}
+
+.daily-motivation-content h1 {
+  max-width: 850px;
+  margin: 0;
+  color: #f5f8ff;
+  font-size: clamp(38px, 3.7vw, 58px);
+  font-weight: 750;
+  line-height: 1.12;
+  letter-spacing: -1.5px;
+}
+
+.daily-motivation-text {
+  max-width: 620px;
+  margin: 20px 0 30px;
+  color: #b8c5d8;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.daily-motivation-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 620px;
+  color: #a8bad3;
+  font-size: 10px;
+  letter-spacing: 1.8px;
+}
+
+.daily-motivation-count {
+  color: #70a7ff;
+}
+
+.daily-motivation-image-wrap {
+  display: block;
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  right: 38px;
+  transform: translateY(-50%);
+  width: 230px;
+  height: 230px;
+  overflow: hidden;
+  border: 1px solid rgba(100, 160, 255, .55);
+  border-radius: 16px;
+  background: #080d15;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, .4);
+}
+
+.daily-motivation-image-wrap img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #080d15;
+}
+
+/* CabeÃ§alho minimalista azul e grafite */
+
+.topbar {
+  border-bottom: 1px solid rgba(80, 140, 255, .2);
+}
+
+.crest {
+  color: #4b8dff;
+  border-color: rgba(75, 141, 255, .35);
+}
+
+.crest svg {
+  color: #4b8dff;
+}
+
+.brand strong {
+  color: #f2f6ff;
+  letter-spacing: 2px;
+}
+
+.brand small {
+  color: #8297b5;
+}
+
+.status-dot,
+.daily-status-dot {
+  background: #4b8dff;
+  box-shadow: 0 0 12px rgba(75, 141, 255, .4);
+}
+
+.header-action,
+.theme-toggle {
+  border: 1px solid rgba(100, 140, 195, .22);
+  border-radius: 12px;
+  background: rgba(12, 22, 36, .65);
+  color: #dce7f8;
+  transition: border-color .2s ease, background .2s ease, color .2s ease;
+}
+
+.header-action:hover,
+.theme-toggle:hover {
+  border-color: #4388ff;
+  background: rgba(49, 105, 190, .14);
+  color: #8dbaff;
+}
+
+.logout-btn {
+  border-color: rgba(75, 141, 255, .55);
+  color: #91baff;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-bottom: 1px solid rgba(100, 140, 195, .2);
+  padding-bottom: 12px;
+}
+
+.tabs .tab {
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: #95a5bc;
+  padding: 12px 18px;
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+
+.tabs .tab:hover {
+  color: #dce8fa;
+  border-color: rgba(75, 141, 255, .25);
+  background: rgba(75, 141, 255, .07);
+}
+
+.tabs .tab.active {
+  color: #f5f8ff;
+  border-color: rgba(75, 141, 255, .5);
+  background: linear-gradient(135deg, #2359ad, #3478d4);
+  box-shadow: 0 5px 18px rgba(35, 89, 173, .18);
+}
+
+@media (max-width: 760px) {
+  .daily-motivation {
+    min-height: 560px;
+  }
+
+  .daily-motivation-content {
+    padding: 250px 24px 32px;
+  }
+
+  .daily-motivation-image-wrap {
+    top: 22px;
+    left: 24px;
+    right: auto;
+    transform: none;
+    width: 190px;
+    height: 190px;
+  }
+
+  .daily-motivation-content h1 {
+    font-size: clamp(34px, 8vw, 46px);
+  }
+
+  .daily-motivation-footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+/* ===== OPERACAO KINHA â€” NOVO VISUAL DA CENTRAL ===== */
+
+/* Fundo geral mais amplo e sofisticado */
+body {
+  background-color: #050a12;
+}
+
+#mainContent.wrap {
+  width: calc(100% - clamp(32px, 8vw, 144px));
+  max-width: 1680px;
+  padding-top: 34px;
+  padding-bottom: 48px;
+}
+
+/* CabeÃ§alho */
+.topbar {
+  min-height: 82px;
+  height: auto;
+  background: rgba(5, 12, 23, 0.97);
+  border-bottom: 1px solid rgba(64, 132, 255, 0.24);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.16);
+}
+
+.crest {
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgba(65, 137, 255, 0.65);
+  border-radius: 14px;
+  background: rgba(39, 103, 210, 0.08);
+  box-shadow: 0 0 22px rgba(39, 103, 210, 0.10);
+}
+
+.crest svg {
+  stroke: #4b8dff;
+}
+
+.brand strong {
+  color: #f4f7ff;
+  letter-spacing: 2px;
+}
+
+.brand small {
+  color: #8ca8d0;
+}
+
+/* AÃ§Ãµes superiores: discretas, sem aparÃªncia de botÃµes pesados */
+.top-right {
+  gap: 10px;
+}
+
+.header-action,
+.theme-toggle {
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid rgba(111, 151, 208, 0.19);
+  border-radius: 12px;
+  background: rgba(10, 22, 39, 0.72);
+  color: #dbe7fa;
+  transition: border-color .2s ease, background .2s ease, color .2s ease;
+}
+
+.header-action:hover,
+.theme-toggle:hover {
+  border-color: #4388ff;
+  background: rgba(48, 112, 218, 0.12);
+  color: #8dbaff;
+}
+
+.logout-btn {
+  color: #b8c9e4;
+  border-color: rgba(111, 151, 208, 0.25);
+}
+
+/* Banner principal: fundo fixo com atmosfera azul-policial */
+.daily-motivation {
+  min-height: 500px;
+  margin: 28px 0 34px;
+  align-items: center;
+  border: 1px solid rgba(86, 143, 225, 0.28);
+  border-radius: 18px;
+  background-color: #06101e;
+  background-image:
+    linear-gradient(
+      90deg,
+      rgba(3, 10, 20, 0.97) 0%,
+      rgba(3, 10, 20, 0.88) 38%,
+      rgba(3, 10, 20, 0.48) 72%,
+      rgba(3, 10, 20, 0.30) 100%
+    ),
+    url("fundo-policial.png");
+  background-size: cover;
+  background-position: center 48%;
+  box-shadow: 0 24px 65px rgba(0, 0, 0, 0.25);
+}
+
+.daily-motivation-overlay {
+  background: linear-gradient(
+    0deg,
+    rgba(2, 8, 17, 0.62),
+    transparent 62%
+  );
+}
+
+.daily-motivation-content {
+  position: relative;
+  z-index: 1;
+  max-width: 1050px;
+  padding: 58px 48px;
+  padding-right: 270px;
+}
+
+.daily-motivation-label {
+  color: #83b8ff;
+  font-size: 12px;
+  letter-spacing: 3px;
+}
+
+.daily-date {
+  margin-top: 24px;
+  color: #b0c4e3;
+  font-size: 12px;
+  letter-spacing: 2.5px;
+}
+
+.daily-motivation-content h1 {
+  max-width: 850px;
+  font-size: clamp(38px, 4.2vw, 66px);
+  line-height: 1.08;
+  letter-spacing: -1.8px;
+  text-wrap: balance;
+  text-shadow: 0 3px 25px rgba(0, 0, 0, 0.25);
+}
+
+.daily-motivation-text {
+  max-width: 640px;
+  margin-top: 22px;
+  color: #c0cee2;
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.daily-motivation-footer {
+  margin-top: 38px;
+  color: #a5bbda;
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+/* Imagem motivacional: quadrado maior, sem cortar o conteÃºdo */
+.daily-motivation-image-wrap {
+  top: 50%;
+  right: 34px;
+  width: 210px;
+  height: 210px;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(105, 165, 255, 0.65);
+  border-radius: 18px;
+  background: rgba(3, 10, 20, 0.88);
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.35);
+}
+
+.daily-motivation-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: inherit;
+}
+
+/* NavegaÃ§Ã£o minimalista */
+.tabs {
+  gap: 10px;
+  margin-bottom: 26px;
+  padding: 0 0 16px;
+  border-bottom: 1px solid rgba(95, 139, 203, 0.22);
+}
+
+.tabs .tab {
+  min-height: 46px;
+  padding: 0 20px;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  background: transparent;
+  color: #91a4c0;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all .2s ease;
+}
+
+.tabs .tab:hover {
+  border-color: rgba(76, 142, 255, 0.3);
+  background: rgba(49, 111, 216, 0.08);
+  color: #e0ebff;
+}
+
+.tabs .tab.active {
+  border-color: rgba(77, 145, 255, 0.52);
+  background: rgba(42, 101, 194, 0.19);
+  color: #9bc4ff;
+  box-shadow: inset 0 -2px 0 #4388ff;
+}
+
+/* CartÃµes e Ã¡reas de estudo */
+.panel {
+  border: 1px solid rgba(103, 137, 184, 0.18);
+  border-radius: 16px;
+  background: linear-gradient(145deg, #101a29, #0a111d);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.13);
+}
+
+.panel-head {
+  color: #9fb4d3;
+}
+
+.pill {
+  border-color: rgba(80, 139, 231, 0.25);
+}
+
+/* BotÃµes de aÃ§Ã£o: azul elÃ©trico, sem alterar seus eventos */
+.btn.light:not(.auth-submit) {
+  background: linear-gradient(135deg, #3478e8, #2357b7);
+  border-color: #4388ff;
+  color: #fff;
+}
+
+.btn.light:not(.auth-submit):hover {
+  background: linear-gradient(135deg, #478cff, #2d69cf);
+}
+
+.btn.outline {
+  border-color: rgba(102, 151, 222, 0.35);
+  color: #b6d0f8;
+  background: transparent;
+}
+
+.btn.outline:hover:not(:disabled) {
+  border-color: #4388ff;
+  background: rgba(49, 111, 216, 0.10);
+}
+
+/* Ajustes para telas menores */
+@media (max-width: 900px) {
+  #mainContent.wrap {
+    width: calc(100% - 32px);
+    padding-top: 22px;
+  }
+
+  .daily-motivation {
+    min-height: 440px;
+    background-position: 60% center;
+  }
+
+  .daily-motivation-content {
+    padding: 42px 28px;
+    padding-right: 190px;
+  }
+
+  .daily-motivation-content h1 {
+    font-size: clamp(32px, 5vw, 46px);
+  }
+
+  .daily-motivation-image-wrap {
+    right: 20px;
+    width: 145px;
+    height: 145px;
+  }
+}
+
+@media (max-width: 600px) {
+  .topbar {
+    padding: 14px 16px;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .top-right {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  #mainContent.wrap {
+    width: calc(100% - 24px);
+    padding-top: 16px;
+  }
+
+  .daily-motivation {
+    min-height: 0;
+    background-position: center;
+  }
+
+  .daily-motivation-content {
+    padding: 150px 22px 28px;
+  }
+
+  .daily-motivation-image-wrap {
+    top: 18px;
+    left: 22px;
+    right: auto;
+    width: 112px;
+    height: 112px;
+    transform: none;
+    border-radius: 13px;
+  }
+
+  .daily-motivation-label {
+    font-size: 10px;
+    letter-spacing: 1.8px;
+  }
+
+  .daily-date {
+    margin-top: 18px;
+    font-size: 10px;
+  }
+
+  .daily-motivation-content h1 {
+    font-size: clamp(32px, 9vw, 42px);
+    letter-spacing: -1px;
+  }
+
+  .daily-motivation-text {
+    font-size: 14px;
+  }
+
+  .daily-motivation-footer {
+    gap: 16px;
+    font-size: 9px;
+  }
+
+  .tabs .tab {
+    padding: 0 12px;
+    font-size: 12px;
+  }
+}
+
+/* ===== SUBIR MAIS O CONTEUDO DO BANNER ===== */
+@media (min-width: 601px) {
+  .daily-motivation-content {
+    transform: translateY(-35px) !important;
+  }
+
+  .daily-motivation-image-wrap {
+    top: 50% !important;
+    transform: translateY(-50%) translateY(-15px) !important;
+  }
+}
+
+
+/* ===== AJUSTE DE POSICAO E TAMANHO DO BANNER ===== */
+@media (min-width: 601px) {
+  .daily-motivation-content {
+    transform: translateY(-55px) !important;
+  }
+
+  .daily-motivation-image-wrap {
+    width: 165px !important;
+    height: 165px !important;
+    top: 50% !important;
+    right: 38px !important;
+    transform: translateY(-50%) translateY(-25px) !important;
+  }
+
+  .daily-motivation {
+    min-height: 440px !important;
+  }
+}
+
+
+/* ===== SUBIR O BLOCO AZUL INTEIRO ===== */
+.daily-motivation-content {
+  transform: translateY(-55px) !important;
+}
+
+/* DIMINUIR O ESPACO DO BLOCO AZUL */
+.daily-motivation-content {
+  padding-top: 25px !important;
+  padding-bottom: 25px !important;
+}
+
+
+/* ===== AJUSTE DO BANNER AZUL INTEIRO ===== */
+@media (min-width: 601px) {
+  .daily-motivation {
+    min-height: 380px !important;
+    margin-top: 5px !important;
+    margin-bottom: 24px !important;
+  }
+
+  .daily-motivation-content {
+    transform: translateY(-25px) !important;
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+  }
+
+  .daily-motivation-image-wrap {
+    width: 145px !important;
+    height: 145px !important;
+    top: 50% !important;
+    right: 30px !important;
+    transform: translateY(-50%) !important;
+  }
+}
+
+
+/* ===== ALINHAMENTO FINAL DO BANNER ===== */
+@media (min-width: 761px) {
+  .daily-motivation {
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  .daily-motivation-content {
+    align-self: center !important;
+    margin: 0 !important;
+    padding: 28px 190px 28px 38px !important;
+    transform: none !important;
+  }
+
+  .daily-motivation-image-wrap {
+    position: absolute !important;
+    top: 50% !important;
+    right: 30px !important;
+    left: auto !important;
+    width: 145px !important;
+    height: 145px !important;
+    transform: translateY(-50%) !important;
+  }
+}
+
+
+
+
+/* CORREÇÃO DEFINITIVA — TELA DE FOCO */
+#focusOverlay:not([hidden]) {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  max-width: none !important;
+  max-height: none !important;
+  box-sizing: border-box !important;
+  z-index: 2147483647 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow-y: auto !important;
+  background: #080a0f !important;
+  color: #f4f6fb !important;
+}
+
+#focusOverlay[hidden] {
+  display: none !important;
+}
+
+body:has(#focusOverlay:not([hidden])) {
+  overflow: hidden !important;
+}
+
+
+
+/* EXPANSAO DAS ABAS - CORRECAO */
+body:has(#mainContent.section-view) #mainContent {
+  width: 100%;
+  max-width: none;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+body:has(#mainContent.section-view) #dailyMotivation {
+  display: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 0 !important;
+  min-height: 0 !important;
+}
+
+body:has(#mainContent.section-view) #mainContent .tabs {
+  margin-top: 0 !important;
+}
+
+body:has(#mainContent.section-view) #mainContent .page.active {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
