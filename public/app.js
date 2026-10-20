@@ -19,7 +19,147 @@ let pomodoroCycle = 0;
 let pomodoroRunning = false;
 const today=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`};
 const dateOffset=(n)=>{const d=new Date();d.setDate(d.getDate()+n);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`};
-const save=()=>localStorage.setItem(KEY,JSON.stringify(data));
+let activeStorageKey = KEY;
+let cloudReady = false;
+let cloudUserId = null;
+let cloudSyncTimer = null;
+let cloudSyncInProgress = false;
+let cloudSyncPending = false;
+let cloudLoadVersion = 0;
+
+const save = () => {
+  localStorage.setItem(activeStorageKey, JSON.stringify(data));
+
+  if (cloudReady && cloudUserId) {
+    clearTimeout(cloudSyncTimer);
+    cloudSyncTimer = setTimeout(() => {
+      syncStudyDataToCloud();
+    }, 1000);
+  }
+};
+
+async function syncStudyDataToCloud() {
+  if (!cloudReady || !cloudUserId) return;
+
+  if (cloudSyncInProgress) {
+    cloudSyncPending = true;
+    return;
+  }
+
+  cloudSyncInProgress = true;
+  const userId = cloudUserId;
+
+  try {
+    const snapshot = JSON.parse(JSON.stringify(data));
+
+    const { error } = await supabaseClient
+      .from('study_data')
+      .upsert({
+        user_id: userId,
+        data: snapshot,
+        updated_at: new Date().toISOString()
+      }, { onConflict: 'user_id' });
+
+    if (error) {
+      console.error('Erro ao salvar progresso na nuvem:', error.message);
+    }
+  } catch (error) {
+    console.error('Falha na sincronizacao:', error);
+  } finally {
+    cloudSyncInProgress = false;
+
+    if (cloudSyncPending) {
+      cloudSyncPending = false;
+      if (cloudReady && cloudUserId === userId) {
+        syncStudyDataToCloud();
+      }
+    }
+  }
+}
+
+async function loadStudyDataFromCloud(session) {
+  const user = session?.user;
+  if (!user) return;
+
+  const version = ++cloudLoadVersion;
+  cloudReady = false;
+  cloudUserId = null;
+
+  // Cada conta possui seu proprio armazenamento local.
+  activeStorageKey = `${KEY}:${user.id}`;
+
+  try {
+    const localData = localStorage.getItem(activeStorageKey);
+    data = localData ? JSON.parse(localData) : emptyData();
+  } catch (error) {
+    data = emptyData();
+  }
+
+  data.sessions ||= [];
+  data.questions ||= [];
+  data.reviews ||= [];
+  data.customSubjects ||= [];
+
+  try {
+    const { data: record, error } = await supabaseClient
+      .from('study_data')
+      .select('data')
+      .eq('user_id', user.id)
+      .maybeSingle();
+
+    if (version !== cloudLoadVersion) return;
+
+    if (error) {
+      console.error('Erro ao carregar progresso da nuvem:', error.message);
+      renderAll();
+      return;
+    }
+
+    if (record?.data && typeof record.data === 'object') {
+      data = { ...emptyData(), ...record.data };
+      data.sessions ||= [];
+      data.questions ||= [];
+      data.reviews ||= [];
+      data.customSubjects ||= [];
+    }
+
+    localStorage.setItem(activeStorageKey, JSON.stringify(data));
+
+    cloudUserId = user.id;
+    cloudReady = true;
+
+    renderAll();
+
+    // Se ainda nao existe registro na nuvem, cria o primeiro.
+    if (!record) {
+      syncStudyDataToCloud();
+    }
+
+    console.log('Progresso sincronizado para a conta:', user.email);
+  } catch (error) {
+    if (version !== cloudLoadVersion) return;
+    console.error('Falha ao carregar dados de estudo:', error);
+    renderAll();
+  }
+}
+
+supabaseClient.auth.onAuthStateChange((event, session) => {
+  if (session?.user) {
+    // Evita chamadas de rede dentro do callback de autenticacao.
+    setTimeout(() => loadStudyDataFromCloud(session), 0);
+  } else {
+    cloudLoadVersion++;
+    cloudReady = false;
+    cloudUserId = null;
+    clearTimeout(cloudSyncTimer);
+
+    if (event === 'SIGNED_OUT') {
+      activeStorageKey = KEY;
+      data = emptyData();
+      renderAll();
+    }
+  }
+});
 const fmt=s=>{s=Math.max(0,Math.floor(s||0));return [Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(x=>String(x).padStart(2,'0')).join(':')};
 const hfmt=s=>{s=Math.floor((s||0)/60);let h=Math.floor(s/60),m=s%60;return h?`${h}h${m?` ${m}m`:''}`:`${m}m`};
 const safe=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
