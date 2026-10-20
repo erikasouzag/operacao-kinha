@@ -2232,3 +2232,204 @@ body:has(#mainContent.section-view) #mainContent .page.active {
   margin-top: 0 !important;
   padding-top: 0 !important;
 }
+
+/* Padronização dos botões do cabeçalho */
+header .header-action {
+  box-sizing: border-box;
+  min-height: 40px;
+  padding: 10px 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  font: inherit;
+  font-size: 14px;
+  line-height: 20px;
+  white-space: nowrap;
+}
+
+#adminAccessBtn {
+  min-width: 100px;
+}
+
+
+
+/* Alinhamento uniforme dos botoes do cabecalho */
+.header-action,
+#adminAccessBtn {
+  box-sizing: border-box;
+  height: 40px;
+  min-height: 40px;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  font: inherit;
+  font-size: 14px;
+  line-height: 20px;
+  white-space: nowrap;
+}
+#adminAccessBtn {
+  min-width: 100px;
+}
+
+
+/* Ajuste definitivo: botoes iguais no cabecalho */
+.top-right .header-action,
+.top-right #adminAccessBtn {
+  box-sizing: border-box;
+  width: 112px;
+  min-width: 112px;
+  height: 40px;
+  min-height: 40px;
+  padding: 0 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 12px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .top-right .header-action,
+  .top-right #adminAccessBtn {
+    width: 88px;
+    min-width: 88px;
+    height: 36px;
+    min-height: 36px;
+    padding: 0 4px;
+    font-size: 10px;
+  }
+}
+
+
+/* FRASES ROTATIVAS - OPERACAO KINHA */
+.daily-motivation-image-wrap {
+  display: none !important;
+}
+
+.daily-motivation {
+  background-image: linear-gradient(125deg, #101c2d, #123b69 58%, #102b50) !important;
+  min-height: 0 !important;
+  height: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden;
+}
+
+.daily-motivation-overlay {
+  background: linear-gradient(115deg, rgba(5, 10, 18, .12), rgba(31, 75, 135, .18)) !important;
+}
+
+.daily-motivation-content {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 1050px !important;
+  padding: 34px 38px !important;
+  margin: 0 auto !important;
+  transform: none !important;
+  opacity: 1;
+  transition: opacity .35s ease;
+}
+
+.daily-motivation-content.phrase-changing {
+  opacity: .25;
+}
+
+.daily-motivation-content h1 {
+  max-width: 850px;
+  overflow-wrap: anywhere;
+}
+
+.daily-motivation-text {
+  max-width: 680px;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 760px) {
+  .daily-motivation {
+    min-height: 0 !important;
+    height: auto !important;
+    margin: 18px 0 24px !important;
+  }
+
+  .daily-motivation-content {
+    padding: 28px 22px !important;
+  }
+
+  .daily-motivation-content h1 {
+    font-size: clamp(27px, 7vw, 38px) !important;
+    line-height: 1.15 !important;
+  }
+
+  .daily-motivation-text {
+    margin: 15px 0 22px !important;
+    font-size: 14px !important;
+    line-height: 1.65 !important;
+  }
+
+  .daily-motivation-footer {
+    gap: 10px !important;
+    flex-wrap: wrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .daily-motivation-content {
+    transition: none;
+  }
+}
+/* ===== FUNDO POLICIAL NA AREA DE ESTUDOS ===== */
+body:has(.home-view) {
+  background: #07111f !important;
+}
+
+body:has(.home-view) .bg {
+  position: fixed !important;
+  inset: -12px !important;
+  z-index: -3 !important;
+  background:
+    linear-gradient(
+      115deg,
+      rgba(4, 10, 20, 0.84),
+      rgba(8, 24, 45, 0.76) 55%,
+      rgba(4, 10, 20, 0.88)
+    ),
+    url("fundo-policial.png") center 42% / cover no-repeat !important;
+  filter: blur(4px) !important;
+  transform: scale(1.02);
+}
+
+body:has(.home-view) .veil {
+  background: linear-gradient(
+    180deg,
+    rgba(5, 13, 25, 0.12),
+    rgba(5, 13, 25, 0.40)
+  ) !important;
+}
+
+body:has(.home-view) .topbar {
+  background: rgba(5, 12, 24, 0.66) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+body:has(.home-view) .panel {
+  background: rgba(8, 16, 29, 0.84) !important;
+}
+
+body:has(.home-view) .tabs {
+  border-bottom-color: rgba(255, 255, 255, 0.22);
+}
+
+@media (max-width: 600px) {
+  body:has(.home-view) .bg {
+    background-position: center center !important;
+    filter: blur(5px) !important;
+  }
+}
+/* ===== FIM DO FUNDO POLICIAL NA AREA DE ESTUDOS ===== */

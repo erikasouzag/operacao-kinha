@@ -85,6 +85,28 @@ async function loadStudyDataFromCloud(session) {
   cloudReady = false;
   cloudUserId = null;
 
+  // Confirma a aprovação antes de carregar dados locais ou da nuvem.
+  const { data: access, error: accessError } = await supabaseClient
+    .from('user_access')
+    .select('status')
+    .eq('user_id', user.id)
+    .maybeSingle();
+
+  if (version !== cloudLoadVersion) return;
+
+  if (accessError || access?.status !== 'approved') {
+    data = emptyData();
+    renderAll();
+
+    if (accessError) {
+      console.error('Não foi possível confirmar a aprovação:', accessError.message);
+    }
+
+    return;
+  }
+  cloudReady = false;
+  cloudUserId = null;
+
   // Cada conta possui seu proprio armazenamento local.
   activeStorageKey = `${KEY}:${user.id}`;
 
@@ -194,7 +216,7 @@ function switchPomodoroPhase() {
     pomodoroCycle++;
     pomodoroPhase = 'break';
     $('timerState').textContent = 'PAUSA';
-    $('timerHint').textContent = 'Hora de descansar! O tempo da pausa nÃ£o conta como estudo.';
+    $('timerHint').textContent = 'Hora de descansar! O tempo da pausa não conta como estudo.';
   } else {
     pomodoroPhase = 'focus';
     startedAt = Date.now();
@@ -234,10 +256,10 @@ if (focusDisplay) focusDisplay.textContent = fmt(displaySeconds);
 const focusMode = $('focusModeLabel');
 if (focusMode) {
   focusMode.textContent = timerMode === 'free'
-    ? 'MODO FOCO · LIVRE'
+    ? 'MODO FOCO Â· LIVRE'
     : timerMode === 'pomodoro'
-      ? `MODO FOCO · POMODORO · ${pomodoroPhase === 'focus' ? 'FOCO' : 'PAUSA'}`
-      : `MODO FOCO · PERSONALIZADO · ${pomodoroPhase === 'focus' ? 'FOCO' : 'PAUSA'}`;
+      ? `MODO FOCO Â· POMODORO Â· ${pomodoroPhase === 'focus' ? 'FOCO' : 'PAUSA'}`
+      : `MODO FOCO Â· PERSONALIZADO Â· ${pomodoroPhase === 'focus' ? 'FOCO' : 'PAUSA'}`;
 }
 
 const focusPhase = $('focusPhaseLabel');
@@ -289,7 +311,7 @@ function renderRecent() {
         >Excluir</button>
       </div>
     `).join('')
-    : '<div class="empty">Suas sessÃµes aparecerÃ£o aqui.</div>';
+    : '<div class="empty">Suas sessões aparecerão aqui.</div>';
 }
 
 function renderDashboard(){const period=$('dashPeriod').value;const sess=data.sessions.filter(s=>inPeriod(s,period));const qs=data.questions.filter(q=>inPeriod(q,period));const secs=sumSessions(sess);const totalQ=qs.reduce((n,q)=>n+q.total,0),correct=qs.reduce((n,q)=>n+q.correct,0);$('dashTime').textContent=fmt(secs);$('dashSessions').textContent=sess.length;$('dashQuestions').textContent=totalQ;$('dashAccuracy').textContent=totalQ?Math.round(correct/totalQ*100)+'%':'—';
@@ -305,11 +327,11 @@ const entries=Object.entries(bySubject).sort((a,b)=>b[1]-a[1]);
   '#536DFE',
   '#F50057',
   '#C6FF00',
-  '#18FFFF'];let offset=0;const all=entries.reduce((n,e)=>n+e[1],0);const parts=entries.map((e,i)=>{const start=all?offset/all*100:0;offset+=e[1];return `${colors[i%colors.length]} ${start}% ${all?offset/all*100:100}%`});$('pieChart').style.background=entries.length?`conic-gradient(${parts.join(',')})`:'conic-gradient(#444 0 100%)';$('pieTotal').textContent=all?hfmt(all):'0m';$('pieLegend').innerHTML=entries.length?entries.map((e,i)=>`<div class="legend-item"><div class="legend-name"><i class="swatch" style="background:${colors[i%colors.length]}"></i><span>${safe(e[0])}</span></div><strong>${hfmt(e[1])}</strong></div>`).join(''):'<p class="muted">Registre sessÃµes para ver a distribuiÃ§Ã£o.</p>';
+  '#18FFFF'];let offset=0;const all=entries.reduce((n,e)=>n+e[1],0);const parts=entries.map((e,i)=>{const start=all?offset/all*100:0;offset+=e[1];return `${colors[i%colors.length]} ${start}% ${all?offset/all*100:100}%`});$('pieChart').style.background=entries.length?`conic-gradient(${parts.join(',')})`:'conic-gradient(#444 0 100%)';$('pieTotal').textContent=all?hfmt(all):'0m';$('pieLegend').innerHTML=entries.length?entries.map((e,i)=>`<div class="legend-item"><div class="legend-name"><i class="swatch" style="background:${colors[i%colors.length]}"></i><span>${safe(e[0])}</span></div><strong>${hfmt(e[1])}</strong></div>`).join(''):'<p class="muted">Registre sessões para ver a distribuição.</p>';
  const dates=period==='day'?[today()]:period==='week'?Array.from({length:7},(_,i)=>dateOffset(i-6)):Array.from(new Set(data.sessions.map(s=>s.date))).sort().slice(-7);const daily=dates.map(d=>({date:d,seconds:sumSessions(sess.filter(s=>s.date===d))}));const max=Math.max(3600,...daily.map(x=>x.seconds));$('barChart').innerHTML=daily.length?daily.map(d=>`<div class="bar-col"><span class="bar-value">${d.seconds?hfmt(d.seconds):'—'}</span><div class="bar" style="height:${Math.max(2,d.seconds/max*145)}px"></div><span class="bar-label">${d.date.slice(8,10)}/${d.date.slice(5,7)}</span></div>`).join(''):'<p class="muted">Sem dados neste período.</p>';
- $('subjectSummary').innerHTML=entries.length?entries.map(e=>`<div class="summary-item"><span>${safe(e[0])}</span><strong>${hfmt(e[1])}</strong></div>`).join(''):'<div class="empty">Seus tempos por matÃ©ria aparecerÃ£o aqui apÃ³s as primeiras sessÃµes.</div>'}
-function renderQuestions(){const arr=data.questions.slice().reverse();$('questionHistory').innerHTML=arr.length?arr.map(q=>`<div class="record-row"><div><strong>${safe(q.subject)}</strong><small>${q.date}${q.notes?' â€¢ '+safe(q.notes):''}</small></div><div style="text-align:right"><strong>${q.correct}/${q.total} acertos</strong><small>${Math.round(q.correct/q.total*100)}% de aproveitamento</small></div></div>`).join(''):'<div class="empty">Seus registros de questÃµes aparecerÃ£o aqui.</div>'}
-function renderReviews(){let arr=data.reviews.slice().sort((a,b)=>a.date.localeCompare(b.date));if(reviewFilter==='pending')arr=arr.filter(r=>!r.done);$('reviewList').innerHTML=arr.length?arr.map(r=>`<div class="review-row"><div class="review-main"><strong>${safe(r.topic)} ${r.done?'âœ“':''}</strong><small>${safe(r.subject)} â€¢ ${safe(r.type)} â€¢ <span class="${!r.done&&r.date<today()?'overdue':''}">${r.date<today()&&!r.done?'ATRASADA â€¢ ':''}${r.date}</span></small></div><div class="review-actions"><button class="small-btn ${r.done?'':'done'}" data-review-toggle="${r.id}">${r.done?'Reabrir':'Concluir'}</button><button class="small-btn" data-review-delete="${r.id}">Excluir</button></div></div>`).join(''):'<div class="empty">'+(reviewFilter==='pending'?'Nenhuma revisÃ£o pendente. Bom trabalho!':'Nenhuma revisÃ£o cadastrada ainda.')+'</div>'}
+ $('subjectSummary').innerHTML=entries.length?entries.map(e=>`<div class="summary-item"><span>${safe(e[0])}</span><strong>${hfmt(e[1])}</strong></div>`).join(''):'<div class="empty">Seus tempos por matéria aparecerão aqui após as primeiras sessões.</div>'}
+function renderQuestions(){const arr=data.questions.slice().reverse();$('questionHistory').innerHTML=arr.length?arr.map(q=>`<div class="record-row"><div><strong>${safe(q.subject)}</strong><small>${q.date}${q.notes?' Ã¢â‚¬Â¢ '+safe(q.notes):''}</small></div><div style="text-align:right"><strong>${q.correct}/${q.total} acertos</strong><small>${Math.round(q.correct/q.total*100)}% de aproveitamento</small></div></div>`).join(''):'<div class="empty">Seus registros de questões aparecerão aqui.</div>'}
+function renderReviews(){let arr=data.reviews.slice().sort((a,b)=>a.date.localeCompare(b.date));if(reviewFilter==='pending')arr=arr.filter(r=>!r.done);$('reviewList').innerHTML=arr.length?arr.map(r=>`<div class="review-row"><div class="review-main"><strong>${safe(r.topic)} ${r.done?'Ã¢Å“â€œ':''}</strong><small>${safe(r.subject)} Ã¢â‚¬Â¢ ${safe(r.type)} Ã¢â‚¬Â¢ <span class="${!r.done&&r.date<today()?'overdue':''}">${r.date<today()&&!r.done?'ATRASADA Ã¢â‚¬Â¢ ':''}${r.date}</span></small></div><div class="review-actions"><button class="small-btn ${r.done?'':'done'}" data-review-toggle="${r.id}">${r.done?'Reabrir':'Concluir'}</button><button class="small-btn" data-review-delete="${r.id}">Excluir</button></div></div>`).join(''):'<div class="empty">'+(reviewFilter==='pending'?'Nenhuma revisão pendente. Bom trabalho!':'Nenhuma revisão cadastrada ainda.')+'</div>'}
 function renderManualSessions() {
   const container = $('manualSessionsHistory');
   if (!container) return;
@@ -334,7 +356,7 @@ function renderManualSessions() {
         >Excluir</button>
       </div>
     `).join('')
-    : '<div class="empty">Seus registros manuais aparecerÃ£o aqui.</div>';
+    : '<div class="empty">Seus registros manuais aparecerão aqui.</div>';
 }
 
 function renderAll() {
@@ -353,7 +375,7 @@ function start() {
   if (timerMode === 'free') {
     startedAt = Date.now();
     $('timerState').textContent = 'EM ANDAMENTO';
-    $('timerHint').textContent = 'SessÃ£o em andamento. Mantenha o foco!';
+    $('timerHint').textContent = 'Sessão em andamento. Mantenha o foco!';
   } else {
     pomodoroRunning = true;
 
@@ -368,12 +390,12 @@ function start() {
     } else {
       startedAt = null;
       $('timerState').textContent = 'PAUSA';
-      $('timerHint').textContent = 'Descanse um pouco. A pausa nÃ£o conta como estudo.';
+      $('timerHint').textContent = 'Descanse um pouco. A pausa não conta como estudo.';
     }
   }
 
   $('startBtn').disabled = true;
-  $('startBtn').textContent = '▶ EM ANDAMENTO';
+  $('startBtn').textContent = 'â–¶ EM ANDAMENTO';
   $('pauseBtn').disabled = false;
   $('finishBtn').disabled = false;
   $('subject').disabled = true;
@@ -404,7 +426,7 @@ function pause() {
 
   $('timerState').textContent = 'PAUSADO';
   $('startBtn').disabled = false;
-  $('startBtn').textContent = '▶ CONTINUAR';
+  $('startBtn').textContent = 'â–¶ CONTINUAR';
   $('pauseBtn').disabled = true;
   $('timerHint').textContent =
     'Cronômetro pausado. Continue quando estiver pronta.';
@@ -447,11 +469,11 @@ function finish() {
   $('timerDisplay').textContent = '00:00:00';
   $('timerState').textContent = 'PRONTO';
   $('startBtn').disabled = false;
-  $('startBtn').textContent = '▶ INICIAR ESTUDO';
+  $('startBtn').textContent = 'â–¶ INICIAR ESTUDO';
   $('pauseBtn').disabled = true;
   $('finishBtn').disabled = true;
   $('subject').disabled = false;
-  $('timerHint').textContent = 'SessÃ£o salva. Cada minuto conta!';
+  $('timerHint').textContent = 'Sessão salva. Cada minuto conta!';
 
   updateTimer();
   renderAll();
@@ -474,7 +496,7 @@ document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()
   if(b.dataset.tab==='dashboard')renderDashboard();
 }));
 
-/* ===== NAVEGAÃ‡ÃƒO DA TELA INICIAL ===== */
+/* ===== NAVEGAÃƒâ€¡ÃƒÆ’O DA TELA INICIAL ===== */
 
 const mainContent = document.getElementById('mainContent');
 const homeButton = document.getElementById('homeBtn');
@@ -510,7 +532,7 @@ $('manualSessionForm').addEventListener('submit', e => {
   }
 
   if (date > today()) {
-    alert('A data do estudo nÃ£o pode ser futura.');
+    alert('A data do estudo não pode ser futura.');
     return;
   }
 
@@ -529,7 +551,7 @@ $('manualSessionForm').addEventListener('submit', e => {
   $('manualNotes').value = '';
   $('manualSessionMessage').textContent = 'Estudo registrado com sucesso!';
 });
-$('questionForm').addEventListener('submit',e=>{e.preventDefault();const total=Number($('qTotal').value),correct=Number($('qCorrect').value);if(total<1||correct<0||correct>total){alert('Confira os nÃºmeros: os acertos nÃ£o podem superar o total de questÃµes.');return}data.questions.push({id:Date.now(),subject:$('qSubject').value,total,correct,notes:$('qNotes').value.trim(),date:today()});save();$('qNotes').value='';renderAll();alert('Resultado de questÃµes salvo!')});
+$('questionForm').addEventListener('submit',e=>{e.preventDefault();const total=Number($('qTotal').value),correct=Number($('qCorrect').value);if(total<1||correct<0||correct>total){alert('Confira os números: os acertos não podem superar o total de questões.');return}data.questions.push({id:Date.now(),subject:$('qSubject').value,total,correct,notes:$('qNotes').value.trim(),date:today()});save();$('qNotes').value='';renderAll();alert('Resultado de questões salvo!')});
 $('reviewForm').addEventListener('submit',e=>{e.preventDefault();data.reviews.push({id:String(Date.now()),subject:$('rSubject').value,topic:$('rTopic').value.trim(),date:$('rDate').value,type:$('rType').value,done:false});save();$('rTopic').value='';reviewFilter='pending';document.querySelectorAll('[data-filter]').forEach(b=>b.classList.toggle('active',b.dataset.filter==='pending'));renderAll()});
 document.querySelectorAll('[data-filter]').forEach(b=>b.addEventListener('click',()=>{reviewFilter=b.dataset.filter;document.querySelectorAll('[data-filter]').forEach(x=>x.classList.toggle('active',x===b));renderReviews()}));
 $('reviewList').addEventListener('click',e=>{const t=e.target.closest('[data-review-toggle]'),d=e.target.closest('[data-review-delete]');if(t){const r=data.reviews.find(x=>x.id===t.dataset.reviewToggle);if(r)r.done=!r.done;save();renderAll()}if(d){data.reviews=data.reviews.filter(x=>x.id!==d.dataset.reviewDelete);save();renderAll()}});
@@ -542,12 +564,12 @@ $('recentSessions').addEventListener('click', e => {
   const session = data.sessions.find(s => s.id === id);
 
   if (!session) {
-    alert('NÃ£o foi possÃ­vel localizar essa sessÃ£o.');
+    alert('Não foi possível localizar essa sessão.');
     return;
   }
 
   const confirmed = confirm(
-    `Deseja excluir a sessÃ£o de ${session.subject}, registrada em ${session.date} (${fmt(session.seconds)})?`
+    `Deseja excluir a sessão de ${session.subject}, registrada em ${session.date} (${fmt(session.seconds)})?`
   );
 
   if (!confirmed) return;
@@ -556,7 +578,7 @@ $('recentSessions').addEventListener('click', e => {
   save();
   renderAll();
 
-  alert('SessÃ£o excluÃ­da com sucesso!');
+  alert('Sessão excluída com sucesso!');
 }); 
 $('manualSessionsHistory').addEventListener('click', e => {
   const button = e.target.closest('[data-session-delete]');
@@ -569,7 +591,7 @@ $('manualSessionsHistory').addEventListener('click', e => {
     !session ||
     !String(session.time || '').startsWith('Registro manual')
   ) {
-    alert('Registro manual nÃ£o encontrado.');
+    alert('Registro manual não encontrado.');
     return;
   }
 
@@ -599,7 +621,7 @@ renderAll();
   const themeLabel = document.getElementById('themeLabel');
 
   if (!themeButton) {
-    console.warn('BotÃ£o de tema nÃ£o encontrado no HTML.');
+    console.warn('Botão de tema não encontrado no HTML.');
     return;
   }
 
@@ -612,7 +634,7 @@ renderAll();
       ? 'light'
       : 'dark';
 
-    themeIcon.textContent = isLight ? '☾' : '☀';
+    themeIcon.textContent = isLight ? 'â˜¾' : '☀';
     themeLabel.textContent = isLight ? 'Modo escuro' : 'Modo claro';
 
     themeButton.setAttribute(
@@ -635,7 +657,7 @@ renderAll();
       savedTheme = storedTheme;
     }
   } catch (error) {
-    console.warn('NÃ£o foi possÃ­vel ler a preferÃªncia de tema.', error);
+    console.warn('Não foi possível ler a preferência de tema.', error);
   }
 
   applyTheme(savedTheme);
@@ -651,12 +673,12 @@ renderAll();
     try {
       localStorage.setItem(THEME_KEY, nextTheme);
     } catch (error) {
-      console.warn('NÃ£o foi possÃ­vel salvar a preferÃªncia de tema.', error);
+      console.warn('Não foi possível salvar a preferência de tema.', error);
     }
   });
 })();
 
-/* ===== SELEÃ‡ÃƒO DOS MODOS DO CRONÃ”METRO ===== */
+/* ===== SELEÃƒâ€¡ÃƒÆ’O DOS MODOS DO CRONÃƒâ€METRO ===== */
 (() => {
   const modeButtons = document.querySelectorAll('[data-timer-mode]');
   const settings = document.getElementById('pomodoroSettings');
@@ -699,12 +721,12 @@ pomodoroRunning = false;
   modeButtons.forEach(button => {
   button.addEventListener('click', () => {
     if (startedAt || pomodoroRunning) {
-      alert('Pause ou finalize a sessÃ£o antes de trocar o modo.');
+      alert('Pause ou finalize a sessão antes de trocar o modo.');
       return;
     }
 
     if (elapsed > 0) {
-      alert('Finalize a sessÃ£o atual antes de trocar o modo.');
+      alert('Finalize a sessão atual antes de trocar o modo.');
       return;
     }
 
@@ -761,7 +783,7 @@ pomodoroRunning = false;
     }
   });
 })();
-/* ===== MATÉRIAS PERSONALIZADAS ===== */
+/* ===== MATÃ‰RIAS PERSONALIZADAS ===== */
 (() => {
   const subjectSelect = $('subject');
   const questionSubjectSelect = $('qSubject');
@@ -840,36 +862,82 @@ if (reviewSubjectSelect) reviewSubjectSelect.value = name;
   loadCustomSubjects();
 })();
 
-/* ===== OPERACAO KINHA — IMAGEM MOTIVACIONAL DIARIA ===== */
+/* ===== OPERACAO KINHA - MENSAGEM DIARIA AS 6H ===== */
 (() => {
-  const image = document.getElementById('dailyMotivationImage');
-const banner = document.getElementById('dailyMotivation');
+  const banner = document.getElementById('dailyMotivation');
+  const title = document.getElementById('dailyMotivationTitle');
+  const message = document.getElementById('dailyMotivationText');
+  const count = document.getElementById('dailyMotivationCount');
 
-if (!image || !banner) return;
+  if (!banner || !title || !message) return;
 
-  const images = [
-    'motivacao-01.jpeg',
-    'motivacao-02.jpeg',
-    'motivacao-03.jpeg',
-    'motivacao-04.jpeg',
-    'motivacao-05.jpeg',
-    'motivacao-06.jpeg',
-    'motivacao-07.jpeg'
+  const phrases = [
+    ['A disciplina de hoje constr\u00f3i a aprova\u00e7\u00e3o de amanh\u00e3.', 'Um passo de cada vez. Continue firme na sua prepara\u00e7\u00e3o para o seu objetivo.'],
+    ['Confie no Senhor de todo o seu cora\u00e7\u00e3o.', 'Prov\u00e9rbios 3:5-6 - Entregue seus planos a Deus e fa\u00e7a sua parte com sabedoria.'],
+    ['Deus \u00e9 o nosso ref\u00fagio e a nossa for\u00e7a.', 'Salmos 46:1 - Nos dias dif\u00edceis, respire, ore e encontre for\u00e7as para continuar.'],
+    ['Quem espera no Senhor renova as suas for\u00e7as.', 'Isa\u00edas 40:31 - Respeite seu ritmo e n\u00e3o desista da caminhada.'],
+    ['Seja forte e corajoso na sua caminhada.', 'Inspirado em Josu\u00e9 1:9 - Enfrente cada etapa com f\u00e9, preparo e coragem.'],
+    ['Entregue o seu caminho ao Senhor.', 'Salmos 37:5 - Confie em Deus e continue fazendo o que est\u00e1 ao seu alcance.'],
+    ['A resposta branda desvia o furor.', 'Prov\u00e9rbios 15:1 - A sabedoria tamb\u00e9m se revela no dom\u00ednio das pr\u00f3prias atitudes.'],
+    ['N\u00e3o tenha medo: Deus est\u00e1 com voc\u00ea.', 'Inspirado em Isa\u00edas 41:10 - Voc\u00ea n\u00e3o precisa enfrentar cada desafio sem esperan\u00e7a.'],
+    ['Melhor \u00e9 o fim das coisas do que o princ\u00edpio delas.', 'Eclesiastes 7:8 - Persevere at\u00e9 concluir aquilo que come\u00e7ou.'],
+    ['Seja forte e corajoso, voc\u00ea que espera no Senhor.', 'Salmos 31:24 - Que a f\u00e9 renove sua disposi\u00e7\u00e3o para seguir em frente.'],
+    ['O cora\u00e7\u00e3o tranquilo \u00e9 vida para o corpo.', 'Prov\u00e9rbios 14:30 - Cuide da mente, mantenha a const\u00e2ncia e estude com aten\u00e7\u00e3o.'],
+    ['Tudo tem o seu tempo determinado.', 'Eclesiastes 3:1 - Continue plantando hoje, mesmo que o resultado ainda n\u00e3o tenha chegado.'],
+    ['Quando sentir medo, escolha confiar.', 'Inspirado em Salmos 56:3 - A inseguran\u00e7a n\u00e3o precisa decidir seu pr\u00f3ximo passo.'],
+    ['A sabedoria vale mais do que muitas riquezas.', 'Inspirado em Prov\u00e9rbios 16:16 - Cada conte\u00fado aprendido fortalece sua prepara\u00e7\u00e3o.'],
+    ['N\u00e3o se canse de fazer o bem.', 'G\u00e1latas 6:9 - O esfor\u00e7o constante importa, mesmo quando ningu\u00e9m v\u00ea.'],
+    ['O Senhor firma os passos de quem nele se agrada.', 'Salmos 37:23 - Fa\u00e7a sua parte com responsabilidade e mantenha a esperan\u00e7a.'],
+    ['A resposta certa vem de um cora\u00e7\u00e3o preparado.', 'Inspirado em Prov\u00e9rbios 16:1 - Estude, pratique quest\u00f5es e aprenda com seus erros.'],
+    ['A f\u00e9 tamb\u00e9m caminha junto com a a\u00e7\u00e3o.', 'Inspirado em Tiago 2:17 - Ore pelos seus objetivos e trabalhe por eles diariamente.'],
+    ['Melhor \u00e9 o paciente do que o orgulhoso.', 'Eclesiastes 7:8 - N\u00e3o tenha pressa para aprender. Construa uma base s\u00f3lida.'],
+    ['O Senhor \u00e9 bom, uma fortaleza no dia da ang\u00fastia.', 'Naum 1:7 - Nos momentos dif\u00edceis, encontre descanso na f\u00e9 e retome sua caminhada.'],
+    ['A perseveran\u00e7a transforma esfor\u00e7o em experi\u00eancia.', 'Cada revis\u00e3o e cada quest\u00e3o ajudam voc\u00ea a chegar mais preparado ao dia da prova.'],
+    ['Voc\u00ea n\u00e3o precisa vencer tudo hoje. S\u00f3 precisa continuar.', 'Divida o edital em etapas, mantenha a disciplina e avance no seu ritmo.'],
+    ['O seu futuro tamb\u00e9m \u00e9 constru\u00eddo nos dias comuns.', 'Fa\u00e7a o poss\u00edvel hoje. A const\u00e2ncia vale mais do que esperar pelo dia perfeito.'],
+    ['Ore, planeje e fa\u00e7a a sua parte.', 'Confian\u00e7a em Deus e dedica\u00e7\u00e3o caminham juntas na constru\u00e7\u00e3o dos seus objetivos.'],
+    ['N\u00e3o deixe um dia dif\u00edcil definir sua jornada.', 'Descanse quando precisar, reorganize o plano e recomece com serenidade.'],
+    ['A prepara\u00e7\u00e3o de hoje \u00e9 a confian\u00e7a de amanh\u00e3.', 'Revise o que aprendeu, resolva quest\u00f5es e celebre cada pequena evolu\u00e7\u00e3o.'],
+    ['A sabedoria come\u00e7a com a disposi\u00e7\u00e3o de aprender.', 'Prov\u00e9rbios 1:7 - Mantenha a humildade para reconhecer erros e evoluir.'],
+    ['H\u00e1 for\u00e7a em continuar mesmo sem aplausos.', 'Sua dedica\u00e7\u00e3o silenciosa tamb\u00e9m conta. Fa\u00e7a hoje o que aproxima voc\u00ea da sua meta.'],
+    ['Confie, persevere e n\u00e3o abandone seus princ\u00edpios.', 'Salmos 125:1 - Que a f\u00e9 seja sua fonte de firmeza durante a caminhada.'],
+    ['Um dia de cada vez, com f\u00e9 e disciplina.', 'Sua miss\u00e3o hoje \u00e9 dar o pr\u00f3ximo passo. N\u00e3o precisa resolver o caminho inteiro de uma vez.']
   ];
 
-  const now = new Date();
-  const startOfDay = Date.UTC(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate()
-  );
+  function getStudyDay() {
+    const now = new Date();
+    now.setHours(now.getHours() - 6);
+    return Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) / 86400000;
+  }
 
-  const dayNumber = Math.floor(startOfDay / 86400000);
-  const index = ((dayNumber % images.length) + images.length) % images.length;
+  function showDailyPhrase() {
+    const day = getStudyDay();
+    const index = ((day % phrases.length) + phrases.length) % phrases.length;
+    const phrase = phrases[index];
+    const content = banner.querySelector('.daily-motivation-content');
 
-image.src = images[index];
-image.alt = 'Imagem motivacional do dia';
+    if (content) content.classList.add('phrase-changing');
 
+    window.setTimeout(() => {
+      title.textContent = phrase[0];
+      message.textContent = phrase[1];
+      if (count) count.textContent = '';
+      if (content) content.classList.remove('phrase-changing');
+    }, 220);
+  }
+
+  function scheduleNextMorning() {
+    const now = new Date();
+    const next = new Date(now);
+    next.setHours(6, 0, 0, 0);
+    if (next <= now) next.setDate(next.getDate() + 1);
+
+    window.setTimeout(() => {
+      showDailyPhrase();
+      scheduleNextMorning();
+    }, next.getTime() - now.getTime());
+  }
+
+  showDailyPhrase();
+  scheduleNextMorning();
 })();
-
-
