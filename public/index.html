@@ -154,6 +154,7 @@
         <div class="mini-stat"><span>Questões respondidas hoje</span><strong id="todayQuestions">0</strong></div>
         <div class="mini-stat"><span>Revisões pendentes</span><strong id="pendingReviews">0</strong></div>
         <div class="goal-label"><span>Meta diária</span><strong id="goalText">0%</strong></div><div class="progress"><span id="goalBar"></span></div>
+
         <button class="btn outline full" data-goto="dashboard">VER PAINEL COMPLETO ↗</button>
       </aside>
     </div>
@@ -220,6 +221,18 @@
     <article class="panel history-panel"><div class="section-head"><div><p class="eyebrow">VISÃO GERAL</p><h2>Resumo do período</h2></div></div><div class="summary-list" id="subjectSummary"></div></article>
   </section>
   <section id="page-questions" class="page">
+<div class="question-goal-box">
+  <div class="goal-label"><span>Meta diária de questões</span><strong id="questionGoalText">0%</strong></div>
+  <div class="progress question-progress"><span id="questionGoalBar"></span></div>
+  <p id="questionGoalSummary" class="question-goal-summary">0 feitas · faltam 100</p>
+  <form id="questionGoalForm" class="question-goal-settings">
+    <label for="questionGoalTarget">ALTERAR META DIÁRIA</label>
+    <div class="question-goal-controls">
+      <input id="questionGoalTarget" type="number" min="1" max="100000" value="100" required>
+      <button class="btn outline" type="submit">SALVAR</button>
+    </div>
+  </form>
+</div>
     <article class="panel form-panel">
       <p class="eyebrow">QUESTÕES EXTERNAS</p>
       <h2>Pratique também no Gran</h2>

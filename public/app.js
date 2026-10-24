@@ -339,6 +339,25 @@ const entries=Object.entries(bySubject).sort((a,b)=>b[1]-a[1]);
  const dates=period==='day'?[today()]:period==='week'?Array.from({length:7},(_,i)=>dateOffset(i-6)):Array.from(new Set(data.sessions.map(s=>s.date))).sort().slice(-7);const daily=dates.map(d=>({date:d,seconds:sumSessions(sess.filter(s=>s.date===d))}));const max=Math.max(3600,...daily.map(x=>x.seconds));$('barChart').innerHTML=daily.length?daily.map(d=>`<div class="bar-col"><span class="bar-value">${d.seconds?hfmt(d.seconds):'—'}</span><div class="bar" style="height:${Math.max(2,d.seconds/max*145)}px"></div><span class="bar-label">${d.date.slice(8,10)}/${d.date.slice(5,7)}</span></div>`).join(''):'<p class="muted">Sem dados neste período.</p>';
  $('subjectSummary').innerHTML=entries.length?entries.map(e=>`<div class="summary-item"><span>${safe(e[0])}</span><strong>${hfmt(e[1])}</strong></div>`).join(''):'<div class="empty">Seus tempos por matéria aparecerão aqui após as primeiras sessões.</div>'}
 function renderQuestions(){const arr=data.questions.slice().reverse();$('questionHistory').innerHTML=arr.length?arr.map(q=>`<div class="record-row"><div><strong>${safe(q.subject)}</strong><small>${q.date}${q.notes?' • '+safe(q.notes):''}</small></div><div style="text-align:right"><strong>${q.correct}/${q.total} acertos</strong><small>${Math.round(q.correct/q.total*100)}% de aproveitamento</small></div></div>`).join(''):'<div class="empty">Seus registros de questões aparecerão aqui.</div>'}
+function renderQuestionGoal() {
+  const target = Math.max(1, Number(data.questionGoal) || 100);
+  const done = data.questions
+    .filter(q => q.date === today())
+    .reduce((sum, q) => sum + (Number(q.total) || 0), 0);
+  const percent = Math.floor(done / target * 100);
+  const remaining = Math.max(0, target - done);
+
+  $("questionGoalText").textContent = percent + "%";
+  $("questionGoalBar").style.width = Math.min(100, percent) + "%";
+  $("questionGoalSummary").textContent = remaining > 0
+    ? done + " feitas ? faltam " + remaining
+    : done + " feitas ? meta conclu?da!" +
+      (done > target ? " (" + (done - target) + " acima da meta)" : "");
+
+  const input = $("questionGoalTarget");
+  if (document.activeElement !== input) input.value = target;
+}
+
 function renderReviews(){let arr=data.reviews.slice().sort((a,b)=>a.date.localeCompare(b.date));if(reviewFilter==='pending')arr=arr.filter(r=>!r.done);$('reviewList').innerHTML=arr.length?arr.map(r=>`<div class="review-row"><div class="review-main"><strong>${safe(r.topic)} ${r.done?'Ã¢Å“â€œ':''}</strong><small>${safe(r.subject)} Ã¢â‚¬Â¢ ${safe(r.type)} Ã¢â‚¬Â¢ <span class="${!r.done&&r.date<today()?'overdue':''}">${r.date<today()&&!r.done?'ATRASADA Ã¢â‚¬Â¢ ':''}${r.date}</span></small></div><div class="review-actions"><button class="small-btn ${r.done?'':'done'}" data-review-toggle="${r.id}">${r.done?'Reabrir':'Concluir'}</button><button class="small-btn" data-review-delete="${r.id}">Excluir</button></div></div>`).join(''):'<div class="empty">'+(reviewFilter==='pending'?'Nenhuma revisão pendente. Bom trabalho!':'Nenhuma revisão cadastrada ainda.')+'</div>'}
 function renderManualSessions() {
   const container = $('manualSessionsHistory');
@@ -373,6 +392,7 @@ function renderAll() {
   renderManualSessions();
   renderDashboard();
   renderQuestions();
+  renderQuestionGoal();
   renderReviews();
 }
   const container = $('manualSessionsHistory');
@@ -560,6 +580,19 @@ $('manualSessionForm').addEventListener('submit', e => {
   $('manualSessionMessage').textContent = 'Estudo registrado com sucesso!';
 });
 $('questionForm').addEventListener('submit',e=>{e.preventDefault();const total=Number($('qTotal').value),correct=Number($('qCorrect').value);if(total<1||correct<0||correct>total){alert('Confira os números: os acertos não podem superar o total de questões.');return}data.questions.push({id:Date.now(),subject:$('qSubject').value,total,correct,notes:$('qNotes').value.trim(),date:today()});save();$('qNotes').value='';renderAll();alert('Resultado de questões salvo!')});
+$('questionGoalForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const target = Number($('questionGoalTarget').value);
+  if (!Number.isInteger(target) || target < 1 || target > 100000) {
+    alert('Informe uma meta entre 1 e 100.000 quest?es.');
+    return;
+  }
+  data.questionGoal = target;
+  save();
+  renderQuestionGoal();
+  alert('Meta di?ria de quest?es salva!');
+});
+
 $('reviewForm').addEventListener('submit',e=>{e.preventDefault();data.reviews.push({id:String(Date.now()),subject:$('rSubject').value,topic:$('rTopic').value.trim(),date:$('rDate').value,type:$('rType').value,done:false});save();$('rTopic').value='';reviewFilter='pending';document.querySelectorAll('[data-filter]').forEach(b=>b.classList.toggle('active',b.dataset.filter==='pending'));renderAll()});
 document.querySelectorAll('[data-filter]').forEach(b=>b.addEventListener('click',()=>{reviewFilter=b.dataset.filter;document.querySelectorAll('[data-filter]').forEach(x=>x.classList.toggle('active',x===b));renderReviews()}));
 $('reviewList').addEventListener('click',e=>{const t=e.target.closest('[data-review-toggle]'),d=e.target.closest('[data-review-delete]');if(t){const r=data.reviews.find(x=>x.id===t.dataset.reviewToggle);if(r)r.done=!r.done;save();renderAll()}if(d){data.reviews=data.reviews.filter(x=>x.id!==d.dataset.reviewDelete);save();renderAll()}});
