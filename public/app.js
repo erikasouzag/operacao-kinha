@@ -1,13 +1,17 @@
-const $=id=>document.getElementById(id);
+﻿const $=id=>document.getElementById(id);
 const KEY='operacaoKinhaDataV1';
 const emptyData=()=>({
   sessions:[],
   questions:[],
   reviews:[],
-  customSubjects:[]
+  customSubjects:[],
+  questionGoal:100,
+  externalQuestionLogs:[]
 });let data;try{data=JSON.parse(localStorage.getItem(KEY))||emptyData()}catch(e){data=emptyData()}
 data.sessions ||= [];data.questions ||= [];data.reviews ||= [];
 data.customSubjects ||= [];
+  data.questionGoal = Number(data.questionGoal) > 0 ? Number(data.questionGoal) : 100;
+  data.externalQuestionLogs ||= [];
 let elapsed=0,startedAt=null,interval=null,reviewFilter='pending';
 
 let timerMode = 'free';
@@ -121,6 +125,8 @@ async function loadStudyDataFromCloud(session) {
   data.questions ||= [];
   data.reviews ||= [];
   data.customSubjects ||= [];
+  data.questionGoal = Number(data.questionGoal) > 0 ? Number(data.questionGoal) : 100;
+  data.externalQuestionLogs ||= [];
 
   try {
     const { data: record, error } = await supabaseClient
@@ -143,6 +149,8 @@ async function loadStudyDataFromCloud(session) {
       data.questions ||= [];
       data.reviews ||= [];
       data.customSubjects ||= [];
+  data.questionGoal = Number(data.questionGoal) > 0 ? Number(data.questionGoal) : 100;
+  data.externalQuestionLogs ||= [];
     }
 
     localStorage.setItem(activeStorageKey, JSON.stringify(data));
@@ -256,10 +264,10 @@ if (focusDisplay) focusDisplay.textContent = fmt(displaySeconds);
 const focusMode = $('focusModeLabel');
 if (focusMode) {
   focusMode.textContent = timerMode === 'free'
-    ? 'MODO FOCO Â· LIVRE'
+    ? 'MODO FOCO · LIVRE'
     : timerMode === 'pomodoro'
-      ? `MODO FOCO Â· POMODORO Â· ${pomodoroPhase === 'focus' ? 'FOCO' : 'PAUSA'}`
-      : `MODO FOCO Â· PERSONALIZADO Â· ${pomodoroPhase === 'focus' ? 'FOCO' : 'PAUSA'}`;
+      ? `MODO FOCO · POMODORO${pomodoroPhase === 'break' ? ' · PAUSA' : ''}`
+      : 'MODO FOCO · PERSONALIZADO';
 }
 
 const focusPhase = $('focusPhaseLabel');
@@ -330,7 +338,7 @@ const entries=Object.entries(bySubject).sort((a,b)=>b[1]-a[1]);
   '#18FFFF'];let offset=0;const all=entries.reduce((n,e)=>n+e[1],0);const parts=entries.map((e,i)=>{const start=all?offset/all*100:0;offset+=e[1];return `${colors[i%colors.length]} ${start}% ${all?offset/all*100:100}%`});$('pieChart').style.background=entries.length?`conic-gradient(${parts.join(',')})`:'conic-gradient(#444 0 100%)';$('pieTotal').textContent=all?hfmt(all):'0m';$('pieLegend').innerHTML=entries.length?entries.map((e,i)=>`<div class="legend-item"><div class="legend-name"><i class="swatch" style="background:${colors[i%colors.length]}"></i><span>${safe(e[0])}</span></div><strong>${hfmt(e[1])}</strong></div>`).join(''):'<p class="muted">Registre sessões para ver a distribuição.</p>';
  const dates=period==='day'?[today()]:period==='week'?Array.from({length:7},(_,i)=>dateOffset(i-6)):Array.from(new Set(data.sessions.map(s=>s.date))).sort().slice(-7);const daily=dates.map(d=>({date:d,seconds:sumSessions(sess.filter(s=>s.date===d))}));const max=Math.max(3600,...daily.map(x=>x.seconds));$('barChart').innerHTML=daily.length?daily.map(d=>`<div class="bar-col"><span class="bar-value">${d.seconds?hfmt(d.seconds):'—'}</span><div class="bar" style="height:${Math.max(2,d.seconds/max*145)}px"></div><span class="bar-label">${d.date.slice(8,10)}/${d.date.slice(5,7)}</span></div>`).join(''):'<p class="muted">Sem dados neste período.</p>';
  $('subjectSummary').innerHTML=entries.length?entries.map(e=>`<div class="summary-item"><span>${safe(e[0])}</span><strong>${hfmt(e[1])}</strong></div>`).join(''):'<div class="empty">Seus tempos por matéria aparecerão aqui após as primeiras sessões.</div>'}
-function renderQuestions(){const arr=data.questions.slice().reverse();$('questionHistory').innerHTML=arr.length?arr.map(q=>`<div class="record-row"><div><strong>${safe(q.subject)}</strong><small>${q.date}${q.notes?' Ã¢â‚¬Â¢ '+safe(q.notes):''}</small></div><div style="text-align:right"><strong>${q.correct}/${q.total} acertos</strong><small>${Math.round(q.correct/q.total*100)}% de aproveitamento</small></div></div>`).join(''):'<div class="empty">Seus registros de questões aparecerão aqui.</div>'}
+function renderQuestions(){const arr=data.questions.slice().reverse();$('questionHistory').innerHTML=arr.length?arr.map(q=>`<div class="record-row"><div><strong>${safe(q.subject)}</strong><small>${q.date}${q.notes?' • '+safe(q.notes):''}</small></div><div style="text-align:right"><strong>${q.correct}/${q.total} acertos</strong><small>${Math.round(q.correct/q.total*100)}% de aproveitamento</small></div></div>`).join(''):'<div class="empty">Seus registros de questões aparecerão aqui.</div>'}
 function renderReviews(){let arr=data.reviews.slice().sort((a,b)=>a.date.localeCompare(b.date));if(reviewFilter==='pending')arr=arr.filter(r=>!r.done);$('reviewList').innerHTML=arr.length?arr.map(r=>`<div class="review-row"><div class="review-main"><strong>${safe(r.topic)} ${r.done?'Ã¢Å“â€œ':''}</strong><small>${safe(r.subject)} Ã¢â‚¬Â¢ ${safe(r.type)} Ã¢â‚¬Â¢ <span class="${!r.done&&r.date<today()?'overdue':''}">${r.date<today()&&!r.done?'ATRASADA Ã¢â‚¬Â¢ ':''}${r.date}</span></small></div><div class="review-actions"><button class="small-btn ${r.done?'':'done'}" data-review-toggle="${r.id}">${r.done?'Reabrir':'Concluir'}</button><button class="small-btn" data-review-delete="${r.id}">Excluir</button></div></div>`).join(''):'<div class="empty">'+(reviewFilter==='pending'?'Nenhuma revisão pendente. Bom trabalho!':'Nenhuma revisão cadastrada ainda.')+'</div>'}
 function renderManualSessions() {
   const container = $('manualSessionsHistory');
