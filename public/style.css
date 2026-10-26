@@ -2554,3 +2554,184 @@ body:has(.home-view) .tabs {
   }
 }
 
+
+/* ===== ORGANIZACAO DA ABA QUESTOES ===== */
+#page-questions .questions-dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+#page-questions .questions-goal-slot,
+#page-questions .questions-gran-slot {
+  min-width: 0;
+}
+
+#page-questions .questions-goal-slot {
+  grid-column: 1;
+}
+
+#page-questions .questions-gran-slot {
+  grid-column: 2;
+}
+
+#page-questions .questions-dashboard-grid > article {
+  min-width: 0;
+  height: 100%;
+}
+
+#page-questions .questions-form-wide,
+#page-questions .history-panel {
+  width: 100%;
+  max-width: none;
+  margin-top: 20px;
+}
+
+#page-questions .questions-form-wide .form-panel {
+  max-width: none;
+}
+
+#page-questions .questions-form-wide .form-panel form {
+  max-width: none;
+}
+
+#page-questions .question-goal-box {
+  height: 100%;
+  margin-bottom: 0;
+}
+
+#page-questions .questions-tip-panel {
+  height: 100%;
+}
+
+@media (max-width: 760px) {
+  #page-questions .questions-dashboard-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  #page-questions .questions-goal-slot,
+  #page-questions .questions-gran-slot {
+    grid-column: 1;
+  }
+
+  #page-questions .questions-dashboard-grid > article {
+    height: auto;
+  }
+
+  #page-questions .question-goal-box {
+    height: auto;
+  }
+
+  #page-questions .questions-form-wide,
+  #page-questions .history-panel {
+    margin-top: 16px;
+  }
+}
+/* ===== FIM DA ORGANIZACAO DA ABA QUESTOES ===== */
+
+/* ALINHAR GRAN E ESTRATEGIA NA COLUNA DIREITA */
+#page-questions .questions-dashboard-grid {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  align-items: start;
+}
+
+#page-questions .questions-goal-slot {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+}
+
+#page-questions .questions-gran-slot {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+#page-questions .questions-dashboard-grid > .questions-tip-panel {
+  grid-column: 2;
+  grid-row: 2;
+  height: auto;
+  align-self: start;
+}
+
+@media (max-width: 760px) {
+  #page-questions .questions-goal-slot,
+  #page-questions .questions-gran-slot,
+  #page-questions .questions-dashboard-grid > .questions-tip-panel {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
+/* FIM DO ALINHAMENTO GRAN E ESTRATEGIA */
+
+/* CORRECAO FINAL DO LAYOUT DE QUESTOES */
+#page-questions .questions-dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: auto auto;
+  gap: 20px;
+  align-items: stretch;
+}
+
+#page-questions .questions-goal-slot {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+#page-questions .questions-goal-slot + div {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+}
+
+#page-questions .questions-gran-slot {
+  grid-column: 1;
+  grid-row: 2;
+  min-width: 0;
+}
+
+#page-questions .questions-dashboard-grid > .questions-tip-panel {
+  grid-column: 2;
+  grid-row: 2;
+  min-width: 0;
+  height: 100%;
+}
+
+#page-questions .questions-form-wide,
+#page-questions .history-panel {
+  width: 100%;
+  max-width: none;
+  margin-top: 20px;
+}
+
+#page-questions .questions-form-wide .form-panel {
+  max-width: none;
+}
+
+@media (max-width: 760px) {
+  #page-questions .questions-dashboard-grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+    gap: 16px;
+  }
+
+  #page-questions .questions-goal-slot,
+  #page-questions .questions-goal-slot + div,
+  #page-questions .questions-gran-slot,
+  #page-questions .questions-dashboard-grid > .questions-tip-panel {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  #page-questions .questions-dashboard-grid > div,
+  #page-questions .questions-dashboard-grid > article {
+    height: auto;
+  }
+
+  #page-questions .questions-form-wide,
+  #page-questions .history-panel {
+    margin-top: 16px;
+  }
+}
+/* FIM DA CORRECAO FINAL */

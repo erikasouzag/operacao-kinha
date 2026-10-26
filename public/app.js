@@ -338,7 +338,36 @@ const entries=Object.entries(bySubject).sort((a,b)=>b[1]-a[1]);
   '#18FFFF'];let offset=0;const all=entries.reduce((n,e)=>n+e[1],0);const parts=entries.map((e,i)=>{const start=all?offset/all*100:0;offset+=e[1];return `${colors[i%colors.length]} ${start}% ${all?offset/all*100:100}%`});$('pieChart').style.background=entries.length?`conic-gradient(${parts.join(',')})`:'conic-gradient(#444 0 100%)';$('pieTotal').textContent=all?hfmt(all):'0m';$('pieLegend').innerHTML=entries.length?entries.map((e,i)=>`<div class="legend-item"><div class="legend-name"><i class="swatch" style="background:${colors[i%colors.length]}"></i><span>${safe(e[0])}</span></div><strong>${hfmt(e[1])}</strong></div>`).join(''):'<p class="muted">Registre sessões para ver a distribuição.</p>';
  const dates=period==='day'?[today()]:period==='week'?Array.from({length:7},(_,i)=>dateOffset(i-6)):Array.from(new Set(data.sessions.map(s=>s.date))).sort().slice(-7);const daily=dates.map(d=>({date:d,seconds:sumSessions(sess.filter(s=>s.date===d))}));const max=Math.max(3600,...daily.map(x=>x.seconds));$('barChart').innerHTML=daily.length?daily.map(d=>`<div class="bar-col"><span class="bar-value">${d.seconds?hfmt(d.seconds):'—'}</span><div class="bar" style="height:${Math.max(2,d.seconds/max*145)}px"></div><span class="bar-label">${d.date.slice(8,10)}/${d.date.slice(5,7)}</span></div>`).join(''):'<p class="muted">Sem dados neste período.</p>';
  $('subjectSummary').innerHTML=entries.length?entries.map(e=>`<div class="summary-item"><span>${safe(e[0])}</span><strong>${hfmt(e[1])}</strong></div>`).join(''):'<div class="empty">Seus tempos por matéria aparecerão aqui após as primeiras sessões.</div>'}
-function renderQuestions(){const arr=data.questions.slice().reverse();$('questionHistory').innerHTML=arr.length?arr.map(q=>`<div class="record-row"><div><strong>${safe(q.subject)}</strong><small>${q.date}${q.notes?' • '+safe(q.notes):''}</small></div><div style="text-align:right"><strong>${q.correct}/${q.total} acertos</strong><small>${Math.round(q.correct/q.total*100)}% de aproveitamento</small></div></div>`).join(''):'<div class="empty">Seus registros de questões aparecerão aqui.</div>'}
+function renderQuestions(){
+  const arr = data.questions.slice().reverse();
+  const total = data.questions.reduce((sum, q) => sum + (Number(q.total) || 0), 0);
+  const correct = data.questions.reduce((sum, q) => sum + (Number(q.correct) || 0), 0);
+  const errors = Math.max(0, total - correct);
+  const percent = total ? Math.round(correct / total * 100) : 0;
+  const chart = $("questionsPieChart");
+
+  chart.style.background = total
+    ? `conic-gradient(#22C55E 0% ${correct / total * 100}%, #EF4444 ${correct / total * 100}% 100%)`
+    : "conic-gradient(#444 0% 100%)";
+
+  $("questionsPiePercent").textContent = total ? percent + "%" : "?";
+  $("questionsPieSummary").textContent = total
+    ? `Total: ${total} questoes respondidas | ${correct} acertos | ${errors} erros`
+    : "Seus resultados registrados aparecer\u00e3o aqui.";
+
+  $("questionsPieLegend").innerHTML = total
+    ? [
+        ["#22C55E", "Acertos", correct],
+        ["#EF4444", "Erros", errors]
+      ].map(([color, label, value]) =>
+        `<div class="legend-item"><div class="legend-name"><i class="swatch" style="background:${color}"></i><span>${label}</span></div><strong>${value} (${Math.round(value / total * 100)}%)</strong></div>`
+      ).join("")
+    : '<p class="muted">Registre quest\u00f5es para ver seu desempenho.</p>';
+
+  $("questionHistory").innerHTML = arr.length
+    ? arr.map(q => `<div class="record-row"><div><strong>${safe(q.subject)}</strong><small>${q.date}${q.notes ? " \u2014 " + safe(q.notes) : ""}</small></div><div style="text-align:right"><strong>${q.correct}/${q.total} acertos</strong><small>${q.total ? Math.round(q.correct / q.total * 100) : 0}% de aproveitamento</small></div></div>`).join("")
+    : '<div class="empty">Seus registros de quest\u00f5es aparecer\u00e3o aqui.</div>';
+}
 function renderQuestionGoal() {
   const target = Math.max(1, Number(data.questionGoal) || 100);
   const done = data.questions
@@ -350,8 +379,8 @@ function renderQuestionGoal() {
   $("questionGoalText").textContent = percent + "%";
   $("questionGoalBar").style.width = Math.min(100, percent) + "%";
   $("questionGoalSummary").textContent = remaining > 0
-    ? done + " feitas ? faltam " + remaining
-    : done + " feitas ? meta conclu?da!" +
+    ? done + " feitas \u00b7 faltam " + remaining
+    : done + " feitas \u00b7 meta conclu\u00edda!" +
       (done > target ? " (" + (done - target) + " acima da meta)" : "");
 
   const input = $("questionGoalTarget");
@@ -584,13 +613,13 @@ $('questionGoalForm').addEventListener('submit', e => {
   e.preventDefault();
   const target = Number($('questionGoalTarget').value);
   if (!Number.isInteger(target) || target < 1 || target > 100000) {
-    alert('Informe uma meta entre 1 e 100.000 quest?es.');
+    alert('Informe uma meta entre 1 e 100.000 quest\u00f5es.');
     return;
   }
   data.questionGoal = target;
   save();
   renderQuestionGoal();
-  alert('Meta di?ria de quest?es salva!');
+  alert('Meta di\u00e1ria de quest\u00f5es salva!');
 });
 
 $('reviewForm').addEventListener('submit',e=>{e.preventDefault();data.reviews.push({id:String(Date.now()),subject:$('rSubject').value,topic:$('rTopic').value.trim(),date:$('rDate').value,type:$('rType').value,done:false});save();$('rTopic').value='';reviewFilter='pending';document.querySelectorAll('[data-filter]').forEach(b=>b.classList.toggle('active',b.dataset.filter==='pending'));renderAll()});
@@ -981,4 +1010,22 @@ if (reviewSubjectSelect) reviewSubjectSelect.value = name;
 
   showDailyPhrase();
   scheduleNextMorning();
+})();
+
+
+// Rotacao das dicas estrategicas de questoes
+(() => {
+  const tips = [
+    "Priorize a revis\u00e3o das quest\u00f5es que errou. Entender o motivo do erro ajuda a consolidar o conte\u00fado.",
+    "Resolva quest\u00f5es da banca do seu concurso para se familiarizar com o estilo das cobran\u00e7as.",
+    "Ao errar uma quest\u00e3o, anote o assunto e volte \u00e0 teoria para corrigir a lacuna.",
+    "Estude com foco: qualidade da revis\u00e3o vale mais do que responder quest\u00f5es sem analisar os erros.",
+    "Alterne teoria, quest\u00f5es e revis\u00e3o para identificar o que j\u00e1 domina e o que precisa refor\u00e7ar.",
+    "Revise os assuntos em que seu percentual de acertos est\u00e1 mais baixo antes de avan\u00e7ar.",
+    "Em quest\u00f5es de certo ou errado, leia cada afirma\u00e7\u00e3o com aten\u00e7\u00e3o e procure o detalhe que pode torn\u00e1-la incorreta."
+  ];
+  const el = document.getElementById("questionTipText");
+  if (!el) return;
+  const day = Math.floor(Date.now() / 86400000);
+  el.textContent = tips[day % tips.length];
 })();

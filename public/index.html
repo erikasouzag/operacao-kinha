@@ -221,7 +221,8 @@
     <article class="panel history-panel"><div class="section-head"><div><p class="eyebrow">VISÃO GERAL</p><h2>Resumo do período</h2></div></div><div class="summary-list" id="subjectSummary"></div></article>
   </section>
   <section id="page-questions" class="page">
-<div class="question-goal-box">
+  <div class="questions-dashboard-grid">
+    <div class="questions-goal-slot"><div class="question-goal-box">
   <div class="goal-label"><span>Meta diária de questões</span><strong id="questionGoalText">0%</strong></div>
   <div class="progress question-progress"><span id="questionGoalBar"></span></div>
   <p id="questionGoalSummary" class="question-goal-summary">0 feitas · faltam 100</p>
@@ -232,21 +233,47 @@
       <button class="btn outline" type="submit">SALVAR</button>
     </div>
   </form>
-</div>
-    <article class="panel form-panel">
+</div></div>
+    <div class="questions-chart-slot"><article class="panel">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">ANALISE DE DESEMPENHO</p>
+          <h2>Desempenho em questoes</h2>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <div id="questionsPieChart" class="pie">
+          <div class="pie-hole">
+            <strong id="questionsPiePercent">?</strong>
+            <span>DE ACERTOS</span>
+          </div>
+        </div>
+        <div id="questionsPieLegend" class="legend">
+          <p class="muted">Registre questoes para ver seu desempenho.</p>
+        </div>
+      </div>
+      <p id="questionsPieSummary" class="muted"></p>
+    </article></div>
+    <div class="questions-gran-slot"><article class="panel form-panel">
       <p class="eyebrow">QUESTÕES EXTERNAS</p>
       <h2>Pratique também no Gran</h2>
       <p class="muted">Acesse questões gratuitas para treinar e ampliar sua preparação.</p>
       <a href="https://questoes.grancursosonline.com.br/" target="_blank" rel="noopener noreferrer" class="btn outline full">↗ RESOLVER QUESTÕES GRATUITAS NO GRAN</a>
+    </article></div>
+    <article class="panel questions-tip-panel">
+      <p class="eyebrow">ESTRATÉGIA DE ESTUDO</p>
+      <h2>Dica estratégica</h2>
+      <p id="questionTipText" class="muted">Priorize a revisão das questões que errou. Entender o motivo do erro ajuda a consolidar o conteúdo.</p>
     </article>
-    <article class="panel form-panel"><p class="eyebrow">PRÁTICA INTELIGENTE</p><h2>Registrar questões</h2><p class="muted">Anote seu desempenho para acompanhar a evolução e identificar os assuntos que precisam de reforço.</p>
+  </div>
+  <div class="questions-form-wide"><article class="panel form-panel"><p class="eyebrow">PRÁTICA INTELIGENTE</p><h2>Registrar questões</h2><p class="muted">Anote seu desempenho para acompanhar a evolução e identificar os assuntos que precisam de reforço.</p>
       <form id="questionForm"><div class="form-row"><label for="qSubject">MATÉRIA</label><select id="qSubject"><option>Direito Constitucional</option><option>Direito Penal</option><option>Direito Administrativo</option><option>Português</option><option>Raciocínio Lógico</option><option>Informática</option><option>Legislação</option><option>Outra matéria</option></select></div>
       <div class="input-grid"><div class="form-row"><label for="qTotal">QUESTÕES RESPONDIDAS</label><input id="qTotal" type="number" min="1" max="10000" value="10" required></div><div class="form-row"><label for="qCorrect">ACERTOS</label><input id="qCorrect" type="number" min="0" max="10000" value="7" required></div></div>
       <div class="form-row"><label for="qNotes">OBSERVAÇÃO (OPCIONAL)</label><input id="qNotes" maxlength="180" placeholder="Ex.: revisar controle de constitucionalidade"></div><button class="btn light" type="submit">+ SALVAR RESULTADO</button></form>
-    </article>
-    <article class="panel history-panel"><div class="section-head"><div><p class="eyebrow">HISTÓRICO</p><h2>Resultados registrados</h2></div></div><div id="questionHistory" class="empty">Seus registros de questões aparecerão aqui.</div></article>
-  </section>
-  <section id="page-review" class="page">
+    </article></div>
+  <article class="panel history-panel"><div class="section-head"><div><p class="eyebrow">HISTÓRICO</p><h2>Resultados registrados</h2></div></div><div id="questionHistory" class="empty">Seus registros de questões aparecerão aqui.</div></article>
+</section>
+<section id="page-review" class="page">
     <article class="panel form-panel"><p class="eyebrow">FIXAÇÃO DO CONTEÚDO</p><h2>Planejar uma revisão</h2><p class="muted">Cadastre um assunto e uma data para voltar a ele. Marque como concluído quando revisar.</p>
       <form id="reviewForm"><div class="form-row"><label for="rSubject">MATÉRIA</label><select id="rSubject"><option>Direito Constitucional</option><option>Direito Penal</option><option>Direito Administrativo</option><option>Português</option><option>Raciocínio Lógico</option><option>Informática</option><option>Legislação</option><option>Redação</option><option>Outra matéria</option></select></div>
       <div class="form-row"><label for="rTopic">ASSUNTO PARA REVISAR</label><input id="rTopic" maxlength="120" placeholder="Ex.: princípios fundamentais" required></div>
