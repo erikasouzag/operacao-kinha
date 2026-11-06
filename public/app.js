@@ -143,20 +143,45 @@ async function loadStudyDataFromCloud(session) {
       return;
     }
 
+    const localCustomSubjects = Array.isArray(data.customSubjects) ? [...data.customSubjects] : [];
+    let subjectsNeedSync = false;
+
     if (record?.data && typeof record.data === 'object') {
       data = { ...emptyData(), ...record.data };
       data.sessions ||= [];
       data.questions ||= [];
       data.reviews ||= [];
       data.customSubjects ||= [];
+      const cloudSubjects = [...data.customSubjects];
+      data.customSubjects = [...new Set([...cloudSubjects, ...localCustomSubjects])];
+      subjectsNeedSync = data.customSubjects.length > cloudSubjects.length;
   data.questionGoal = Number(data.questionGoal) > 0 ? Number(data.questionGoal) : 100;
   data.externalQuestionLogs ||= [];
     }
+
+    ['subject', 'qSubject', 'rSubject', 'manualSubject'].forEach(id => {
+      const select = document.getElementById(id);
+      if (!select) return;
+
+      data.customSubjects.forEach(name => {
+        const exists = [...select.options].some(
+          option => option.value.toLowerCase() === name.toLowerCase()
+        );
+
+        if (!exists) {
+          const option = document.createElement('option');
+          option.value = name;
+          option.textContent = name;
+          select.appendChild(option);
+        }
+      });
+    });
 
     localStorage.setItem(activeStorageKey, JSON.stringify(data));
 
     cloudUserId = user.id;
     cloudReady = true;
+    if (subjectsNeedSync) syncStudyDataToCloud();
 
     renderAll();
 
@@ -387,7 +412,32 @@ function renderQuestionGoal() {
   if (document.activeElement !== input) input.value = target;
 }
 
-function renderReviews(){let arr=data.reviews.slice().sort((a,b)=>a.date.localeCompare(b.date));if(reviewFilter==='pending')arr=arr.filter(r=>!r.done);$('reviewList').innerHTML=arr.length?arr.map(r=>`<div class="review-row"><div class="review-main"><strong>${safe(r.topic)} ${r.done?'Ã¢Å“â€œ':''}</strong><small>${safe(r.subject)} Ã¢â‚¬Â¢ ${safe(r.type)} Ã¢â‚¬Â¢ <span class="${!r.done&&r.date<today()?'overdue':''}">${r.date<today()&&!r.done?'ATRASADA Ã¢â‚¬Â¢ ':''}${r.date}</span></small></div><div class="review-actions"><button class="small-btn ${r.done?'':'done'}" data-review-toggle="${r.id}">${r.done?'Reabrir':'Concluir'}</button><button class="small-btn" data-review-delete="${r.id}">Excluir</button></div></div>`).join(''):'<div class="empty">'+(reviewFilter==='pending'?'Nenhuma revisão pendente. Bom trabalho!':'Nenhuma revisão cadastrada ainda.')+'</div>'}
+function renderReviews() {
+  let arr = data.reviews.slice().sort((a, b) => a.date.localeCompare(b.date));
+
+  if (reviewFilter === 'pending') {
+    arr = arr.filter(r => !r.done);
+  }
+
+  $('reviewList').innerHTML = arr.length
+    ? arr.map(r =>
+        '<div class="review-row">' +
+          '<div class="review-main">' +
+            '<strong>' + safe(r.topic) + (r.done ? ' ?' : '') + '</strong>' +
+            '<small>' + safe(r.subject) + ' - ' + safe(r.type) + ' - ' +
+              '<span class="' + (!r.done && r.date < today() ? 'overdue' : '') + '">' +
+                (!r.done && r.date < today() ? 'ATRASADA - ' : '') + r.date +
+              '</span>' +
+            '</small>' +
+          '</div>' +
+          '<div class="review-actions">' +
+            '<button class="small-btn ' + (r.done ? '' : 'done') + '" data-review-toggle="' + r.id + '">' + (r.done ? 'Reabrir' : 'Concluir') + '</button>' +
+            '<button class="small-btn" data-review-delete="' + r.id + '">Excluir</button>' +
+          '</div>' +
+        '</div>'
+      ).join('')
+    : '<div class="empty">' + (reviewFilter === 'pending' ? 'Nenhuma revis?o pendente. Bom trabalho!' : 'Nenhuma revis?o cadastrada ainda.') + '</div>';
+}
 function renderManualSessions() {
   const container = $('manualSessionsHistory');
   if (!container) return;
