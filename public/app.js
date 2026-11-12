@@ -182,7 +182,7 @@ async function loadStudyDataFromCloud(session) {
     cloudUserId = user.id;
     cloudReady = true;
     if (subjectsNeedSync) syncStudyDataToCloud();
-
+    restoreTimerState();
     renderAll();
 
     // Se ainda nao existe registro na nuvem, cria o primeiro.
@@ -234,6 +234,123 @@ function phaseDuration() {
 
   return Math.max(1, Number(input.value) || 1) * 60;
 }
+
+function timerStateKey() {
+  return `${activeStorageKey}:timerState`;
+}
+
+function clearTimerState() {
+  localStorage.removeItem(timerStateKey());
+}
+
+function persistTimerState() {
+  const running = Boolean(startedAt || pomodoroRunning);
+
+  if (!running && elapsed <= 0 && phaseElapsed <= 0) {
+    clearTimerState();
+    return;
+  }
+
+  const state = {
+    elapsed: elapsed,
+    startedAt,
+    timerMode,
+    pomodoroPhase,
+    phaseElapsed: phaseElapsed,
+    phaseStartedAt,
+    focusSeconds,
+    pomodoroCycle,
+    running,
+    subject: $('subject')?.value || '',
+    focusMinutes: $('focusMinutes')?.value || '25',
+    breakMinutes: $('breakMinutes')?.value || '5'
+  };
+
+  localStorage.setItem(timerStateKey(), JSON.stringify(state));
+}
+
+function restoreTimerState() {
+  let saved;
+
+  try {
+    saved = JSON.parse(localStorage.getItem(timerStateKey()) || 'null');
+  } catch (error) {
+    clearTimerState();
+    return;
+  }
+
+  if (!saved || !['free', 'pomodoro', 'custom'].includes(saved.timerMode)) {
+    return;
+  }
+
+  window.applyTimerMode?.(saved.timerMode);
+
+timerMode = saved.timerMode;
+pomodoroPhase = saved.pomodoroPhase === 'break' ? 'break' : 'focus';
+
+  $('focusMinutes').value = saved.focusMinutes || 25;
+  $('breakMinutes').value = saved.breakMinutes || 5;
+
+  elapsed = Math.max(0, Number(saved.elapsed) || 0);
+  phaseElapsed = Math.max(0, Number(saved.phaseElapsed) || 0);
+  focusSeconds = Number(saved.focusSeconds) || 0;
+  pomodoroCycle = Number(saved.pomodoroCycle) || 0;
+
+  const running = saved.running === true;
+
+  startedAt = running && Number(saved.startedAt) > 0
+    ? Number(saved.startedAt)
+    : null;
+
+  phaseStartedAt = running && Number(saved.phaseStartedAt) > 0
+    ? Number(saved.phaseStartedAt)
+    : null;
+
+  pomodoroRunning = running && timerMode !== 'free';
+
+  const subject = $('subject');
+
+  if (saved.subject && subject) {
+    let option = [...subject.options].find(
+      item => item.value === saved.subject
+    );
+
+    if (!option) {
+      option = document.createElement('option');
+      option.value = saved.subject;
+      option.textContent = saved.subject;
+      subject.appendChild(option);
+    }
+
+    subject.value = saved.subject;
+  }
+
+  subject.disabled = true;
+  $('finishBtn').disabled = false;
+  $('pauseBtn').disabled = !running;
+  $('startBtn').disabled = running;
+
+  $('timerState').textContent = running
+    ? (timerMode === 'free' ? 'EM ANDAMENTO' :
+      pomodoroPhase === 'break' ? 'PAUSA' : 'EM FOCO')
+    : 'PAUSADO';
+
+  $('startBtn').textContent = running ? 'EM ANDAMENTO' : 'CONTINUAR';
+
+  $('timerHint').textContent = running
+    ? 'Sessão recuperada. Mantenha o foco!'
+    : 'Sessão recuperada. Continue quando estiver pronta.';
+
+  clearInterval(interval);
+  interval = null;
+
+  if (running) {
+    interval = setInterval(updateTimer, 250);
+  }
+
+  updateTimer();
+}
+
 function daySessions(){return data.sessions.filter(s=>s.date===today())}
 function periodDates(period){if(period==='day')return [today()];if(period==='week')return Array.from({length:7},(_,i)=>dateOffset(i-6));return null}
 function inPeriod(item,period){const dates=periodDates(period);return !dates||dates.includes(item.date)}
@@ -510,7 +627,9 @@ function start() {
   clearInterval(interval);
   interval = setInterval(updateTimer, 250);
   updateTimer();
+  persistTimerState();
  }
+
 function pause() {
   if (!startedAt && !pomodoroRunning) return;
 
@@ -539,6 +658,8 @@ function pause() {
     'Cronômetro pausado. Continue quando estiver pronta.';
 
   updateTimer();
+  persistTimerState();
+
 }
 function finish() {
   if (startedAt) {
@@ -572,6 +693,7 @@ function finish() {
   focusSeconds = 0;
   pomodoroCycle = 0;
   pomodoroPhase = 'focus';
+  clearTimerState();
 
   $('timerDisplay').textContent = '00:00:00';
   $('timerState').textContent = 'PRONTO';
@@ -863,6 +985,7 @@ pomodoroRunning = false;
   focusInput.addEventListener('input', updateCustomStatus);
   breakInput.addEventListener('input', updateCustomStatus);
 
+  window.applyTimerMode = updateMode;
   updateMode('free');
 })();
 
@@ -1079,3 +1202,10 @@ if (reviewSubjectSelect) reviewSubjectSelect.value = name;
   const day = Math.floor(Date.now() / 86400000);
   el.textContent = tips[day % tips.length];
 })();
+window.addEventListener('pagehide', persistTimerState);
+
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden') {
+    persistTimerState();
+  }
+});
