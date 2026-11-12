@@ -1,4 +1,4 @@
-﻿const $=id=>document.getElementById(id);
+const $=id=>document.getElementById(id);
 const KEY='operacaoKinhaDataV1';
 const emptyData=()=>({
   sessions:[],
@@ -352,9 +352,25 @@ pomodoroPhase = saved.pomodoroPhase === 'break' ? 'break' : 'focus';
 }
 
 function daySessions(){return data.sessions.filter(s=>s.date===today())}
-function periodDates(period){if(period==='day')return [today()];if(period==='week')return Array.from({length:7},(_,i)=>dateOffset(i-6));return null}
-function inPeriod(item,period){const dates=periodDates(period);return !dates||dates.includes(item.date)}
-function sumSessions(list){return list.reduce((n,s)=>n+(s.seconds||0),0)}
+function periodDates(period) {
+  if (period === 'day') return [today()];
+  if (period === 'yesterday') return [dateOffset(-1)];
+  if (period === 'week') return Array.from({length:7},(_,i)=>dateOffset(i-6));
+  return null;
+}
+function inPeriod(item,period) {
+  const itemMonth = String(item.date || '').slice(0,7);
+  const current = new Date();
+  const currentMonth = today().slice(0,7);
+  const previousDate = new Date(current.getFullYear(), current.getMonth() - 1, 1);
+  const previousMonth = `${previousDate.getFullYear()}-${String(previousDate.getMonth() + 1).padStart(2, '0')}`;
+
+  if (period === 'month') return itemMonth === currentMonth;
+  if (period === 'lastMonth') return itemMonth === previousMonth;
+
+  const dates = periodDates(period);
+  return !dates || dates.includes(item.date);
+}function sumSessions(list){return list.reduce((n,s)=>n+(s.seconds||0),0)}
 function currentTodayTotal() {
   return sumSessions(daySessions()) +
     ((startedAt || elapsed > 0) ? current() : 0);
@@ -478,12 +494,34 @@ const entries=Object.entries(bySubject).sort((a,b)=>b[1]-a[1]);
   '#F50057',
   '#C6FF00',
   '#18FFFF'];let offset=0;const all=entries.reduce((n,e)=>n+e[1],0);const parts=entries.map((e,i)=>{const start=all?offset/all*100:0;offset+=e[1];return `${colors[i%colors.length]} ${start}% ${all?offset/all*100:100}%`});$('pieChart').style.background=entries.length?`conic-gradient(${parts.join(',')})`:'conic-gradient(#444 0 100%)';$('pieTotal').textContent=all?hfmt(all):'0m';$('pieLegend').innerHTML=entries.length?entries.map((e,i)=>`<div class="legend-item"><div class="legend-name"><i class="swatch" style="background:${colors[i%colors.length]}"></i><span>${safe(e[0])}</span></div><strong>${hfmt(e[1])}</strong></div>`).join(''):'<p class="muted">Registre sessões para ver a distribuição.</p>';
- const dates=period==='day'?[today()]:period==='week'?Array.from({length:7},(_,i)=>dateOffset(i-6)):Array.from(new Set(data.sessions.map(s=>s.date))).sort().slice(-7);const daily=dates.map(d=>({date:d,seconds:sumSessions(sess.filter(s=>s.date===d))}));const max=Math.max(3600,...daily.map(x=>x.seconds));$('barChart').innerHTML=daily.length?daily.map(d=>`<div class="bar-col"><span class="bar-value">${d.seconds?hfmt(d.seconds):'—'}</span><div class="bar" style="height:${Math.max(2,d.seconds/max*145)}px"></div><span class="bar-label">${d.date.slice(8,10)}/${d.date.slice(5,7)}</span></div>`).join(''):'<p class="muted">Sem dados neste período.</p>';
+ const dayNumber = Number(today().slice(8,10));
+const dates = period === 'day'
+  ? [today()]
+  : period === 'yesterday'
+    ? [dateOffset(-1)]
+    : period === 'week'
+      ? Array.from({length:7},(_,i)=>dateOffset(i-6))
+      : period === 'month'
+        ? Array.from({length:dayNumber},(_,i)=>dateOffset(i-(dayNumber-1)))
+        : period === 'lastMonth'
+          ? (() => {
+              const now = new Date();
+              const year = now.getFullYear();
+              const month = now.getMonth();
+              const days = new Date(year, month, 0).getDate();
+              return Array.from({length:days},(_,i)=>{
+                const d = new Date(year, month - 1, i + 1);
+                return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+              });
+            })()
+          : Array.from(new Set(data.sessions.map(s=>s.date))).sort().slice(-7);const daily=dates.map(d=>({date:d,seconds:sumSessions(sess.filter(s=>s.date===d))}));const max=Math.max(3600,...daily.map(x=>x.seconds));$('barChart').innerHTML=daily.length?daily.map(d=>`<div class="bar-col"><span class="bar-value">${d.seconds?hfmt(d.seconds):'—'}</span><div class="bar" style="height:${Math.max(2,d.seconds/max*145)}px"></div><span class="bar-label">${d.date.slice(8,10)}/${d.date.slice(5,7)}</span></div>`).join(''):'<p class="muted">Sem dados neste período.</p>';
  $('subjectSummary').innerHTML=entries.length?entries.map(e=>`<div class="summary-item"><span>${safe(e[0])}</span><strong>${hfmt(e[1])}</strong></div>`).join(''):'<div class="empty">Seus tempos por matéria aparecerão aqui após as primeiras sessões.</div>'}
 function renderQuestions(){
-  const arr = data.questions.slice().reverse();
-  const total = data.questions.reduce((sum, q) => sum + (Number(q.total) || 0), 0);
-  const correct = data.questions.reduce((sum, q) => sum + (Number(q.correct) || 0), 0);
+  const period = $("questionsPeriod").value;
+  const questions = data.questions.filter(q => inPeriod(q, period));
+  const arr = questions.slice().reverse();
+  const total = questions.reduce((sum, q) => sum + (Number(q.total) || 0), 0);
+  const correct = questions.reduce((sum, q) => sum + (Number(q.correct) || 0), 0);
   const errors = Math.max(0, total - correct);
   const percent = total ? Math.round(correct / total * 100) : 0;
   const chart = $("questionsPieChart");
@@ -506,6 +544,77 @@ function renderQuestions(){
       ).join("")
     : '<p class="muted">Registre quest\u00f5es para ver seu desempenho.</p>';
 
+  // ===== GRAFICO DE QUESTOES POR MATERIA =====
+  const subjectTotals = {};
+
+  questions.forEach(q => {
+    const subject = String(q.subject || "Sem mat\u00e9ria").trim() || "Sem mat\u00e9ria";
+    const qTotal = Math.max(0, Number(q.total) || 0);
+    const qCorrect = Math.min(qTotal, Math.max(0, Number(q.correct) || 0));
+
+    if (!subjectTotals[subject]) {
+      subjectTotals[subject] = { total: 0, correct: 0, errors: 0 };
+    }
+
+    subjectTotals[subject].total += qTotal;
+    subjectTotals[subject].correct += qCorrect;
+    subjectTotals[subject].errors += qTotal - qCorrect;
+  });
+
+  const subjectEntries = Object.entries(subjectTotals)
+    .filter(([, values]) => values.total > 0)
+    .sort((a, b) => b[1].total - a[1].total);
+
+  const subjectColors = [
+    "#438CEB", "#22C55E", "#E6A34B", "#A78BFA", "#EC4899",
+    "#06B6D4", "#F97316", "#84CC16", "#818CF8", "#14B8A6"
+  ];
+
+  const subjectAll = subjectEntries.reduce(
+    (sum, entry) => sum + entry[1].total, 0
+  );
+
+  let subjectOffset = 0;
+
+  const subjectParts = subjectEntries.map(([name, values], i) => {
+    const start = subjectOffset / subjectAll * 100;
+    subjectOffset += values.total;
+    const end = subjectOffset / subjectAll * 100;
+
+    return `${subjectColors[i % subjectColors.length]} ${start}% ${end}%`;
+  });
+
+  $("questionsSubjectPieChart").style.background = subjectAll
+    ? `conic-gradient(${subjectParts.join(", ")})`
+    : "conic-gradient(#444 0% 100%)";
+
+  $("questionsSubjectPieTotal").textContent = subjectAll;
+
+  $("questionsSubjectPieLegend").innerHTML = subjectEntries.length
+    ? subjectEntries.map(([name, values], i) => {
+        const percent = Math.round(values.total / subjectAll * 100);
+        const accuracy = Math.round(values.correct / values.total * 100);
+
+        return `
+          <div class="questions-subject-legend-item">
+            <div class="legend-item">
+              <div class="legend-name">
+                <i class="swatch" style="background:${subjectColors[i % subjectColors.length]}"></i>
+                <span>${safe(name)}</span>
+              </div>
+              <strong>${values.total} (${percent}%)</strong>
+            </div>
+            <small>
+              <span class="subject-correct">${values.correct} acertos</span>
+              &middot;
+              <span class="subject-errors">${values.errors} erros</span>
+              &middot; ${accuracy}% de aproveitamento
+            </small>
+          </div>
+        `;
+      }).join("")
+    : '<p class="muted">Registre quest\u00f5es para visualizar as mat\u00e9rias.</p>';
+  // ===== FIM DO GRAFICO POR MATERIA =====
   $("questionHistory").innerHTML = arr.length
     ? arr.map(q => `<div class="record-row"><div><strong>${safe(q.subject)}</strong><small>${q.date}${q.notes ? " \u2014 " + safe(q.notes) : ""}</small></div><div style="text-align:right"><strong>${q.correct}/${q.total} acertos</strong><small>${q.total ? Math.round(q.correct / q.total * 100) : 0}% de aproveitamento</small></div></div>`).join("")
     : '<div class="empty">Seus registros de quest\u00f5es aparecer\u00e3o aqui.</div>';
@@ -707,6 +816,7 @@ function finish() {
   updateTimer();
   renderAll();
 }$('startBtn').addEventListener('click',start);$('pauseBtn').addEventListener('click',pause);$('finishBtn').addEventListener('click',finish);$('goal').addEventListener('change',updateTimer);$('dashPeriod').addEventListener('change',renderDashboard);
+$('questionsPeriod').addEventListener('change',renderQuestions);
 
 document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{
   document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));

@@ -161,9 +161,11 @@
     <article class="panel history-panel"><div class="section-head"><div><p class="eyebrow">REGISTRO DE ATIVIDADE</p><h2>Últimas sessões</h2></div><span class="muted tiny">SALVAS NESTE NAVEGADOR</span></div><div id="recentSessions" class="empty">Suas sessões finalizadas aparecerão aqui.</div></article>
   </section>
   <section id="page-dashboard" class="page">
-    <div class="section-head"><div><p class="eyebrow">DADOS DA SUA JORNADA</p><h2>Painel de desempenho</h2></div><label class="period-select">PERÍODO <select id="dashPeriod"><option value="day">Hoje</option><option value="week" selected>Últimos 7 dias</option><option value="all">Todo o período</option></select></label></div>
+    <div class="section-head"><div><p class="eyebrow">DADOS DA SUA JORNADA</p><h2>Painel de desempenho</h2></div><label class="period-select">PERÍODO <select id="dashPeriod"><option value="day">Hoje</option><option value="yesterday">Ontem</option><option value="week" selected>Últimos 7 dias</option><option value="month">Este m&ecirc;s</option><option value="lastMonth">M&ecirc;s passado</option><option value="all">Todo o período</option></select></label></div>
     
-    <article class="panel form-panel" id="manualSessionPanel">
+
+    <div class="dashboard-top-grid">
+<article class="panel form-panel" id="manualSessionPanel">
       <p class="eyebrow">REGISTRO MANUAL</p>
       <h2>Registrar estudo realizado</h2>
       <p class="muted">Estudou sem usar o cronômetro? Registre aqui.</p>
@@ -201,8 +203,15 @@
       </form>
 
     </article>
-
-    <article class="panel history-panel">
+<article class="panel"><div class="section-head"><div><p class="eyebrow">DISTRIBUIÇÃO</p><h2>Tempo por matéria</h2></div></div><div class="chart-wrap"><div id="pieChart" class="pie"><div class="pie-hole"><strong id="pieTotal">0h</strong><span>ESTUDADAS</span></div></div><div id="pieLegend" class="legend"><p class="muted">Registre sessões para ver a distribuição.</p></div></div></article>
+    </div>
+<div class="metric-grid">
+<article class="panel metric"><span>TEMPO ESTUDADO</span><strong id="dashTime">00:00:00</strong><small>tempo acumulado</small></article><article class="panel metric"><span>SESSÕES</span><strong id="dashSessions">0</strong><small>sessões finalizadas</small></article><article class="panel metric"><span>QUESTÕES</span><strong id="dashQuestions">0</strong><small>respondidas no período</small></article><article class="panel metric"><span>APROVEITAMENTO</span><strong id="dashAccuracy">—</strong><small>de acertos</small></article></div>
+    <div class="dashboard-bottom-grid">
+<article class="panel"><div class="section-head"><div><p class="eyebrow">CONSISTÊNCIA</p><h2>Estudo por dia</h2></div></div><div id="barChart" class="bars"></div></article>
+<article class="panel history-panel"><div class="section-head"><div><p class="eyebrow">VISÃO GERAL</p><h2>Resumo do período</h2></div></div><div class="summary-list" id="subjectSummary"></div></article>
+    </div>
+<article class="panel history-panel">
       <div class="section-head">
         <div>
           <p class="eyebrow">SEUS REGISTROS</p>
@@ -213,14 +222,20 @@
         Seus registros manuais aparecerão aqui.
       </div>
     </article>
-
-<div class="metric-grid">
-<article class="panel metric"><span>TEMPO ESTUDADO</span><strong id="dashTime">00:00:00</strong><small>tempo acumulado</small></article><article class="panel metric"><span>SESSÕES</span><strong id="dashSessions">0</strong><small>sessões finalizadas</small></article><article class="panel metric"><span>QUESTÕES</span><strong id="dashQuestions">0</strong><small>respondidas no período</small></article><article class="panel metric"><span>APROVEITAMENTO</span><strong id="dashAccuracy">—</strong><small>de acertos</small></article></div>
-    <div class="dash-grid"><article class="panel"><div class="section-head"><div><p class="eyebrow">DISTRIBUIÇÃO</p><h2>Tempo por matéria</h2></div></div><div class="chart-wrap"><div id="pieChart" class="pie"><div class="pie-hole"><strong id="pieTotal">0h</strong><span>ESTUDADAS</span></div></div><div id="pieLegend" class="legend"><p class="muted">Registre sessões para ver a distribuição.</p></div></div></article>
-    <article class="panel"><div class="section-head"><div><p class="eyebrow">CONSISTÊNCIA</p><h2>Estudo por dia</h2></div></div><div id="barChart" class="bars"></div></article></div>
-    <article class="panel history-panel"><div class="section-head"><div><p class="eyebrow">VISÃO GERAL</p><h2>Resumo do período</h2></div></div><div class="summary-list" id="subjectSummary"></div></article>
   </section>
   <section id="page-questions" class="page">
+  <div class="section-head">
+    <div><p class="eyebrow">ACOMPANHAMENTO</p><h2>Desempenho em quest&otilde;es</h2></div>
+    <label class="period-select">PER&Iacute;ODO
+      <select id="questionsPeriod">
+        <option value="day">Hoje</option>
+        <option value="yesterday">Ontem</option>
+        <option value="week" selected>&Uacute;ltimos 7 dias</option>
+        <option value="month">Este m&ecirc;s</option>
+        <option value="lastMonth">M&ecirc;s passado</option><option value="all">Todo o per&iacute;odo</option>
+      </select>
+    </label>
+  </div>
   <div class="questions-dashboard-grid">
     <div class="questions-goal-slot"><div class="question-goal-box">
   <div class="goal-label"><span>Meta diária de questões</span><strong id="questionGoalText">0%</strong></div>
@@ -252,25 +267,34 @@
           <p class="muted">Registre questoes para ver seu desempenho.</p>
         </div>
       </div>
+      <div class="questions-subject-analysis">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">DESEMPENHO POR DISCIPLINA</p>
+            <h2>Questões por matéria</h2>
+          </div>
+        </div>
+        <div class="chart-wrap">
+          <div id="questionsSubjectPieChart" class="pie">
+            <div class="pie-hole">
+              <strong id="questionsSubjectPieTotal">0</strong>
+              <span>QUESTÕES</span>
+            </div>
+          </div>
+          <div id="questionsSubjectPieLegend" class="legend">
+            <p class="muted">Registre questões para visualizar as matérias.</p>
+          </div>
+        </div>
+      </div>
       <p id="questionsPieSummary" class="muted"></p>
     </article></div>
-    <div class="questions-gran-slot"><article class="panel form-panel">
-      <p class="eyebrow">QUESTÕES EXTERNAS</p>
-      <h2>Pratique também no Gran</h2>
-      <p class="muted">Acesse questões gratuitas para treinar e ampliar sua preparação.</p>
-      <a href="https://questoes.grancursosonline.com.br/" target="_blank" rel="noopener noreferrer" class="btn outline full">↗ RESOLVER QUESTÕES GRATUITAS NO GRAN</a>
-    </article></div>
-    <article class="panel questions-tip-panel">
-      <p class="eyebrow">ESTRATÉGIA DE ESTUDO</p>
-      <h2>Dica estratégica</h2>
-      <p id="questionTipText" class="muted">Priorize a revisão das questões que errou. Entender o motivo do erro ajuda a consolidar o conteúdo.</p>
-    </article>
-  </div>
+
   <div class="questions-form-wide"><article class="panel form-panel"><p class="eyebrow">PRÁTICA INTELIGENTE</p><h2>Registrar questões</h2><p class="muted">Anote seu desempenho para acompanhar a evolução e identificar os assuntos que precisam de reforço.</p>
       <form id="questionForm"><div class="form-row"><label for="qSubject">MATÉRIA</label><select id="qSubject"><option>Direito Constitucional</option><option>Direito Penal</option><option>Direito Administrativo</option><option>Português</option><option>Raciocínio Lógico</option><option>Informática</option><option>Legislação</option><option>Outra matéria</option></select></div>
       <div class="input-grid"><div class="form-row"><label for="qTotal">QUESTÕES RESPONDIDAS</label><input id="qTotal" type="number" min="1" max="10000" value="10" required></div><div class="form-row"><label for="qCorrect">ACERTOS</label><input id="qCorrect" type="number" min="0" max="10000" value="7" required></div></div>
       <div class="form-row"><label for="qNotes">OBSERVAÇÃO (OPCIONAL)</label><input id="qNotes" maxlength="180" placeholder="Ex.: revisar controle de constitucionalidade"></div><button class="btn light" type="submit">+ SALVAR RESULTADO</button></form>
     </article></div>
+  </div>
   <article class="panel history-panel"><div class="section-head"><div><p class="eyebrow">HISTÓRICO</p><h2>Resultados registrados</h2></div></div><div id="questionHistory" class="empty">Seus registros de questões aparecerão aqui.</div></article>
 </section>
 <section id="page-review" class="page">
