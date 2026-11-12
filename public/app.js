@@ -985,8 +985,7 @@ renderAll();
     document.documentElement.dataset.theme = isLight
       ? 'light'
       : 'dark';
-
-    themeIcon.textContent = isLight ? 'â˜¾' : '☀';
+    themeIcon.textContent = isLight ? '\u{1F319}' : '\u2600\uFE0F';
     themeLabel.textContent = isLight ? 'Modo escuro' : 'Modo claro';
 
     themeButton.setAttribute(
@@ -1113,7 +1112,7 @@ pomodoroRunning = false;
   expandBtn.addEventListener('click', () => {
     document.body.appendChild(overlay);
     overlay.hidden = false;
-    overlay.style.cssText += ';position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;height:100dvh!important;max-width:none!important;max-height:none!important;box-sizing:border-box!important;z-index:2147483647!important;background:#080a0f!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;overflow-y:auto!important';
+    overlay.style.cssText += ';position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;height:100dvh!important;max-width:none!important;max-height:none!important;box-sizing:border-box!important;z-index:2147483647!important;background:linear-gradient(135deg,#0D1B2D,#14263B 55%,#0B1728)!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;overflow-y:auto!important';
     document.body.style.overflow = 'hidden';
     updateTimer();
   });

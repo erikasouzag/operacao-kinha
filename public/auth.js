@@ -338,7 +338,7 @@ function createAdminPanel() {
   heading.textContent = 'Administração de cadastros';
 
   const description = document.createElement('p');
-  description.textContent = 'Aprove ou rejeite os pedidos de acesso à Operação Kinha.';
+  description.textContent = 'Aprove ou rejeite os pedidos de acesso ao Rumo à Farda.';
 
   const close = document.createElement('button');
   close.type = 'button';

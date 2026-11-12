@@ -3,22 +3,27 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#101010">
-<title>Operação Kinha | Central de Estudos</title>
+<title>Rumo à Farda | Central de Estudos</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="bg"></div><div class="veil"></div>
 
 <header class="topbar">
-  <a class="brand" href="#" aria-label="Operação Kinha início">
-    <span class="crest">
-      <svg viewBox="0 0 48 48" aria-hidden="true">
-        <path d="M24 3 41 9v13c0 11-7 18-17 23C14 40 7 33 7 22V9z"/>
-        <path d="M17 15v18m0-9 14-9M22 24l10 9"/>
-      </svg>
-    </span>
+  <a class="brand" href="#" aria-label="Rumo à Farda início">
+    <span class="crest" aria-hidden="true"><svg viewBox="0 0 64 64" aria-hidden="true">
+  <rect x="2" y="2" width="60" height="60" rx="10"
+        fill="#10243b" stroke="#8da9c5" stroke-width="1.5"/>
+  <path d="M13 13H51V42L32 54 13 42Z"
+        fill="none" stroke="#8da9c5" stroke-width="1.5"/>
+  <text x="32" y="37" text-anchor="middle"
+        font-family="Georgia,serif" font-size="23"
+        font-weight="bold" letter-spacing="-2"
+        fill="#e1e8f0">F</text>
+</svg></span>
     <span>
-      <strong>OPERAÇÃO KINHA</strong>
+      <strong>RUMO À FARDA</strong>
       <small>DISCIPLINA • FOCO • CONQUISTA</small>
     </span>
   </a>
@@ -305,12 +310,12 @@
     </article>
     <article class="panel history-panel"><div class="section-head"><div><p class="eyebrow">PLANO DE REVISÃO</p><h2>Suas revisões</h2></div><div class="review-filters"><button class="filter active" data-filter="pending">Pendentes</button><button class="filter" data-filter="all">Todas</button></div></div><div id="reviewList" class="empty">Suas revisões planejadas aparecerão aqui.</div></article>
   </section>
-  <footer><strong>OPERAÇÃO KINHA</strong><span>DISCIPLINA • FOCO • CONQUISTA</span></footer>
+  <footer><strong>RUMO À FARDA</strong><span>DISCIPLINA • FOCO • CONQUISTA</span></footer>
 </main>
 
 <section class="auth-screen" id="authScreen">
   <div class="auth-card">
-    <p class="eyebrow">OPERAÇÃO KINHA / ACESSO RESTRITO</p>
+    <p class="eyebrow">RUMO À FARDA / ACESSO RESTRITO</p>
 
     <div id="authLoginView">
       <h2>Entrar na central</h2>
@@ -434,6 +439,11 @@
 
 
 <div id="focusOverlay" class="focus-overlay" hidden>
+  <div class="focus-topbar">
+  <div class="focus-brand">
+    <span class="focus-brand-dot"></span>
+    RUMO À FARDA
+  </div>
   <button
     type="button"
     id="closeFocusBtn"
@@ -441,11 +451,7 @@
     aria-label="Sair da tela expandida"
     title="Sair da tela expandida"
   >✕</button>
-
-  <div class="focus-brand">
-    <span class="focus-brand-dot"></span>
-    OPERAÇÃO KINHA
-  </div>
+</div>
 
   <p id="focusModeLabel" class="focus-mode-label">MODO FOCO · LIVRE</p>
 

@@ -2929,3 +2929,998 @@ body:has(.home-view) .tabs {
     grid-template-columns: 1fr;
   }
 }
+/* IDENTIDADE RUMO A FARDA - MONOGRAMA RF */
+.brand .crest {
+  width: 48px;
+  height: 48px;
+  border: 1px solid #398fe0;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(145deg, #102e50, #071426);
+  box-shadow: 0 0 14px #1689e533;
+}
+
+.brand .rf-mark {
+  color: #dcecff;
+  font-family: Arial, sans-serif;
+  font-size: 19px;
+  font-weight: 900;
+  letter-spacing: -2px;
+  text-shadow: 0 0 10px #329fff88;
+}
+
+@media (max-width: 480px) {
+  .brand .crest {
+    width: 40px;
+    height: 40px;
+  }
+
+  .brand .rf-mark {
+    font-size: 17px;
+  }
+}
+/* ICONE RF - VERSAO DEFINITIVA */
+.brand .crest {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  box-shadow: none;
+  display: grid;
+  place-items: center;
+}
+
+.brand .crest svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: none;
+}
+
+@media (max-width: 480px) {
+  .brand .crest {
+    width: 40px;
+    height: 40px;
+  }
+}
+/* MARCA F - MINIMALISTA */
+.brand .crest {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.brand .crest svg {
+  width: 34px;
+  height: 34px;
+}
+
+@media (max-width: 480px) {
+  .brand .crest {
+    width: 36px;
+    height: 36px;
+  }
+}
+/* TEMA RUMO A FARDA V2 */
+:root {
+  --bg: #0B1422;
+  --panel: rgba(22, 36, 56, .96);
+  --white: #DCE5EF;
+  --muted: #A9B8CA;
+  --line: rgba(111, 166, 220, .18);
+  --accent: #6FA6DC;
+  --soft: #29415D;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--white);
+}
+
+.bg {
+  background-image: linear-gradient(110deg, rgba(7, 15, 27, .96), rgba(11, 25, 43, .88));
+}
+
+.panel,
+.metric {
+  background: var(--panel);
+  border-color: var(--line);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, .16);
+}
+
+.brand,
+.brand strong,
+.metric strong,
+.panel strong,
+.section-head h2,
+.mission-panel h2 {
+  color: var(--white);
+}
+
+.brand small,
+.muted,
+.hint,
+.metric span,
+.metric small,
+.panel-head,
+.eyebrow {
+  color: var(--muted);
+}
+
+.btn.light,
+.tab.active,
+.filter.active,
+.small-btn.done {
+  background: #6FA6DC;
+  color: #0B1422;
+  border-color: #6FA6DC;
+}
+
+.btn.light:hover,
+.tab.active:hover,
+.filter.active:hover {
+  background: #8AB9E6;
+  border-color: #8AB9E6;
+}
+
+.btn.outline,
+.tab,
+.filter,
+.small-btn {
+  background-color: #162438;
+  color: #C5D2E1;
+  border-color: #35516F;
+}
+
+.form-row select,
+.form-row input,
+.period-select select {
+  background: #101E30;
+  color: #DCE5EF;
+  border-color: #35516F;
+}
+
+.progress {
+  background: #29415D;
+}
+
+.progress span {
+  background: #6FA6DC;
+}
+
+.pie-hole {
+  background: #162438;
+}
+
+footer {
+  border-color: var(--line);
+  color: var(--muted);
+}
+
+footer strong {
+  color: var(--white);
+}
+
+/* NOVO VISUAL RUMO A FARDA - PAINEL */
+:root {
+  --bg: #0B1422;
+  --panel: #17283D;
+  --white: #DCE5EF;
+  --muted: #A9B8CA;
+  --line: rgba(126, 164, 204, .20);
+  --accent: #78A9D8;
+  --soft: #29415D;
+}
+
+body {
+  background-color: #0B1422;
+  color: #DCE5EF;
+}
+
+.bg {
+  background-image:
+    radial-gradient(ellipse at 15% 0%, rgba(55, 91, 132, .18), transparent 45%),
+    linear-gradient(135deg, #0B1422 0%, #101D2E 55%, #0D1929 100%);
+}
+
+.panel {
+  background: linear-gradient(145deg, #1B2D43, #152438) !important;
+  border: 1px solid rgba(126, 164, 204, .19) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, .20) !important;
+}
+
+.metric {
+  background: linear-gradient(145deg, #20344B, #17283D) !important;
+  border: 1px solid rgba(126, 164, 204, .17) !important;
+  border-radius: 17px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, .16) !important;
+}
+
+.panel h2,
+.panel h3,
+.section-head h2,
+.metric strong {
+  color: #DCE5EF;
+}
+
+.panel p,
+.panel small,
+.metric span,
+.metric small,
+.muted,
+.hint {
+  color: #A9B8CA;
+}
+
+.eyebrow {
+  color: #82ACD3;
+  letter-spacing: 1.8px;
+}
+
+.tab,
+.filter,
+.btn.outline,
+.small-btn {
+  background: #192B40;
+  color: #C5D2E1;
+  border: 1px solid #344D69;
+  border-radius: 12px;
+  transition: background .2s ease, border-color .2s ease;
+}
+
+.tab:hover,
+.filter:hover,
+.btn.outline:hover,
+.small-btn:hover {
+  background: #243B55;
+  border-color: #668DB5;
+}
+
+.tab.active,
+.filter.active,
+.btn.light,
+.small-btn.done {
+  background: #6FA6DC;
+  color: #0B1422;
+  border-color: #6FA6DC;
+}
+
+.btn.light:hover,
+.tab.active:hover,
+.filter.active:hover {
+  background: #8AB9E6;
+  border-color: #8AB9E6;
+}
+
+.form-row select,
+.form-row input,
+.period-select select,
+input,
+select,
+textarea {
+  background-color: #101F31;
+  color: #DCE5EF;
+  border-color: #38516D;
+  border-radius: 10px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #78A9D8;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(120, 169, 216, .12);
+}
+
+.progress {
+  background: #2A4059;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.progress span {
+  background: linear-gradient(90deg, #527DA8, #83B4E2);
+  border-radius: 20px;
+}
+
+footer {
+  border-color: rgba(126, 164, 204, .18);
+  color: #9EADC0;
+}
+
+footer strong {
+  color: #DCE5EF;
+}
+
+/* Mantém os gráficos circulares com suas próprias cores */
+
+/* EFEITO GLASS - CONTROLES DO CRONOMETRO */
+
+/* Seletor de modo */
+.timer-modes {
+  background: rgba(111, 166, 220, .055) !important;
+  border: 1px solid rgba(145, 181, 218, .16) !important;
+  backdrop-filter: blur(14px);
+}
+
+.timer-mode {
+  color: #AFC2D8 !important;
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  transition: all .22s ease;
+}
+
+.timer-mode:hover {
+  color: #FFFFFF !important;
+  background: rgba(111, 166, 220, .13) !important;
+  border-color: rgba(145, 181, 218, .30) !important;
+}
+
+.timer-mode.active {
+  color: #FFFFFF !important;
+  background: rgba(111, 166, 220, .18) !important;
+  border-color: rgba(145, 181, 218, .30) !important;
+  box-shadow: inset 0 0 16px rgba(111, 166, 220, .06);
+}
+
+/* Campos de matéria, meta e configurações */
+.form-row select,
+.form-row input,
+.period-select select,
+.pomodoro-settings input,
+.add-subject-row input,
+#subject,
+#goal,
+#newSubject {
+  background: rgba(111, 145, 180, .075) !important;
+  color: #C5D4E5 !important;
+  border: 1px solid rgba(145, 181, 218, .20) !important;
+  border-radius: 11px !important;
+  backdrop-filter: blur(12px);
+  transition: all .22s ease;
+}
+
+/* Destaque ao passar o mouse */
+.form-row select:hover,
+.form-row input:hover,
+.period-select select:hover,
+.pomodoro-settings input:hover,
+.add-subject-row input:hover {
+  background: rgba(111, 166, 220, .14) !important;
+  border-color: rgba(145, 190, 230, .48) !important;
+  color: #FFFFFF !important;
+}
+
+/* Destaque ao selecionar ou digitar */
+.form-row select:focus,
+.form-row input:focus,
+.period-select select:focus,
+.pomodoro-settings input:focus,
+.add-subject-row input:focus {
+  background: rgba(111, 166, 220, .16) !important;
+  border-color: #78A9D8 !important;
+  color: #FFFFFF !important;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(111, 166, 220, .10);
+}
+
+.form-row select option,
+.period-select select option {
+  background: #17283D;
+  color: #FFFFFF;
+}
+
+.form-row input::placeholder,
+.add-subject-row input::placeholder {
+  color: #91A6BD;
+  opacity: .85;
+}
+
+.pomodoro-settings {
+  background: rgba(111, 145, 180, .055) !important;
+  border: 1px solid rgba(145, 181, 218, .18) !important;
+  border-radius: 15px !important;
+  backdrop-filter: blur(14px);
+}
+
+/* GLASS FINAL - CRONOMETRO EXPANDIDO E META DE QUESTOES */
+
+/* Cronômetro expandido */
+.focus-overlay {
+  background:
+    radial-gradient(ellipse at 50% 35%, rgba(65, 108, 153, .20), transparent 55%),
+    linear-gradient(135deg, #0D1B2D, #14263B 55%, #0B1728) !important;
+  color: #DCE5EF;
+}
+
+.focus-brand {
+  color: #DCE5EF;
+}
+
+.focus-brand-dot {
+  background: #78A9D8;
+  box-shadow: 0 0 12px rgba(120, 169, 216, .35);
+}
+
+.focus-close-btn {
+  background: rgba(111, 166, 220, .08) !important;
+  border: 1px solid rgba(145, 181, 218, .22) !important;
+  color: #B8C9DC !important;
+  backdrop-filter: blur(12px);
+  transition: all .22s ease;
+}
+
+.focus-close-btn:hover {
+  background: rgba(111, 166, 220, .18) !important;
+  border-color: rgba(145, 181, 218, .55) !important;
+  color: #FFFFFF !important;
+}
+
+/* Caixa que reúne os botões */
+.focus-controls {
+  padding: 12px;
+  border: 1px solid rgba(145, 181, 218, .18);
+  border-radius: 16px;
+  background: rgba(111, 145, 180, .07);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, .12);
+}
+
+.focus-controls button {
+  background: rgba(111, 166, 220, .07) !important;
+  border: 1px solid rgba(145, 181, 218, .20) !important;
+  color: #C5D4E5 !important;
+  border-radius: 10px;
+  transition: all .22s ease;
+}
+
+.focus-controls button:hover:not(:disabled) {
+  background: rgba(111, 166, 220, .19) !important;
+  border-color: rgba(145, 181, 218, .55) !important;
+  color: #FFFFFF !important;
+}
+
+.focus-controls #focusStartBtn {
+  background: rgba(111, 166, 220, .20) !important;
+  border-color: rgba(145, 181, 218, .42) !important;
+  color: #FFFFFF !important;
+}
+
+.focus-controls #focusStartBtn:hover:not(:disabled) {
+  background: rgba(111, 166, 220, .32) !important;
+}
+
+/* Cartão da meta diária de questões */
+.question-goal-box {
+  background: rgba(111, 145, 180, .075) !important;
+  border: 1px solid rgba(145, 181, 218, .22) !important;
+  border-radius: 18px !important;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .13) !important;
+  transition: border-color .22s ease, background .22s ease;
+}
+
+.question-goal-box:hover {
+  background: rgba(111, 145, 180, .11) !important;
+  border-color: rgba(145, 181, 218, .38) !important;
+}
+
+.question-goal-box .question-goal-controls input {
+  background: rgba(111, 166, 220, .08) !important;
+  border: 1px solid rgba(145, 181, 218, .22) !important;
+  border-radius: 10px !important;
+  color: #DCE5EF !important;
+  transition: all .22s ease;
+}
+
+.question-goal-box .question-goal-controls input:hover,
+.question-goal-box .question-goal-controls input:focus {
+  background: rgba(111, 166, 220, .16) !important;
+  border-color: rgba(145, 181, 218, .55) !important;
+  color: #FFFFFF !important;
+}
+
+.question-goal-box .question-goal-controls .btn {
+  background: rgba(111, 166, 220, .16) !important;
+  border: 1px solid rgba(145, 181, 218, .35) !important;
+  border-radius: 10px !important;
+  color: #DCE5EF !important;
+  transition: all .22s ease;
+}
+
+.question-goal-box .question-goal-controls .btn:hover {
+  background: rgba(111, 166, 220, .28) !important;
+  border-color: rgba(145, 181, 218, .58) !important;
+  color: #FFFFFF !important;
+  transform: translateY(-1px);
+}
+
+/* FAIXA AZUL DEFINITIVA - MODO EXPANDIDO */
+#focusOverlay::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 78px;
+  background: linear-gradient(
+    110deg,
+    rgba(35, 58, 83, .92),
+    rgba(20, 39, 61, .94)
+  ) !important;
+  border-bottom: 1px solid rgba(145, 181, 218, .28);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, .12);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+#focusOverlay .focus-brand {
+  z-index: 2;
+}
+
+#focusOverlay .focus-close-btn {
+  z-index: 3;
+}
+
+@media (max-width: 600px) {
+  #focusOverlay::before {
+    height: 66px;
+  }
+}
+
+/* BARRA REAL DO CRONOMETRO EXPANDIDO */
+#focusOverlay::before {
+  display: none !important;
+}
+
+#focusOverlay .focus-topbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 78px;
+  box-sizing: border-box;
+  padding: 0 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(
+    110deg,
+    rgba(35, 58, 83, .92),
+    rgba(20, 39, 61, .94)
+  );
+  border-bottom: 1px solid rgba(145, 181, 218, .28);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, .12);
+  backdrop-filter: blur(18px) saturate(125%);
+  -webkit-backdrop-filter: blur(18px) saturate(125%);
+  z-index: 10;
+}
+
+#focusOverlay .focus-topbar .focus-brand {
+  position: static !important;
+  width: auto !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  color: #DCE5EF !important;
+}
+
+#focusOverlay .focus-topbar .focus-close-btn {
+  position: static !important;
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  #focusOverlay .focus-topbar {
+    height: 66px;
+    padding: 0 16px;
+  }
+}
+/* CORRECAO DEFINITIVA - FAIXA SUPERIOR GLASS */
+.topbar,
+body:has(.home-view) .topbar,
+html[data-theme="dark"] .topbar {
+  background: linear-gradient(
+    110deg,
+    rgba(35, 58, 83, .58),
+    rgba(20, 39, 61, .68)
+  ) !important;
+  background-color: rgba(20, 39, 61, .58) !important;
+  border-bottom: 1px solid rgba(145, 181, 218, .25) !important;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, .12) !important;
+  backdrop-filter: blur(18px) saturate(125%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(125%) !important;
+}
+
+.topbar .brand,
+.topbar .header-action,
+.topbar .theme-toggle {
+  background-color: rgba(111, 166, 220, .08) !important;
+}
+/* REMOVE FUNDO DO BLOCO DA MARCA */
+.topbar .brand {
+  background: transparent !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* TEMA CLARO RUMO A FARDA - AJUSTE GLASS */
+html[data-theme="light"] body {
+  background: #EAF0F6 !important;
+  color: #26384B !important;
+}
+
+html[data-theme="light"] .bg {
+  background: linear-gradient(135deg, #EAF0F6, #F5F7FA 55%, #E3EAF2) !important;
+}
+
+html[data-theme="light"] .topbar {
+  background: linear-gradient(110deg, rgba(255,255,255,.76), rgba(224,235,246,.78)) !important;
+  background-color: rgba(239,245,251,.78) !important;
+  border-bottom: 1px solid rgba(91,125,160,.22) !important;
+  box-shadow: 0 8px 28px rgba(40,60,85,.08) !important;
+  backdrop-filter: blur(18px) saturate(125%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(125%) !important;
+}
+
+html[data-theme="light"] .topbar .brand,
+html[data-theme="light"] .topbar .brand strong {
+  color: #26384B !important;
+}
+
+html[data-theme="light"] .topbar .brand small,
+html[data-theme="light"] .topbar .top-right {
+  color: #65788D !important;
+}
+
+html[data-theme="light"] .topbar .crest {
+  border-color: #7892AE !important;
+}
+
+html[data-theme="light"] .topbar .crest svg {
+  stroke: #456887 !important;
+}
+
+html[data-theme="light"] .topbar .header-action,
+html[data-theme="light"] .topbar .theme-toggle {
+  background: rgba(255,255,255,.48) !important;
+  color: #405A74 !important;
+  border-color: rgba(91,125,160,.25) !important;
+}
+
+html[data-theme="light"] .panel,
+html[data-theme="light"] .metric {
+  background: linear-gradient(145deg, #FFFFFF, #F3F6FA) !important;
+  color: #26384B !important;
+  border: 1px solid #D8E1EB !important;
+  box-shadow: 0 10px 28px rgba(40,60,85,.07) !important;
+}
+
+html[data-theme="light"] .panel h2,
+html[data-theme="light"] .panel h3,
+html[data-theme="light"] .panel strong,
+html[data-theme="light"] .metric strong,
+html[data-theme="light"] .section-head h2 {
+  color: #26384B !important;
+}
+
+html[data-theme="light"] .panel p,
+html[data-theme="light"] .panel small,
+html[data-theme="light"] .metric span,
+html[data-theme="light"] .metric small,
+html[data-theme="light"] .muted,
+html[data-theme="light"] .hint,
+html[data-theme="light"] .panel-head,
+html[data-theme="light"] .eyebrow,
+html[data-theme="light"] .legend,
+html[data-theme="light"] .legend-item,
+html[data-theme="light"] .summary-item {
+  color: #687D92 !important;
+}
+
+html[data-theme="light"] .tab,
+html[data-theme="light"] .filter,
+html[data-theme="light"] .btn.outline,
+html[data-theme="light"] .small-btn {
+  background: rgba(255,255,255,.78) !important;
+  color: #405A74 !important;
+  border-color: #D2DDE8 !important;
+}
+
+html[data-theme="light"] .tab.active,
+html[data-theme="light"] .filter.active,
+html[data-theme="light"] .btn.light,
+html[data-theme="light"] .small-btn.done {
+  background: #527FA9 !important;
+  color: #FFFFFF !important;
+  border-color: #527FA9 !important;
+}
+
+html[data-theme="light"] input,
+html[data-theme="light"] select,
+html[data-theme="light"] textarea,
+html[data-theme="light"] .form-row input,
+html[data-theme="light"] .form-row select,
+html[data-theme="light"] .period-select select {
+  background: #FFFFFF !important;
+  color: #26384B !important;
+  border-color: #CBD8E5 !important;
+}
+
+html[data-theme="light"] .progress {
+  background: #DCE5EE !important;
+}
+
+html[data-theme="light"] .progress span {
+  background: #527FA9 !important;
+}
+
+html[data-theme="light"] .pie-hole {
+  background: #FFFFFF !important;
+}
+
+html[data-theme="light"] .pie-hole strong {
+  color: #26384B !important;
+}
+
+html[data-theme="light"] .pie-hole span {
+  color: #687D92 !important;
+}
+
+html[data-theme="light"] footer,
+html[data-theme="light"] footer strong {
+  color: #687D92 !important;
+}
+
+/* AJUSTE FINAL - BRANCO SUAVE */
+html[data-theme="light"] .panel,
+html[data-theme="light"] .metric {
+  background: linear-gradient(145deg, #F1F4F8, #E9EFF5) !important;
+}
+
+html[data-theme="light"] input,
+html[data-theme="light"] select,
+html[data-theme="light"] textarea,
+html[data-theme="light"] .form-row input,
+html[data-theme="light"] .form-row select,
+html[data-theme="light"] .period-select select {
+  background: #E9EFF5 !important;
+}
+
+html[data-theme="light"] .pie-hole {
+  background: #E9EFF5 !important;
+}
+
+html[data-theme="light"] .topbar .header-action,
+html[data-theme="light"] .topbar .theme-toggle {
+  background: rgba(232, 239, 246, .72) !important;
+}
+
+/* TEMA CLARO - AZUL NEVOA */
+html[data-theme="light"] body {
+  background: #DFE6EE !important;
+}
+
+html[data-theme="light"] .bg {
+  background: linear-gradient(135deg, #DFE6EE, #E8EDF3 55%, #D9E2EC) !important;
+}
+
+html[data-theme="light"] .panel,
+html[data-theme="light"] .metric {
+  background: linear-gradient(145deg, #E8EDF3, #DFE6EE) !important;
+  border-color: #CDD7E2 !important;
+}
+
+html[data-theme="light"] input,
+html[data-theme="light"] select,
+html[data-theme="light"] textarea,
+html[data-theme="light"] .form-row input,
+html[data-theme="light"] .form-row select,
+html[data-theme="light"] .period-select select,
+html[data-theme="light"] .pie-hole {
+  background: #DFE6EE !important;
+}
+
+/* TEMA CLARO - AZUL AGUA PISCINA */
+html[data-theme="light"] body {
+  background: #DCEBFA !important;
+  color: #294563 !important;
+}
+
+html[data-theme="light"] .bg {
+  background: linear-gradient(135deg, #DCEBFA, #D7E7F7 55%, #D2E3F5) !important;
+}
+
+html[data-theme="light"] .topbar {
+  background: linear-gradient(110deg, rgba(216,239,237,.88), rgba(190,223,219,.88)) !important;
+  border-bottom: 1px solid #A9C7E8 !important;
+}
+
+html[data-theme="light"] .panel,
+html[data-theme="light"] .metric {
+  background: linear-gradient(145deg, #D5EBE9, #D2E3F5) !important;
+  border-color: #A9C7E8 !important;
+  color: #294563 !important;
+}
+
+html[data-theme="light"] input,
+html[data-theme="light"] select,
+html[data-theme="light"] textarea,
+html[data-theme="light"] .form-row input,
+html[data-theme="light"] .form-row select,
+html[data-theme="light"] .period-select select,
+html[data-theme="light"] .pie-hole {
+  background: #D2E3F5 !important;
+  color: #294563 !important;
+  border-color: #A9C7E8 !important;
+}
+
+html[data-theme="light"] .tab,
+html[data-theme="light"] .filter,
+html[data-theme="light"] .btn.outline,
+html[data-theme="light"] .small-btn {
+  background: #D2E3F5 !important;
+  color: #4A83C2 !important;
+  border-color: #A9C7E8 !important;
+}
+
+html[data-theme="light"] .tab.active,
+html[data-theme="light"] .filter.active,
+html[data-theme="light"] .btn.light,
+html[data-theme="light"] .small-btn.done {
+  background: #4A83C2 !important;
+  color: #FFFFFF !important;
+  border-color: #4A83C2 !important;
+}
+
+html[data-theme="light"] .panel h2,
+html[data-theme="light"] .panel h3,
+html[data-theme="light"] .panel strong,
+html[data-theme="light"] .metric strong,
+html[data-theme="light"] .section-head h2,
+html[data-theme="light"] .pie-hole strong {
+  color: #294563 !important;
+}
+
+html[data-theme="light"] .panel p,
+html[data-theme="light"] .panel small,
+html[data-theme="light"] .metric span,
+html[data-theme="light"] .metric small,
+html[data-theme="light"] .muted,
+html[data-theme="light"] .hint,
+html[data-theme="light"] .eyebrow,
+html[data-theme="light"] .legend,
+html[data-theme="light"] .legend-item {
+  color: #607D9B !important;
+}
+
+html[data-theme="light"] .progress {
+  background: #C1D8EF !important;
+}
+
+html[data-theme="light"] .progress span {
+  background: #4A83C2 !important;
+}
+
+/* TEMA ESCURO - AZUL ESPELHADO GLASS */
+html[data-theme="dark"] body {
+  background-color: #071321 !important;
+  color: #DCEAF8 !important;
+}
+
+html[data-theme="dark"] .bg {
+  background:
+    radial-gradient(ellipse at 15% 10%, rgba(67,125,180,.22), transparent 38%),
+    radial-gradient(ellipse at 85% 30%, rgba(42,91,139,.18), transparent 42%),
+    radial-gradient(ellipse at 50% 100%, rgba(45,91,137,.15), transparent 45%),
+    linear-gradient(135deg, #071321, #0C1D30 52%, #09182A) !important;
+}
+
+html[data-theme="dark"] .topbar {
+  background: linear-gradient(
+    110deg,
+    rgba(35,65,96,.78),
+    rgba(12,31,51,.86),
+    rgba(29,55,82,.78)
+  ) !important;
+  border-bottom: 1px solid rgba(125,177,222,.30) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,.28),
+              inset 0 1px 0 rgba(190,220,248,.10) !important;
+  backdrop-filter: blur(22px) saturate(145%) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(145%) !important;
+}
+
+html[data-theme="dark"] .panel,
+html[data-theme="dark"] .metric,
+html[data-theme="dark"] .question-goal-box {
+  background: linear-gradient(
+    145deg,
+    rgba(34,62,91,.91),
+    rgba(17,38,61,.94) 55%,
+    rgba(22,46,70,.92)
+  ) !important;
+  border: 1px solid rgba(116,163,207,.27) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(207,230,250,.09),
+    0 12px 32px rgba(0,0,0,.20),
+    0 0 18px rgba(57,113,166,.07) !important;
+  backdrop-filter: blur(16px) saturate(135%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(135%) !important;
+}
+
+html[data-theme="dark"] .panel:hover,
+html[data-theme="dark"] .metric:hover {
+  border-color: rgba(139,190,235,.42) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(220,239,255,.13),
+    0 15px 36px rgba(0,0,0,.25),
+    0 0 22px rgba(75,139,195,.12) !important;
+}
+
+html[data-theme="dark"] .tab,
+html[data-theme="dark"] .filter,
+html[data-theme="dark"] .btn.outline,
+html[data-theme="dark"] .small-btn,
+html[data-theme="dark"] .header-action,
+html[data-theme="dark"] .theme-toggle {
+  background: linear-gradient(145deg, #203C59, #142B43) !important;
+  color: #C9DDF0 !important;
+  border: 1px solid rgba(125,172,215,.28) !important;
+  box-shadow: inset 0 1px 0 rgba(220,239,255,.08) !important;
+}
+
+html[data-theme="dark"] .tab.active,
+html[data-theme="dark"] .filter.active,
+html[data-theme="dark"] .btn.light,
+html[data-theme="dark"] .small-btn.done {
+  background: linear-gradient(145deg, #477EAE, #28577F) !important;
+  color: #FFFFFF !important;
+  border-color: #77A9D4 !important;
+  box-shadow: 0 4px 16px rgba(56,119,174,.24),
+              inset 0 1px 0 rgba(255,255,255,.18) !important;
+}
+
+html[data-theme="dark"] input,
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea {
+  background: rgba(12,29,47,.88) !important;
+  color: #DCEAF8 !important;
+  border-color: rgba(117,163,205,.30) !important;
+}
+
+html[data-theme="dark"] .progress {
+  background: #10263C !important;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.35);
+}
+
+html[data-theme="dark"] .progress span {
+  background: linear-gradient(90deg, #477EAE, #91BFE8) !important;
+}
+
+html[data-theme="dark"] .panel h2,
+html[data-theme="dark"] .panel h3,
+html[data-theme="dark"] .panel strong,
+html[data-theme="dark"] .metric strong {
+  color: #E1EDF8 !important;
+}
+
+html[data-theme="dark"] .panel p,
+html[data-theme="dark"] .panel small,
+html[data-theme="dark"] .metric span,
+html[data-theme="dark"] .muted,
+html[data-theme="dark"] .hint {
+  color: #A9BED3 !important;
+}
