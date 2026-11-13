@@ -303,13 +303,74 @@
   <article class="panel history-panel"><div class="section-head"><div><p class="eyebrow">HISTÓRICO</p><h2>Resultados registrados</h2></div></div><div id="questionHistory" class="empty">Seus registros de questões aparecerão aqui.</div></article>
 </section>
 <section id="page-review" class="page">
+  <div class="review-subtabs">
+    <button type="button" class="review-subtab active" data-review-view="planner">Revisões</button>
+    <button type="button" class="review-subtab" data-review-view="flashcards">Flashcards</button>
+  </div>
+  <div id="reviewPlannerView" class="review-view active">
     <article class="panel form-panel"><p class="eyebrow">FIXAÇÃO DO CONTEÚDO</p><h2>Planejar uma revisão</h2><p class="muted">Cadastre um assunto e uma data para voltar a ele. Marque como concluído quando revisar.</p>
       <form id="reviewForm"><div class="form-row"><label for="rSubject">MATÉRIA</label><select id="rSubject"><option>Direito Constitucional</option><option>Direito Penal</option><option>Direito Administrativo</option><option>Português</option><option>Raciocínio Lógico</option><option>Informática</option><option>Legislação</option><option>Redação</option><option>Outra matéria</option></select></div>
       <div class="form-row"><label for="rTopic">ASSUNTO PARA REVISAR</label><input id="rTopic" maxlength="120" placeholder="Ex.: princípios fundamentais" required></div>
       <div class="input-grid"><div class="form-row"><label for="rDate">DATA DA REVISÃO</label><input id="rDate" type="date" required></div><div class="form-row"><label for="rType">TIPO DE REVISÃO</label><select id="rType"><option>24 horas</option><option>7 dias</option><option>30 dias</option><option>Revisão livre</option></select></div></div><button class="btn light" type="submit">+ ADICIONAR REVISÃO</button></form>
     </article>
     <article class="panel history-panel"><div class="section-head"><div><p class="eyebrow">PLANO DE REVISÃO</p><h2>Suas revisões</h2></div><div class="review-filters"><button class="filter active" data-filter="pending">Pendentes</button><button class="filter" data-filter="all">Todas</button></div></div><div id="reviewList" class="empty">Suas revisões planejadas aparecerão aqui.</div></article>
-  </section>
+    </div>
+  <div id="flashcardsView" class="review-view">
+    <article class="panel form-panel">
+      <p class="eyebrow">FIXAÇÃO ATIVA</p>
+      <h2>Criar flashcards</h2>
+      <p class="muted">Cadastre uma pergunta e sua resposta para memorizar o conteúdo.</p>
+      <form id="flashcardForm">
+        <div class="form-row">
+          <label for="flashcardSubject">MATÉRIA</label>
+          <select id="flashcardSubject">
+            <option>Direito Constitucional</option>
+            <option>Direito Penal</option>
+            <option>Direito Administrativo</option>
+            <option>Português</option>
+            <option>Raciocínio Lógico</option>
+            <option>Informática</option>
+            <option>Legislação</option>
+            <option>Redação</option>
+            <option>Outra matéria</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="flashcardFront">PERGUNTA / FRENTE DO CARTÃO</label>
+          <textarea id="flashcardFront" maxlength="400" required placeholder="Ex.: O que é erro de tipo essencial?"></textarea>
+        </div>
+        <div class="form-row">
+          <label for="flashcardBack">RESPOSTA / VERSO DO CARTÃO</label>
+          <textarea id="flashcardBack" maxlength="400" required placeholder="Digite a resposta..."></textarea>
+        </div>
+        <button class="btn light" type="submit">+ SALVAR FLASHCARD</button>
+      </form>
+    </article>
+    <article class="panel history-panel">
+      <p class="eyebrow">SEU BARALHO</p>
+      <h2>Estudar flashcards</h2>
+      <div class="form-row">
+        <label for="flashcardSubjectFilter">ESTUDAR POR MATÉRIA</label>
+        <select id="flashcardSubjectFilter">
+          <option value="all">Todas as matérias</option>
+        </select>
+      </div>      <div class="form-row">
+  <label for="flashcardStatusFilter">SITUAÇÃO DOS CARTÕES</label>
+  <select id="flashcardStatusFilter">
+    <option value="all">Todas as situações</option>
+    <option value="new">Novos</option>
+    <option value="review">Precisa revisar</option>
+    <option value="learned">Aprendidos</option>
+  </select>
+</div>
+<div id="flashcardStudy" class="empty">Seus cartões aparecerão aqui depois de cadastrados.</div>
+    </article>
+    <article class="panel history-panel">
+      <p class="eyebrow">GERAÇÃO INTELIGENTE</p>
+      <h2>Flashcards com IA</h2>
+      <p class="muted">Em breve: criação automática de cartões a partir dos seus resumos.</p>
+    </article>
+  </div></section>
   <footer><strong>RUMO À FARDA</strong><span>DISCIPLINA • FOCO • CONQUISTA</span></footer>
 </main>
 

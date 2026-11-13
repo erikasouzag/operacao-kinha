@@ -3924,3 +3924,175 @@ html[data-theme="dark"] .muted,
 html[data-theme="dark"] .hint {
   color: #A9BED3 !important;
 }
+
+/* FLASHCARDS - OPERACAO KINHA */
+.review-subtabs {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.review-subtab {
+  padding: 11px 16px;
+  border: 1px solid #29425e;
+  background: #192b40;
+  color: #c5d2e1;
+  font: 700 10px Inter, sans-serif;
+  letter-spacing: .7px;
+  cursor: pointer;
+}
+
+.review-subtab.active {
+  background: #6fa6dc;
+  border-color: #6fa6dc;
+  color: #0b1422;
+}
+
+.review-view {
+  display: none;
+}
+
+.review-view.active {
+  display: block;
+}
+
+#flashcardForm textarea {
+  width: 100%;
+  min-height: 95px;
+  resize: vertical;
+  padding: 12px;
+  background: #171717;
+  color: #eee;
+  border: 1px solid #444;
+  border-radius: 0;
+  font: 12px Inter, sans-serif;
+  line-height: 1.6;
+}
+
+#flashcardForm textarea:focus {
+  outline: none;
+  border-color: #6fa6dc;
+}
+
+html[data-theme="light"] #flashcardForm textarea {
+  background: #fff;
+  color: #252a32;
+  border-color: #cbd5e1;
+}
+
+@media(max-width:480px) {
+  .review-subtab {
+    flex: 1;
+    padding: 11px 8px;
+  }
+}
+
+/* FLASHCARDS - CARTAO DE ESTUDO */
+.flashcard-progress {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.flashcard-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  min-height: 220px;
+  padding: 28px;
+  background: #192b40;
+  border: 1px solid #365777;
+  color: #edf4fc;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color .2s ease, background .2s ease;
+}
+
+.flashcard-card:hover {
+  border-color: #6fa6dc;
+}
+
+.flashcard-card small {
+  color: #8db8e5;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.flashcard-card strong {
+  font-size: 18px;
+  line-height: 1.6;
+  font-weight: 600;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.flashcard-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.flashcard-actions button {
+  flex: 1;
+}
+
+.flashcard-actions button:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+html[data-theme="light"] .flashcard-card {
+  background: #f0f5fb;
+  color: #1c2a3a;
+  border-color: #cbd5e1;
+}
+
+/* CORES DOS FLASHCARDS POR MATERIA */
+.flashcard-card.subject-constitutional { background:#1b3048; border-color:#456b91; }
+.flashcard-card.subject-penal { background:#20372f; border-color:#527866; }
+.flashcard-card.subject-administrative { background:#293744; border-color:#647d91; }
+.flashcard-card.subject-portuguese { background:#3b3022; border-color:#806b49; }
+.flashcard-card.subject-logic { background:#382b3d; border-color:#765d80; }
+.flashcard-card.subject-informatics { background:#1d353b; border-color:#4d7880; }
+.flashcard-card.subject-legislation { background:#343a27; border-color:#737b50; }
+.flashcard-card.subject-writing { background:#3b302b; border-color:#80685b; }
+
+.flashcard-card.subject-custom-blue { background:#1b3048; border-color:#456b91; }
+.flashcard-card.subject-custom-green { background:#20372f; border-color:#527866; }
+.flashcard-card.subject-custom-ochre { background:#3b3022; border-color:#806b49; }
+.flashcard-card.subject-custom-plum { background:#382b3d; border-color:#765d80; }
+
+.flashcard-subject-label {
+  display:inline-block;
+  padding:4px 9px;
+  border:1px solid currentColor;
+  border-radius:3px;
+  font-size:11px;
+  font-weight:600;
+}
+
+.flashcard-subject-label.subject-constitutional,
+.flashcard-subject-label.subject-custom-blue { color:#8db8e5; }
+.flashcard-subject-label.subject-penal,
+.flashcard-subject-label.subject-custom-green { color:#9bc5a9; }
+.flashcard-subject-label.subject-administrative { color:#a9bdcc; }
+.flashcard-subject-label.subject-portuguese,
+.flashcard-subject-label.subject-custom-ochre { color:#d5b982; }
+.flashcard-subject-label.subject-logic,
+.flashcard-subject-label.subject-custom-plum { color:#c3a5cf; }
+.flashcard-subject-label.subject-informatics { color:#8fc3c9; }
+.flashcard-subject-label.subject-legislation { color:#b8c28a; }
+.flashcard-subject-label.subject-writing { color:#c8aa98; }
+
+html[data-theme="light"] .flashcard-card { color:#1c2a3a; }
+html[data-theme="light"] .flashcard-card small { color:#405b76; }

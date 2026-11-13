@@ -4,15 +4,24 @@ const emptyData=()=>({
   sessions:[],
   questions:[],
   reviews:[],
+  flashcards:[],
   customSubjects:[],
   questionGoal:100,
   externalQuestionLogs:[]
 });let data;try{data=JSON.parse(localStorage.getItem(KEY))||emptyData()}catch(e){data=emptyData()}
 data.sessions ||= [];data.questions ||= [];data.reviews ||= [];
+data.flashcards ||= [];
+data.flashcards.forEach(card => {
+  if (!card.status) {
+    card.status = card.known === true ? 'learned' : 'new';
+  }
+  card.known = card.status === 'learned';
+});
 data.customSubjects ||= [];
   data.questionGoal = Number(data.questionGoal) > 0 ? Number(data.questionGoal) : 100;
   data.externalQuestionLogs ||= [];
 let elapsed=0,startedAt=null,interval=null,reviewFilter='pending';
+let flashcardIndex=0, flashcardShowingBack=false;
 
 let timerMode = 'free';
 let pomodoroPhase = 'focus';
@@ -124,6 +133,13 @@ async function loadStudyDataFromCloud(session) {
   data.sessions ||= [];
   data.questions ||= [];
   data.reviews ||= [];
+data.flashcards ||= [];
+data.flashcards.forEach(card => {
+  if (!card.status) {
+    card.status = card.known === true ? 'learned' : 'new';
+  }
+  card.known = card.status === 'learned';
+});
   data.customSubjects ||= [];
   data.questionGoal = Number(data.questionGoal) > 0 ? Number(data.questionGoal) : 100;
   data.externalQuestionLogs ||= [];
@@ -151,6 +167,13 @@ async function loadStudyDataFromCloud(session) {
       data.sessions ||= [];
       data.questions ||= [];
       data.reviews ||= [];
+data.flashcards ||= [];
+data.flashcards.forEach(card => {
+  if (!card.status) {
+    card.status = card.known === true ? 'learned' : 'new';
+  }
+  card.known = card.status === 'learned';
+});
       data.customSubjects ||= [];
       const cloudSubjects = [...data.customSubjects];
       data.customSubjects = [...new Set([...cloudSubjects, ...localCustomSubjects])];
@@ -664,6 +687,123 @@ function renderReviews() {
       ).join('')
     : '<div class="empty">' + (reviewFilter === 'pending' ? 'Nenhuma revis?o pendente. Bom trabalho!' : 'Nenhuma revis?o cadastrada ainda.') + '</div>';
 }
+let flashcardSubjectFilter = 'all';
+let flashcardStatusFilter = 'all';
+let editingFlashcardId = null;
+
+function getFlashcardStudyCards() {
+  const allCards = data.flashcards || [];
+  return allCards.filter(card =>
+    (flashcardSubjectFilter === 'all' || card.subject === flashcardSubjectFilter) &&
+    (flashcardStatusFilter === 'all' || card.status === flashcardStatusFilter)
+  );
+}
+
+function getFlashcardSubjectClass(subject) {
+  const normalized = String(subject || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase();
+
+  const rules = [
+    [/direito constitucional/, 'constitutional'],
+    [/direito penal/, 'penal'],
+    [/direito administrativo/, 'administrative'],
+    [/portugues/, 'portuguese'],
+    [/raciocinio logico/, 'logic'],
+    [/informatica/, 'informatics'],
+    [/legislacao/, 'legislation'],
+    [/redacao/, 'writing']
+  ];
+
+  const match = rules.find(([pattern]) => pattern.test(normalized));
+  if (match) return 'subject-' + match[1];
+
+  const palette = ['custom-blue', 'custom-green', 'custom-ochre', 'custom-plum'];
+  let hash = 0;
+
+  for (let i = 0; i < normalized.length; i++) {
+    hash = (hash * 31 + normalized.charCodeAt(i)) >>> 0;
+  }
+
+  return 'subject-' + palette[hash % palette.length];
+}
+
+function renderFlashcards() {
+  const container = $('flashcardStudy');
+  if (!container) return;
+
+  const allCards = data.flashcards || [];
+  const subjects = [...new Set(
+    allCards.map(card => String(card.subject || '').trim()).filter(Boolean)
+  )].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+
+  const filter = $('flashcardSubjectFilter');
+
+  if (filter) {
+    if (
+      flashcardSubjectFilter !== 'all' &&
+      !subjects.includes(flashcardSubjectFilter)
+    ) {
+      flashcardSubjectFilter = 'all';
+    }
+
+    filter.innerHTML =
+      '<option value="all">Todas as matérias (' + allCards.length + ')</option>' +
+      subjects.map(subject => {
+        const count = allCards.filter(card => card.subject === subject).length;
+        return '<option value="' + safe(subject) + '">' +
+          safe(subject) + ' (' + count + ')</option>';
+      }).join('');
+
+    filter.value = flashcardSubjectFilter;
+  }
+
+  const cards = getFlashcardStudyCards();
+
+  if (!cards.length) {
+    flashcardIndex = 0;
+    flashcardShowingBack = false;
+
+    container.innerHTML = allCards.length
+      ? '<div class="empty">Nenhum cartão cadastrado nesta matéria.</div>'
+      : '<div class="empty">Seus cartões aparecerão aqui depois de cadastrados.</div>';
+    return;
+  }
+
+  flashcardIndex = Math.min(Math.max(0, flashcardIndex), cards.length - 1);
+
+  const card = cards[flashcardIndex];
+  const subjectClass = getFlashcardSubjectClass(card.subject);
+
+  container.innerHTML =
+    '<div class="flashcard-progress">' +
+      '<span>Cartão ' + (flashcardIndex + 1) + ' de ' + cards.length + '</span>' +
+      '<span class="flashcard-subject-label ' + subjectClass + '">' + safe(card.subject || '') + '</span>' +
+      '<span class="flashcard-status ' + card.status + '">' + (card.status === 'review' ? 'PRECISA REVISAR' : card.status === 'learned' ? 'APRENDIDO' : 'NOVO') + '</span>' +
+    '</div>' +
+    '<button type="button" class="flashcard-card ' + subjectClass + '" data-flashcard-flip>' +
+      '<small>' + (flashcardShowingBack ? 'RESPOSTA' : 'PERGUNTA') + ' · CLIQUE PARA VIRAR</small>' +
+      '<strong>' + safe(flashcardShowingBack ? card.back : card.front) + '</strong>' +
+    '</button>' +
+    '<div class="flashcard-actions">' +
+      '<button type="button" class="small-btn" data-flashcard-prev ' + (flashcardIndex === 0 ? 'disabled' : '') + '>Anterior</button>' +
+      '<button type="button" class="small-btn" data-flashcard-next ' + (flashcardIndex === cards.length - 1 ? 'disabled' : '') + '>Próximo</button>' +
+    '</div>' +
+    '<div class="flashcard-actions">' +
+      '<button type="button" class="small-btn done" data-flashcard-known>✓ Acertei</button>' +
+      '<button type="button" class="small-btn" data-flashcard-missed>✕ Errei</button>' +
+      '<button type="button" class="small-btn" data-flashcard-edit>Editar</button>' +
+      '<button type="button" class="small-btn" data-flashcard-delete>Excluir</button>' +
+    '</div>' +
+    '<p class="muted">Novos: ' +
+      cards.filter(c => c.status === 'new').length +
+      ' · Precisa revisar: ' +
+      cards.filter(c => c.status === 'review').length +
+      ' · Aprendidos: ' +
+      cards.filter(c => c.status === 'learned').length +
+    '</p>';
+}
 function renderManualSessions() {
   const container = $('manualSessionsHistory');
   if (!container) return;
@@ -699,6 +839,7 @@ function renderAll() {
   renderQuestions();
   renderQuestionGoal();
   renderReviews();
+  renderFlashcards();
 }
   const container = $('manualSessionsHistory');
  
@@ -904,6 +1045,145 @@ $('questionGoalForm').addEventListener('submit', e => {
   alert('Meta di\u00e1ria de quest\u00f5es salva!');
 });
 
+/* FLASHCARDS: EVENTOS */
+$('flashcardForm').addEventListener('submit', e => {
+  e.preventDefault();
+
+  const front = $('flashcardFront').value.trim();
+  const back = $('flashcardBack').value.trim();
+  const subject = $('flashcardSubject').value;
+
+  if (!front || !back) return;
+
+  let savedCard = editingFlashcardId
+    ? data.flashcards.find(card => card.id === editingFlashcardId)
+    : null;
+
+  if (savedCard) {
+    savedCard.subject = subject;
+    savedCard.front = front;
+    savedCard.back = back;
+  } else {
+    savedCard = {
+      id: String(Date.now()),
+      subject,
+      front,
+      back,
+      status: 'new',
+      known: false
+    };
+    data.flashcards.push(savedCard);
+  }
+
+  editingFlashcardId = null;
+  flashcardSubjectFilter = subject;
+  flashcardStatusFilter = 'all';
+  flashcardIndex = getFlashcardStudyCards().findIndex(card => card.id === savedCard.id);
+  if (flashcardIndex < 0) flashcardIndex = 0;
+  flashcardShowingBack = false;
+
+  const submitButton = $('flashcardForm').querySelector('button[type="submit"]');
+  if (submitButton) submitButton.textContent = '+ SALVAR FLASHCARD';
+
+  save();
+  $('flashcardFront').value = '';
+  $('flashcardBack').value = '';
+  renderFlashcards();
+});
+$('flashcardStudy').addEventListener('click', e => {
+  const cards = getFlashcardStudyCards();
+  const card = cards[flashcardIndex];
+  const subjectClass = getFlashcardSubjectClass(card.subject);
+  if (!card) return;
+
+  if (e.target.closest('[data-flashcard-flip]')) {
+    flashcardShowingBack = !flashcardShowingBack;
+    renderFlashcards();
+    return;
+  }
+
+  if (e.target.closest('[data-flashcard-prev]')) {
+    flashcardIndex = Math.max(0, flashcardIndex - 1);
+    flashcardShowingBack = false;
+    renderFlashcards();
+    return;
+  }
+
+  if (e.target.closest('[data-flashcard-next]')) {
+    flashcardIndex = Math.min(cards.length - 1, flashcardIndex + 1);
+    flashcardShowingBack = false;
+    renderFlashcards();
+    return;
+  }
+
+  if (e.target.closest('[data-flashcard-known]')) {
+    card.status = 'learned';
+    card.known = true;
+    save();
+    renderFlashcards();
+    return;
+  }
+
+  if (e.target.closest('[data-flashcard-missed]')) {
+    card.status = 'review';
+    card.known = false;
+    save();
+    renderFlashcards();
+    return;
+  }
+
+  if (e.target.closest('[data-flashcard-edit]')) {
+    editingFlashcardId = card.id;
+    $('flashcardSubject').value = card.subject;
+    $('flashcardFront').value = card.front;
+    $('flashcardBack').value = card.back;
+
+    const submitButton = $('flashcardForm').querySelector('button[type="submit"]');
+    if (submitButton) submitButton.textContent = 'SALVAR ALTERAÇÕES';
+
+    $('flashcardFront').focus();
+    return;
+  }
+  if (e.target.closest('[data-flashcard-delete]')) {
+    if (!confirm('Deseja excluir este flashcard?')) return;
+
+    const originalIndex = data.flashcards.indexOf(card);
+    if (originalIndex >= 0) data.flashcards.splice(originalIndex, 1);
+
+    flashcardIndex = Math.min(flashcardIndex, cards.length - 2);
+    flashcardShowingBack = false;
+    save();
+    renderFlashcards();
+  }
+});
+
+$('flashcardStatusFilter').addEventListener('change', e => {
+  flashcardStatusFilter = e.target.value;
+  flashcardIndex = 0;
+  flashcardShowingBack = false;
+  renderFlashcards();
+});
+$('flashcardSubjectFilter').addEventListener('change', e => {
+  flashcardSubjectFilter = e.target.value;
+  flashcardIndex = 0;
+  flashcardShowingBack = false;
+  renderFlashcards();
+});
+
+document.querySelectorAll('[data-review-view]').forEach(button => {
+  button.addEventListener('click', () => {
+    const view = button.dataset.reviewView;
+
+    document.querySelectorAll('[data-review-view]').forEach(item =>
+      item.classList.toggle('active', item === button)
+    );
+
+    $('reviewPlannerView').classList.toggle('active', view === 'planner');
+    $('flashcardsView').classList.toggle('active', view === 'flashcards');
+
+    if (view === 'flashcards') renderFlashcards();
+  });
+});
 $('reviewForm').addEventListener('submit',e=>{e.preventDefault();data.reviews.push({id:String(Date.now()),subject:$('rSubject').value,topic:$('rTopic').value.trim(),date:$('rDate').value,type:$('rType').value,done:false});save();$('rTopic').value='';reviewFilter='pending';document.querySelectorAll('[data-filter]').forEach(b=>b.classList.toggle('active',b.dataset.filter==='pending'));renderAll()});
 document.querySelectorAll('[data-filter]').forEach(b=>b.addEventListener('click',()=>{reviewFilter=b.dataset.filter;document.querySelectorAll('[data-filter]').forEach(x=>x.classList.toggle('active',x===b));renderReviews()}));
 $('reviewList').addEventListener('click',e=>{const t=e.target.closest('[data-review-toggle]'),d=e.target.closest('[data-review-delete]');if(t){const r=data.reviews.find(x=>x.id===t.dataset.reviewToggle);if(r)r.done=!r.done;save();renderAll()}if(d){data.reviews=data.reviews.filter(x=>x.id!==d.dataset.reviewDelete);save();renderAll()}});
@@ -1141,6 +1421,7 @@ pomodoroRunning = false;
   const questionSubjectSelect = $('qSubject');
   const reviewSubjectSelect = $('rSubject');
   const manualSubjectSelect = $('manualSubject');
+  const flashcardSubjectSelect = $('flashcardSubject');
   const newSubjectInput = $('newSubject');
   const addSubjectBtn = $('addSubjectBtn');
   const subjectMessage = $('subjectMessage');
@@ -1150,7 +1431,7 @@ pomodoroRunning = false;
   
 function loadCustomSubjects() {
   data.customSubjects.forEach(name => {
-[subjectSelect, questionSubjectSelect, reviewSubjectSelect, manualSubjectSelect].forEach(select => {
+[subjectSelect, questionSubjectSelect, reviewSubjectSelect, manualSubjectSelect, flashcardSubjectSelect].forEach(select => {
       const exists = [...select.options].some(
         option => option.value.toLowerCase() === name.toLowerCase()
       );
@@ -1185,7 +1466,7 @@ function loadCustomSubjects() {
     data.customSubjects.push(name);
     save();
 
-    [subjectSelect, questionSubjectSelect, reviewSubjectSelect].forEach(select => {
+    [subjectSelect, questionSubjectSelect, reviewSubjectSelect, manualSubjectSelect, flashcardSubjectSelect].forEach(select => {
   if (!select) return;
 
   const option = document.createElement('option');
